@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KIE 2026 한국수입엑스포</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --bg:        #0E0F14;
+    --surface:   #14161D;
+    --surface2:  #1A1D27;
+    --border:    rgba(255,255,255,0.07);
+    --border2:   rgba(255,255,255,0.12);
+
+    --indigo:    #6979F8;
+    --indigo-dk: #4A5CF0;
+    --indigo-lt: rgba(105,121,248,0.12);
+    --gold:      #E8C84A;
+    --gold-lt:   rgba(232,200,74,0.1);
+    --rose:      #F06292;
+
+    --text-1:  #F2EFE9;
+    --text-2:  #9EA3B8;
+    --text-3:  #5C6179;
+  }
+
+  html, body {
+    width: 100%;
+    background: #090A0F;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    min-height: 100svh;
+    isolation: isolate;
+  }
+
+  .bg-photo {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 420px;
+    background-image: url('https://raw.githubusercontent.com/ksaws2024-crypto/QT/refs/heads/main/file_0000000032147206b01ac667cea72f34.png');
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.38;
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  }
+
+  
+
+  /* ── 배경 그라디언트 ── */
+  .bg-grad-1 {
+    position: absolute;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(105,121,248,0.18) 0%, transparent 65%);
+    top: -80px; right: -100px;
+    pointer-events: none;
+  }
+  .bg-grad-2 {
+    position: absolute;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,200,74,0.1) 0%, transparent 65%);
+    top: 340px; left: -80px;
+    pointer-events: none;
+  }
+  .bg-grad-3 {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(105,121,248,0.08) 0%, transparent 65%);
+    bottom: 300px; right: -60px;
+    pointer-events: none;
+  }
+
+  /* ── 미세 그리드 패턴 ── */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  
+
+  /* ── 히어로 ── */
+  .hero {
+    position: relative;
+    z-index: 10;
+    padding: 34px 22px 28px;
+  }
+
+  .edition-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--indigo-lt);
+    border: 1px solid rgba(105,121,248,0.28);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 24px;
+  }
+  .chip-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--indigo);
+    animation: breathe 2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(105,121,248,0.4); }
+    50%      { opacity:0.6; box-shadow:0 0 0 4px rgba(105,121,248,0); }
+  }
+  .chip-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--indigo);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .hero-title-kr {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--text-1);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    margin-bottom: 6px;
+  }
+  .hero-title-en {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-3);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .hero-desc {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--text-2);
+    line-height: 1.9;
+    padding-left: 14px;
+    border-left: 2px solid var(--indigo);
+    margin-bottom: 32px;
+  }
+
+  /* ── 날짜/장소 카드 ── */
+  .info-row {
+    position: relative;
+    z-index: 10;
+    margin: 0 22px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .ic {
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .ic + .ic { border-left: 1px solid var(--border); }
+
+  .ic-emoji { font-size: 16px; margin-bottom: 2px; display: block; }
+  .ic-lbl {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .ic-val {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-1);
+    line-height: 1.4;
+  }
+  .ic-sub {
+    font-size: 9.5px;
+    color: var(--text-3);
+    font-weight: 400;
+  }
+  .ic-free {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+
+  /* ── 섹션 헤더 ── */
+  .sh {
+    position: relative;
+    z-index: 10;
+    padding: 0 22px;
+    margin-bottom: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sh-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .sh-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── 피처 리스트 ── */
+  .features {
+    position: relative;
+    z-index: 10;
+    padding: 0 22px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .feat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px 16px;
+  }
+
+  .feat-ico-wrap {
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    background: var(--indigo-lt);
+    border: 1px solid rgba(105,121,248,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .feat-body { flex: 1; min-width: 0; }
+  .feat-ttl {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-1);
+    line-height: 1.35;
+    margin-bottom: 2px;
+  }
+  .feat-ttl em { font-style: normal; color: var(--indigo); }
+  .feat-sub {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 400;
+  }
+
+  .feat-arr {
+    font-size: 16px;
+    color: var(--text-3);
+    font-weight: 300;
+  }
+
+  /* ── 대상 그리드 ── */
+  .target {
+    position: relative;
+    z-index: 10;
+    padding: 0 22px;
+    margin-bottom: 30px;
+  }
+  .tg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .tg-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold-lt);
+    border: 1px solid rgba(232,200,74,0.16);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .tg-ck {
+    width: 19px; height: 19px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 900;
+    color: #0E0F14;
+    flex-shrink: 0;
+  }
+  .tg-txt {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-1);
+    line-height: 1.45;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    position: relative;
+    z-index: 10;
+    margin: 0 22px 30px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cta-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .qr-box {
+    width: 74px; height: 74px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 7px;
+    flex-shrink: 0;
+  }
+  .qr-box svg { width:100%; height:100%; }
+
+  .cta-right { flex: 1; }
+  .cta-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-3);
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+  .cta-headline {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-1);
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+  }
+  .cta-headline em { font-style: normal; color: var(--gold); }
+
+  /* ── CTA 버튼 ── */
+  .cta-btn-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  /* 펄스 링 */
+  .cta-btn-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 13px;
+    background: transparent;
+    border: 2px solid rgba(105,121,248,0.5);
+    animation: pulse-ring 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse-ring {
+    0%   { inset:-3px; opacity:0.7; }
+    70%  { inset:-10px; opacity:0; }
+    100% { inset:-10px; opacity:0; }
+  }
+
+  .cta-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #6979F8 0%, #8B5CF6 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 17px 0;
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+    box-shadow:
+      0 8px 24px rgba(105,121,248,0.45),
+      0 2px 6px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s cubic-bezier(.34,1.56,.64,1),
+                box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 상시 shimmer */
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -130%;
+    width: 55%; height: 100%;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.22),
+      transparent);
+    animation: shimmer 2.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes shimmer {
+    0%   { left:-130%; }
+    100% { left: 220%; }
+  }
+
+  /* 화살표 아이콘 */
+  .btn-arrow {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+  }
+  .cta-btn:active .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* 탭/클릭 눌림 */
+  .cta-btn:active {
+    transform: scale(0.97);
+    box-shadow:
+      0 4px 12px rgba(105,121,248,0.35),
+      0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* 리플 */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.28);
+    transform: scale(0);
+    animation: ripple-out 0.55s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes ripple-out {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* 파티클 캔버스 */
+  #particle-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 10px;
+  }
+
+  .cta-note {
+    font-size: 10px;
+    color: var(--text-3);
+    text-align: center;
+    font-weight: 400;
+  }
+
+  
+
+  /* ── 푸터 ── */
+  .footer {
+    position: relative;
+    z-index: 10;
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-l {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-3);
+    line-height: 1.7;
+  }
+  .footer-l strong { display: block; color: var(--text-2); font-weight: 700; }
+  .footer-r {
+    text-align: right;
+    font-size: 10px;
+    color: var(--text-3);
+    line-height: 1.8;
+  }
+  .footer-r strong { color: var(--text-1); font-weight: 700; }
+
+  /* ── 워터마크 ── */
+  .wm {
+    position: absolute;
+    right: -6px;
+    top: 90px;
+    font-size: 160px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.018);
+    line-height: 1;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -4px;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="bg-photo"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grad-1"></div>
+  <div class="bg-grad-2"></div>
+  <div class="bg-grad-3"></div>
+  <div class="wm">KIE</div>
+
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="edition-chip">
+      <div class="chip-dot"></div>
+      <div class="chip-text">2026 Edition</div>
+    </div>
+    <div class="hero-title-kr">한국<br>수입엑스포</div>
+    <div class="hero-title-en">Korea Import Expo 2026 · KIE</div>
+    <div class="hero-desc">
+      전 세계 프리미엄 상품과 트렌드를 직접 보고<br>
+      비즈니스 기회까지 찾을 수 있는 최고의 전시회
+    </div>
+    <div style="margin-top:20px;">
+      <a href="https://www.koimakif.com/kr/program/pre/onlinePreApplication.do" target="_blank" style="text-decoration:none;">
+        <div class="cta-btn" style="border-radius:10px; padding:14px 28px; display:inline-flex; width:auto; box-shadow:0 8px 28px rgba(105,121,248,0.4);">
+          사전등록 바로가기 →
+        </div>
+      </a>
+      <div style="margin-top:8px; font-size:11px; color:#E8C84A; font-weight:600; letter-spacing:0.5px;">
+        ✓ 사전등록 시 무료입장
+      </div>
+    </div>
+  </div>
+
+  <!-- 일정·장소 -->
+  <div class="info-row">
+    <div class="ic">
+      <span class="ic-emoji">📅</span>
+      <div class="ic-lbl">일정</div>
+      <div class="ic-val">06.23<br>— 06.25</div>
+      <div class="ic-sub">화 → 목</div>
+    </div>
+    <div class="ic">
+      <span class="ic-emoji">📍</span>
+      <div class="ic-lbl">장소</div>
+      <div class="ic-val">COEX<br>Hall B</div>
+      <div class="ic-sub">강남구</div>
+    </div>
+    <div class="ic">
+      <span class="ic-emoji">🎟</span>
+      <div class="ic-lbl">입장</div>
+      <div class="ic-free">무료</div>
+      <div class="ic-sub">사전등록</div>
+    </div>
+  </div>
+
+  <!-- 관람 혜택 -->
+  <div class="sh">
+    <div class="sh-text">관람 혜택</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="features">
+    <div class="feat">
+      <div class="feat-ico-wrap">🌐</div>
+      <div class="feat-body">
+        <div class="feat-ttl">전 세계 <em>수입 상품</em>을 한눈에</div>
+        <div class="feat-sub">글로벌 프리미엄 브랜드 집결</div>
+      </div>
+      <div class="feat-arr">›</div>
+    </div>
+    <div class="feat">
+      <div class="feat-ico-wrap">🤝</div>
+      <div class="feat-body">
+        <div class="feat-ttl">해외 <em>브랜드</em>와 직접 만나는 기회</div>
+        <div class="feat-sub">바이어 매칭 프로그램 운영</div>
+      </div>
+      <div class="feat-arr">›</div>
+    </div>
+    <div class="feat">
+      <div class="feat-ico-wrap">🎁</div>
+      <div class="feat-body">
+        <div class="feat-ttl"><em>특별 혜택</em> &amp; 이벤트 가득</div>
+        <div class="feat-sub">현장 경품·시식·시음 행사</div>
+      </div>
+      <div class="feat-arr">›</div>
+    </div>
+  </div>
+
+  <!-- 추천 대상 -->
+  <div class="sh">
+    <div class="sh-text">이런 분들께 추천합니다</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="target">
+    <div class="tg-grid">
+      <div class="tg-item">
+        <div class="tg-ck">✓</div>
+        <div class="tg-txt">수입·유통업<br>관계자</div>
+      </div>
+      <div class="tg-item">
+        <div class="tg-ck">✓</div>
+        <div class="tg-txt">온·오프라인<br>MD / 바이어</div>
+      </div>
+      <div class="tg-item">
+        <div class="tg-ck">✓</div>
+        <div class="tg-txt">호텔·레스토랑<br>카페 관계자</div>
+      </div>
+      <div class="tg-item">
+        <div class="tg-ck">✓</div>
+        <div class="tg-txt">해외 인기 상품<br>체험 희망자</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="footer">
+    <div class="footer-l">
+      <strong>KIE 2026</strong>
+      한국수입협회 주관
+    </div>
+    <div class="footer-r">
+      
+      kie@koima.or.kr
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
