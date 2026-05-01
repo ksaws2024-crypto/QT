@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>2026 Korea Import Expo</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --navy:    #080D2A;
+    --navy2:   #0D1540;
+    --blue:    #4A90E2;
+    --blue-lt: #7EC8F0;
+    --blue-px: #5BB8FF;
+    --white:   #FFFFFF;
+    --yellow:  #FFE066;
+    --pixel-border: 3px solid #3A6BBF;
+  }
+
+  html, body {
+    background: var(--navy);
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    min-height: 100svh;
+  }
+
+  /* ── 별 배경 ── */
+  .stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    color: #fff;
+    font-size: 10px;
+    opacity: 0.7;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity:0.7; transform:scale(1); }
+    50%      { opacity:0.2; transform:scale(0.6); }
+  }
+
+  /* ── 히어로 픽셀 영역 ── */
+  .hero-section {
+    position: relative;
+    z-index: 2;
+    padding: 40px 20px 0;
+    text-align: center;
+  }
+
+  .year-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 0 #1a3a7a, -1px -1px 0 #1a3a7a;
+  }
+
+  .pixel-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(28px, 8vw, 38px);
+    line-height: 1.3;
+    color: var(--blue-px);
+    text-shadow:
+      3px 3px 0 #1a3a7a,
+      6px 6px 0 #0d2060,
+      -2px -2px 0 #7ecfff44;
+    margin-bottom: 6px;
+    image-rendering: pixelated;
+  }
+
+  .pixel-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--blue-lt);
+    letter-spacing: 3px;
+    margin: 12px 0 20px;
+    opacity: 0.9;
+  }
+
+  /* ── 픽셀 구름 ── */
+  .clouds {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px;
+    margin-bottom: 0;
+  }
+
+  /* 픽셀 아트 CSS로 구현 */
+  .cloud {
+    image-rendering: pixelated;
+    display: inline-block;
+  }
+
+  /* ── 픽셀 씬 (배 + 크레인) ── */
+  .pixel-scene {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 10px 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    min-height: 110px;
+  }
+
+  /* 픽셀 배 SVG */
+  .ship-wrap, .crane-wrap {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  /* ── 점선 구분선 ── */
+  .dot-divider {
+    width: 100%;
+    height: 3px;
+    background-image: repeating-linear-gradient(
+      to right,
+      #3A6BBF 0px, #3A6BBF 8px,
+      transparent 8px, transparent 14px
+    );
+    margin: 4px 0 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── 하단 정보 영역 ── */
+  .info-section {
+    position: relative;
+    z-index: 2;
+    background: var(--navy2);
+    padding: 28px 22px 30px;
+  }
+
+  .event-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue-lt);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .event-title {
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.25;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+
+  .event-title .blue { color: var(--blue-px); }
+
+  /* ── 일시/장소 박스 ── */
+  .info-box {
+    display: flex;
+    gap: 0;
+    border: 2px solid #2A4A9F;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 22px 0 16px;
+    background: rgba(74,144,226,0.06);
+  }
+
+  .info-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+
+  .info-cell + .info-cell {
+    border-left: 2px dashed #2A4A9F;
+  }
+
+  .info-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+
+  .info-label {
+    font-size: 11px;
+    color: var(--blue-lt);
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+
+  .info-val {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  /* ── CTA 박스 ── */
+  .cta-box {
+    background: linear-gradient(135deg, #0D1F5A 0%, #152480 100%);
+    border: 2px solid #3A6BBF;
+    border-radius: 12px;
+    padding: 18px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .cta-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* 픽셀 고스트 */
+  .pixel-ghost {
+    width: 44px;
+    height: 44px;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+  }
+
+  .cta-text-wrap {}
+  .cta-pre {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .cta-highlight {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--blue-px);
+    letter-spacing: -0.5px;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #4A90E2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 0 #1a5aaa, 0 6px 12px rgba(74,144,226,0.4);
+    transition: transform 0.1s, box-shadow 0.1s;
+    flex-shrink: 0;
+  }
+  .cta-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #1a5aaa;
+  }
+
+  /* ── 달 ── */
+  .moon {
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    z-index: 1;
+    font-size: 32px;
+    filter: drop-shadow(0 0 8px rgba(200,220,255,0.5));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+
+  /* ── 픽셀 스파클 ── */
+  .sparkle {
+    position: absolute;
+    color: var(--blue-lt);
+    font-size: 12px;
+    z-index: 1;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- 별들 -->
+  <div class="stars">
+    <div class="star" style="top:5%;left:8%;animation-delay:0s">+</div>
+    <div class="star" style="top:3%;left:35%;animation-delay:0.5s">×</div>
+    <div class="star" style="top:7%;left:65%;animation-delay:1s">+</div>
+    <div class="star" style="top:2%;left:85%;animation-delay:1.5s">·</div>
+    <div class="star" style="top:12%;left:20%;animation-delay:0.3s">·</div>
+    <div class="star" style="top:10%;left:50%;animation-delay:0.8s">+</div>
+    <div class="star" style="top:15%;left:78%;animation-delay:1.2s">×</div>
+    <div class="star" style="top:18%;left:5%;animation-delay:0.6s">+</div>
+    <div class="star" style="top:22%;left:90%;animation-delay:0.2s">·</div>
+  </div>
+
+  <!-- 달 -->
+  <div class="moon">🌙</div>
+
+  <!-- 히어로 픽셀 타이틀 -->
+  <div class="hero-section">
+    <div class="year-text">2026</div>
+    <div class="pixel-title">KOREA</div>
+    <div class="pixel-title">IMPORT</div>
+    <div class="pixel-title">EXPO</div>
+    <div class="pixel-subtitle">CONNECT · DISCOVER · GROW</div>
+  </div>
+
+  <!-- 픽셀 씬 (배 + 크레인 + 구름) -->
+  <div class="pixel-scene">
+    <!-- 왼쪽 구름 -->
+    <div style="position:absolute;top:-30px;left:10px;z-index:1;">
+      <svg width="80" height="40" viewBox="0 0 80 40" style="image-rendering:pixelated;">
+        <rect x="20" y="20" width="40" height="20" fill="#C8E6FF"/>
+        <rect x="10" y="28" width="60" height="12" fill="#E8F4FF"/>
+        <rect x="30" y="10" width="20" height="20" fill="#C8E6FF"/>
+        <rect x="50" y="16" width="16" height="14" fill="#C8E6FF"/>
+      </svg>
+    </div>
+
+    <!-- 픽셀 배 -->
+    <svg width="170" height="100" viewBox="0 0 170 100" style="image-rendering:pixelated;flex-shrink:0;">
+      <!-- 선체 -->
+      <rect x="10" y="55" width="150" height="30" fill="#1A3A7A"/>
+      <rect x="20" y="45" width="120" height="15" fill="#2A5AAA"/>
+      <rect x="5"  y="75" width="160" height="10" fill="#0D2060"/>
+      <!-- 갑판 -->
+      <rect x="30" y="38" width="90" height="10" fill="#3A6BBF"/>
+      <!-- 컨테이너들 -->
+      <rect x="35" y="20" width="22" height="18" fill="#4A90E2"/>
+      <rect x="37" y="22" width="18" height="14" fill="#5AA0F2"/>
+      <rect x="59" y="20" width="22" height="18" fill="#D0001B"/>
+      <rect x="83" y="20" width="22" height="18" fill="#4A90E2"/>
+      <rect x="107" y="20" width="18" height="18" fill="#1A5AAA"/>
+      <!-- 굴뚝 -->
+      <rect x="55" y="10" width="12" height="28" fill="#1A3A7A"/>
+      <rect x="53" y="8"  width="16" height="6"  fill="#0D2060"/>
+      <!-- 선수 -->
+      <polygon points="5,75 0,85 5,85" fill="#0D2060"/>
+      <polygon points="165,75 170,82 165,85" fill="#0D2060"/>
+      <!-- 물결 -->
+      <rect x="0"  y="85" width="20" height="4" fill="#1A5AAA" opacity="0.6"/>
+      <rect x="25" y="87" width="30" height="3" fill="#1A5AAA" opacity="0.5"/>
+      <rect x="120" y="86" width="25" height="3" fill="#1A5AAA" opacity="0.5"/>
+    </svg>
+
+    <!-- 오른쪽 구름 -->
+    <div style="position:absolute;top:-20px;right:8px;z-index:1;">
+      <svg width="60" height="32" viewBox="0 0 60 32" style="image-rendering:pixelated;">
+        <rect x="10" y="16" width="40" height="16" fill="#C8E6FF"/>
+        <rect x="4"  y="22" width="52" height="10" fill="#E8F4FF"/>
+        <rect x="20" y="8"  width="20" height="16" fill="#C8E6FF"/>
+      </svg>
+    </div>
+
+    <!-- 크레인 + 트럭 -->
+    <svg width="140" height="100" viewBox="0 0 140 100" style="image-rendering:pixelated;flex-shrink:0;">
+      <!-- 크레인 기둥 -->
+      <rect x="80" y="10" width="10" height="75" fill="#1A3A7A"/>
+      <!-- 크레인 팔 -->
+      <rect x="20" y="10" width="70" height="8" fill="#2A5AAA"/>
+      <rect x="20" y="8"  width="8"  height="12" fill="#1A3A7A"/>
+      <!-- 크레인 와이어 -->
+      <rect x="44" y="18" width="2" height="25" fill="#3A6BBF"/>
+      <!-- 컨테이너 매달림 -->
+      <rect x="36" y="42" width="18" height="14" fill="#4A90E2"/>
+      <rect x="38" y="44" width="14" height="10" fill="#5AA0F2"/>
+      <!-- 지지대 -->
+      <line x1="80" y1="85" x2="60" y2="50" stroke="#1A3A7A" stroke-width="3"/>
+      <!-- 트럭 -->
+      <rect x="10" y="72" width="55" height="22" fill="#1A5AAA"/>
+      <rect x="10" y="65" width="28" height="14" fill="#2A6ACA"/>
+      <!-- 트럭 창문 -->
+      <rect x="13" y="67" width="10" height="8"  fill="#7EC8F0"/>
+      <rect x="25" y="67" width="10" height="8"  fill="#7EC8F0"/>
+      <!-- 바퀴 -->
+      <rect x="14" y="90" width="14" height="10" rx="7" fill="#0D1540"/>
+      <rect x="16" y="92" width="10" height="6"  rx="5" fill="#222"/>
+      <rect x="48" y="90" width="14" height="10" rx="7" fill="#0D1540"/>
+      <rect x="50" y="92" width="10" height="6"  rx="5" fill="#222"/>
+      <!-- 컨테이너 박스 -->
+      <rect x="40" y="75" width="26" height="18" fill="#4A90E2"/>
+      <rect x="42" y="77" width="22" height="14" fill="#5AA0F2"/>
+    </svg>
+  </div>
+
+  <!-- 점선 구분 -->
+  <div class="dot-divider"></div>
+
+  <!-- 하단 정보 -->
+  <div class="info-section">
+    <div class="event-sub">글로벌 바이어와 만나는 기회</div>
+    <div class="event-title">
+      2026 한국수입엑스포<br>
+      <span class="blue">관람객 모집</span>
+    </div>
+
+    <!-- 일시·장소 -->
+    <div class="info-box">
+      <div class="info-cell">
+        <div class="info-icon">📅</div>
+        <div>
+          <div class="info-label">일 시</div>
+          <div class="info-val">6.23(화)<br>~ 6.25(목)</div>
+        </div>
+      </div>
+      <div class="info-cell">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">장 소</div>
+          <div class="info-val">코엑스 B홀</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <div class="cta-left">
+        <!-- 픽셀 고스트 -->
+        <svg class="pixel-ghost" viewBox="0 0 16 16" style="image-rendering:pixelated;">
+          <rect x="3"  y="2"  width="10" height="2"  fill="#5BB8FF"/>
+          <rect x="1"  y="4"  width="14" height="2"  fill="#5BB8FF"/>
+          <rect x="1"  y="6"  width="14" height="6"  fill="#5BB8FF"/>
+          <rect x="3"  y="12" width="2"  height="2"  fill="#5BB8FF"/>
+          <rect x="7"  y="12" width="2"  height="2"  fill="#5BB8FF"/>
+          <rect x="11" y="12" width="2"  height="2"  fill="#5BB8FF"/>
+          <rect x="1"  y="12" width="2"  height="2"  fill="#5BB8FF"/>
+          <rect x="13" y="12" width="2"  height="2"  fill="#5BB8FF"/>
+          <!-- 눈 -->
+          <rect x="4"  y="7"  width="3"  height="3"  fill="#fff"/>
+          <rect x="9"  y="7"  width="3"  height="3"  fill="#fff"/>
+          <rect x="5"  y="8"  width="2"  height="2"  fill="#1A3A7A"/>
+          <rect x="10" y="8"  width="2"  height="2"  fill="#1A3A7A"/>
+          <!-- 스파클 -->
+          <rect x="0"  y="3"  width="1"  height="1"  fill="#FFE066"/>
+          <rect x="15" y="5"  width="1"  height="1"  fill="#FFE066"/>
+          <rect x="1"  y="1"  width="1"  height="1"  fill="#FFE066"/>
+        </svg>
+
+        <div class="cta-text-wrap">
+          <div class="cta-pre">사전등록 시</div>
+          <div class="cta-highlight">무료 입장!</div>
+        </div>
+      </div>
+
+      <a class="cta-btn"
+         href="https://www.koimakif.com/kr/program/pre/onlinePreApplication.do"
+         target="_blank" rel="noopener noreferrer">
+        지금 사전등록 하기 →
+      </a>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
