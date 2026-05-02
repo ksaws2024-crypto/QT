@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KIE 2026 한국수입엑스포</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+        --bg-body:   #E5E7EB;
+        --bg-card:   #F5F6FA;
+        --surface:   #FFFFFF;
+        --border:    rgba(0,0,0,0.07);
+        --indigo:    #4A5CF0;
+        --gold:      #C9960A;
+        --gold-bg:   #FFF8E1;
+        --accent:    #F25C54;
+        --text-1:    #0E1020;
+        --text-2:    #4A5068;
+        --text-3:    #8E95B0;
+    }
+
+    body {
+        width: 100%;
+        min-height: 100vh;
+        background: var(--bg-body);
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .poster {
+        width: 100%;
+        max-width: 800px;
+        min-height: 100vh;
+        background: var(--bg-card);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    /* ── 배경 비디오 히어로 영역 ── */
+    .hero {
+        position: relative;
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px 40px;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* 비디오 */
+    .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        opacity: 0.75;
+        z-index: 0;
+    }
+
+    /* 진한 오버레이 — 텍스트 가독성 */
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(8, 10, 28, 0.68) 0%,
+            rgba(8, 10, 28, 0.55) 55%,
+            rgba(245, 246, 250, 0.0) 100%
+        );
+        z-index: 1;
+    }
+
+    /* 히어로 콘텐츠는 비디오·오버레이 위 */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title-kr {
+        font-size: 40px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        letter-spacing: -1.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .hero-desc {
+        font-size: 15px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.7;
+        margin-bottom: 32px;
+        word-break: keep-all;
+    }
+
+    .hero-cta-wrap {
+        max-width: 380px;
+        margin: 0 auto;
+    }
+    .hero-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #4A5CF0 0%, #6B3FE0 100%);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 16px 0;
+        width: 100%;
+        border-radius: 12px;
+        text-decoration: none;
+        box-shadow: 0 6px 24px rgba(74,92,240,0.40);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    /* shimmer */
+    .hero-cta-btn::before {
+        content: '';
+        position: absolute; top: 0; left: -130%;
+        width: 55%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+        animation: shimmer 2.4s ease-in-out infinite;
+        pointer-events: none;
+    }
+    @keyframes shimmer { 0% { left:-130%; } 100% { left:220%; } }
+    .hero-cta-btn:active { transform: scale(0.98); box-shadow: 0 3px 12px rgba(74,92,240,0.3); }
+
+    .hero-cta-sub {
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #FFD54F;
+        letter-spacing: 0.2px;
+    }
+
+    /* ── 날짜·장소 카드 ── */
+    .info-row {
+        margin: 28px 24px 35px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .ic {
+        padding: 20px 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-right: 1px solid var(--border);
+    }
+    .ic:last-child { border-right: none; }
+    .ic-lbl {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-3);
+        margin-bottom: 7px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .ic-val {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-1);
+        line-height: 1.45;
+    }
+
+    /* ── 섹션 공통 ── */
+    .section { padding: 0 24px; margin-bottom: 35px; }
+    .sh-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-1);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .sh-title::before {
+        content: '';
+        display: block;
+        width: 4px; height: 14px;
+        background: var(--indigo);
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    /* ── 관람 혜택 ── */
+    .feat {
+        display: flex;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+        gap: 14px;
+    }
+    .feat-ico {
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+    .feat-ttl {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-1);
+        margin-bottom: 4px;
+    }
+    .feat-sub { font-size: 13px; color: var(--text-2); }
+
+    /* ── 추천 대상 ── */
+    .tg-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .tg-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--gold-bg);
+        border: 1px solid rgba(201,150,10,0.15);
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-1);
+    }
+    .tg-ck {
+        color: var(--gold);
+        font-weight: 900;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    /* ── 푸터 ── */
+    .footer {
+        padding: 24px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-3);
+        line-height: 1.7;
+        background: var(--surface);
+    }
+    .footer strong { color: var(--text-2); font-weight: 700; }
+
+    /* ── 모바일 조정 ── */
+    @media (max-width: 480px) {
+        .hero { min-height: 360px; padding: 50px 20px 36px; }
+        .hero-title-kr { font-size: 32px; }
+        .hero-desc { font-size: 14px; }
+        .info-row { margin: 0 16px 28px; }
+        .section { padding: 0 16px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+    <!-- 히어로 + 배경 영상 -->
+    <div class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://raw.githubusercontent.com/ksaws2024-crypto/QT/refs/heads/main/2026_05_01%2013_48.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-title-kr">한국 수입엑스포<br>KIE 2026</div>
+            <div class="hero-desc">
+                전 세계 프리미엄 상품과 트렌드를 직접 보고<br>
+                비즈니스 기회까지 찾을 수 있는 최고의 전시회
+            </div>
+            <div class="hero-cta-wrap">
+                <a href="https://www.koimakif.com/kr/program/pre/onlinePreApplication.do"
+                   target="_blank" class="hero-cta-btn">사전등록 바로가기 →</a>
+                <div class="hero-cta-sub">✓ 사전등록 시 무료입장</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 일정·장소 -->
+    <div class="info-row">
+        <div class="ic">
+            <span class="ic-lbl">일정</span>
+            <span class="ic-val">6.23(화)<br>~ 6.25(목)</span>
+        </div>
+        <div class="ic">
+            <span class="ic-lbl">장소</span>
+            <span class="ic-val">COEX<br>Hall B</span>
+        </div>
+        <div class="ic">
+            <span class="ic-lbl">입장</span>
+            <span class="ic-val" style="color:var(--gold);">무료<br>
+                <span style="font-size:11px; font-weight:500; color:var(--text-3);">사전등록 시</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- 관람 혜택 -->
+    <div class="section">
+        <div class="sh-title">관람 혜택</div>
+        <div class="feat">
+            <div class="feat-ico">🌐</div>
+            <div>
+                <div class="feat-ttl">전 세계 수입 상품을 한눈에</div>
+                <div class="feat-sub">글로벌 프리미엄 브랜드 집결</div>
+            </div>
+        </div>
+        <div class="feat">
+            <div class="feat-ico">🤝</div>
+            <div>
+                <div class="feat-ttl">해외 브랜드와 직접 만나는 기회</div>
+                <div class="feat-sub">바이어 매칭 프로그램 운영</div>
+            </div>
+        </div>
+        <div class="feat">
+            <div class="feat-ico">🎁</div>
+            <div>
+                <div class="feat-ttl">특별 혜택 &amp; 이벤트 가득</div>
+                <div class="feat-sub">현장 경품·시식·시음 행사</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 추천 대상 -->
+    <div class="section">
+        <div class="sh-title">이런 분들께 추천합니다</div>
+        <div class="tg-grid">
+            <div class="tg-item"><span class="tg-ck">✓</span> 수입·유통업 관계자</div>
+            <div class="tg-item"><span class="tg-ck">✓</span> 온·오프라인 MD / 바이어</div>
+            <div class="tg-item"><span class="tg-ck">✓</span> 호텔·레스토랑·카페 관계자</div>
+            <div class="tg-item"><span class="tg-ck">✓</span> 해외 인기상품 체험 희망자</div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <div class="footer">
+        <strong>KIE 2026 한국수입엑스포</strong><br>
+        한국수입협회 주관 | kie@koima.or.kr
+    </div>
+
+</div>
+</body>
+</html>
