@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>묵상집 · 룻기 3장</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:      #3aada0;
+    --teal-dark: #2b8c80;
+    --teal-lt:   #d0efec;
+    --teal-mid:  #5cc4b8;
+    --beige:     #c8a882;
+    --beige-lt:  #f2e8d8;
+    --charcoal:  #2b2b2b;
+    --white:     #ffffff;
+    --cream:     #f8f5f0;
+    --text:      #2b2b2b;
+    --muted:     #7a7268;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Pretendard', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    background: var(--charcoal);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-tag {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .church-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  .church-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .church-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--teal-mid);
+    font-weight: 600;
+  }
+
+  /* ── 타이틀 배너 ── */
+  .title-banner {
+    background: var(--teal);
+    padding: 26px 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .title-banner::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .title-banner::after {
+    content: '';
+    position: absolute;
+    right: 20px; bottom: -24px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .banner-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .banner-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.55;
+    position: relative;
+  }
+  .banner-title em {
+    font-style: normal;
+    color: var(--beige-lt);
+  }
+
+  /* ── 핵심 구절 카드 ── */
+  .key-card {
+    margin: 16px 16px 0;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .key-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--beige));
+  }
+  .kc-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .kc-verse {
+    font-size: 14px;
+    line-height: 2.1;
+    color: rgba(255,255,255,0.88);
+    font-weight: 400;
+  }
+  .kc-ref {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--beige);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* ── 구분선 ── */
+  .divider {
+    margin: 14px 16px 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal) 0%, var(--beige) 100%);
+    opacity: 0.3;
+  }
+
+  /* ── 섹션 공통 ── */
+  .section {
+    margin: 14px 16px 0;
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(43,43,43,0.07);
+  }
+  .sec-pill {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pill-teal  { background: var(--teal-lt);  color: var(--teal-dark); }
+  .pill-beige { background: var(--beige-lt); color: #7a5c30; }
+  .pill-dark  { background: #ececec; color: #444; }
+
+  .sec-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .sec-body p + p { margin-top: 10px; }
+  .sec-body strong { color: var(--teal-dark); font-weight: 700; }
+
+  /* 인용 블록 */
+  .quote-block {
+    margin: 14px 0;
+    background: var(--beige-lt);
+    border-left: 4px solid var(--beige);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+  }
+  .quote-block p {
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--charcoal);
+    font-weight: 700;
+  }
+  .quote-block small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* 분석 카드 3축 */
+  .axis-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .axis-item {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--teal);
+  }
+  .axis-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--teal-dark);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .axis-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+  }
+  .axis-desc {
+    font-size: 13px;
+    line-height: 1.85;
+    color: #4a4030;
+  }
+
+  /* 통찰 리스트 */
+  .insight-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--beige-lt);
+  }
+  .insight-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .insight-icon {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    background: var(--teal-lt);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    margin-top: 1px;
+  }
+  .insight-body {}
+  .insight-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--charcoal);
+    margin-bottom: 3px;
+  }
+  .insight-desc {
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  /* 적용 질문 */
+  .q-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--beige-lt);
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .q-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+
+  /* 태그 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--teal-lt);
+    color: var(--teal-dark);
+    border: 1px solid rgba(58,173,160,0.2);
+  }
+
+  /* ── 기도 ── */
+  .pray-section {
+    margin: 14px 16px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.12);
+  }
+  .pray-head {
+    background: var(--teal-dark);
+    padding: 13px 20px;
+  }
+  .pray-head .sec-pill {
+    margin-bottom: 0;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+  .pray-body {
+    background: var(--teal);
+    padding: 18px 20px 24px;
+  }
+  .pray-text {
+    font-size: 14.5px;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.92);
+    font-weight: 400;
+  }
+  .pray-blank {
+    display: inline-block;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    min-width: 80px;
+    height: 1.2em;
+    vertical-align: bottom;
+  }
+  .pray-amen {
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--beige-lt);
+    letter-spacing: 3px;
+  }
+
+  /* ── 푸터 ── */
+  footer {
+    margin: 14px 16px 32px;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+  .footer-right {
+    text-align: right;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+  .footer-right strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-tag">📖 심층 묵상</div>
+    <div class="header-title">룻기 3장</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<!-- 타이틀 배너 -->
+<div class="title-banner">
+  <div class="banner-label">오늘의 묵상 주제</div>
+  <div class="banner-title">
+    하나님의 예비하심과<br>
+    <em>믿음의 순종</em>
+  </div>
+</div>
+
+<!-- 핵심 구절 -->
+<div class="key-card">
+  <div class="kc-label">📌 핵심 구절 · 룻기 3:11</div>
+  <div class="kc-verse">
+    그리고 이제 내 딸아 두려워하지 말라<br>
+    내가 네 말대로 네게 다 행하리라<br>
+    네가 현숙한 여자인 줄을<br>
+    나의 성읍 백성이 다 아느니라
+  </div>
+  <div class="kc-ref">Ruth 3:11</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 배경 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🗺 본문 배경</div>
+  <div class="sec-body">
+    <p>룻기 3장은 절망의 그늘에 갇혀 있던 이방 여인 룻과 대가 끊길 위기의 나오미 가문에 <strong>하나님의 구체적인 회복이 시작되는 구속사적 전환점</strong>입니다.</p>
+    <p>사회적·경제적 보호망이 전무한 과부로서 생존의 벼랑 끝에 서 있던 이들은 막연한 비관에 빠지는 대신, 보아스라는 예비된 은혜를 향해 믿음의 발걸음을 내딛습니다. <strong>하나님의 돌보심은 순종하는 자의 용기와 책임을 다하는 자의 신의가 만나는 자리에서 현실이 됩니다.</strong></p>
+    <div class="tags">
+      <span class="tag">구속사적 전환점</span>
+      <span class="tag">기업 무를 자</span>
+      <span class="tag">언약의 실현</span>
+    </div>
+  </div>
+</div>
+
+<!-- 심층 분석 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🔍 심층 분석</div>
+  <div class="axis-grid">
+    <div class="axis-item">
+      <div class="axis-tag">룻의 역할</div>
+      <div class="axis-title">순종과 용기 — 믿음의 모험</div>
+      <div class="axis-desc">캄캄한 타작마당, 한밤중 보아스의 발치에 누운 룻의 행위는 자신의 안위보다 가문의 회복을 선택한 결단이었습니다. 순종이 곧 하나님의 계획을 가동하는 거룩한 열쇠입니다.</div>
+    </div>
+    <div class="axis-item">
+      <div class="axis-tag">보아스의 역할</div>
+      <div class="axis-title">신의와 책임 — 대속자의 모형</div>
+      <div class="axis-desc">보아스는 법적 공의를 완수하면서도 고난받는 자를 향한 긍휼(Chesed)을 잊지 않습니다. 룻의 존재를 온전히 회복시키는 대속자의 모형이 됩니다.</div>
+    </div>
+    <div class="axis-item">
+      <div class="axis-tag">공동체의 증언</div>
+      <div class="axis-title">외인에서 공동체의 보석으로</div>
+      <div class="axis-desc">소외된 '모압 여인'이었던 룻의 진실한 신앙과 인격은 공동체 내에서 이미 확고한 신뢰를 얻고 있었습니다. 삶으로 증명된 거룩함이 하나님의 보호를 위한 도덕적 명분이 되었습니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 영적 통찰 -->
+<div class="section">
+  <div class="sec-pill pill-teal">💡 영적 통찰</div>
+  <div class="insight-item">
+    <div class="insight-icon">🛡</div>
+    <div class="insight-body">
+      <div class="insight-title">두려움을 이기는 약속</div>
+      <div class="insight-desc">"두려워하지 말라"는 선언은 하나님의 약속이 우리 삶에 실재할 때 나타나는 실제적 권능입니다. 불안을 잠재우고 우리를 다시 일어서게 하는 힘입니다.</div>
+    </div>
+  </div>
+  <div class="insight-item">
+    <div class="insight-icon">👣</div>
+    <div class="insight-body">
+      <div class="insight-title">믿음의 발걸음과 인도하심</div>
+      <div class="insight-desc">하나님의 예비된 계획은 우리가 안주할 때가 아니라, 순종의 첫발을 내디딜 때 비로소 가동됩니다. 인간의 책임 있는 응답이 하나님의 주권적 역사의 통로가 됩니다.</div>
+    </div>
+  </div>
+  <div class="insight-item">
+    <div class="insight-icon">🤝</div>
+    <div class="insight-body">
+      <div class="insight-title">예비된 조력자</div>
+      <div class="insight-desc">하나님께서는 홀로 일하지 않으시고 우리 주변에 보아스와 같은 돕는 손길을 예비하십니다. 섭리 안에서 보내주시는 조력자를 신뢰하는 영적 지혜가 필요합니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 적용 -->
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">현재 보호받지 못한다고 느끼는 '결핍의 영역'은 어디입니까? 그곳에 하나님의 구속하시는 손길을 초대할 준비가 되었습니까?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">나오미의 지시에 즉각 순종했던 룻처럼, 오늘 내가 형편을 따지지 않고 즉각 실행해야 할 말씀의 지침이나 마음의 감동은 무엇입니까?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">나는 오늘 나의 일터와 가정에서 어떤 덕망과 신뢰를 주는 그리스도인으로 비치고 있습니까?</div>
+  </div>
+</div>
+
+<!-- 기도 -->
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      만군의 여호와 하나님,<br>
+      룻과 보아스의 만남을 통해<br>
+      주님의 세밀하고도 장엄한 예비하심을<br>
+      묵상하게 하시니 감사합니다.<br><br>
+      한 치 앞도 보이지 않는 막막한 현실 속에서도<br>
+      신뢰의 발걸음을 옮겼던 룻의 용기가<br>
+      오늘 우리의 심령 가운데 충만하게 하옵소서.<br><br>
+      우리가 믿음의 모험을 시작할 때<br>
+      "내가 네 말대로 네게 다 행하리라"<br>
+      확증하시는 주님의 음성을 듣게 하시고<br>
+      세상이 줄 수 없는 평안을 누리게 하소서.<br><br>
+      모든 두려움을 떨쳐내고<br>
+      주님께서 예비하신 선한 길로 담대히 나아가며<br>
+      삶의 현장에서 주님의 영광을 드러내는<br>
+      만나목장이 되게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-left">
+    룻기 3:11<br>
+    만나목장 심층 묵상
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+</body>
+</html>
