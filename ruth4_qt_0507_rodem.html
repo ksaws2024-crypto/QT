@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 말씀 · 5월 7일</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:      #3aada0;
+    --teal-dark: #2b8c80;
+    --teal-lt:   #d0efec;
+    --teal-mid:  #5cc4b8;
+    --beige:     #c8a882;
+    --beige-lt:  #f2e8d8;
+    --charcoal:  #2b2b2b;
+    --white:     #ffffff;
+    --cream:     #f8f5f0;
+    --text:      #2b2b2b;
+    --muted:     #7a7268;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Pretendard', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    background: var(--charcoal);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .qt-tag {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .date-txt {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .church-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  .church-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .church-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--teal-mid);
+    font-weight: 600;
+  }
+
+  /* ── 키 배너 ── */
+  .key-banner {
+    background: var(--teal);
+    padding: 24px 22px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .key-banner::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .key-banner::after {
+    content: '';
+    position: absolute;
+    right: 20px; bottom: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .key-ref {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .key-verse {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.75;
+    position: relative;
+  }
+  .key-verse em {
+    font-style: normal;
+    color: var(--beige-lt);
+  }
+
+  /* ── 본문 카드 ── */
+  .scripture-card {
+    margin: 16px 16px 0;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .scripture-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--beige));
+  }
+  .sc-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .sc-text {
+    font-size: 13.5px;
+    line-height: 2.15;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  .sc-text sup {
+    font-size: 10px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+
+  /* ── 섹션 공통 ── */
+  .section {
+    margin: 14px 16px 0;
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(43,43,43,0.07);
+  }
+  .sec-pill {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pill-teal  { background: var(--teal-lt);  color: var(--teal-dark); }
+  .pill-beige { background: var(--beige-lt); color: #7a5c30; }
+
+  .sec-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .sec-body p + p { margin-top: 10px; }
+  .sec-body strong { color: var(--teal-dark); font-weight: 700; }
+
+  /* 인용 블록 */
+  .quote-block {
+    margin: 14px 0;
+    background: var(--beige-lt);
+    border-left: 4px solid var(--beige);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+  }
+  .quote-block p {
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--charcoal);
+    font-weight: 700;
+  }
+  .quote-block small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* 대조 카드 */
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .contrast-item {
+    border-radius: 12px;
+    padding: 14px 14px;
+  }
+  .contrast-item.world {
+    background: #f5f0f0;
+    border-left: 3px solid #c8a882;
+  }
+  .contrast-item.faith {
+    background: var(--teal-lt);
+    border-left: 3px solid var(--teal);
+  }
+  .contrast-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .world .contrast-label { color: #9a6a50; }
+  .faith .contrast-label { color: var(--teal-dark); }
+  .contrast-text {
+    font-size: 12.5px;
+    line-height: 1.75;
+    font-weight: 600;
+  }
+  .world .contrast-text { color: #5a3a2a; }
+  .faith .contrast-text { color: var(--teal-dark); }
+
+  /* 태그 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--teal-lt);
+    color: var(--teal-dark);
+    border: 1px solid rgba(58,173,160,0.2);
+  }
+
+  /* 적용 질문 */
+  .q-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--beige-lt);
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .q-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+
+  /* ── 기도 ── */
+  .pray-section {
+    margin: 14px 16px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.12);
+  }
+  .pray-head {
+    background: var(--teal-dark);
+    padding: 13px 20px;
+  }
+  .pray-head .sec-pill {
+    margin-bottom: 0;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+  .pray-body {
+    background: var(--teal);
+    padding: 18px 20px 24px;
+  }
+  .pray-text {
+    font-size: 14.5px;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.92);
+    font-weight: 400;
+  }
+  .pray-amen {
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--beige-lt);
+    letter-spacing: 3px;
+  }
+
+  /* ── 구분선 ── */
+  .divider {
+    margin: 14px 16px 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal) 0%, var(--beige) 100%);
+    opacity: 0.35;
+  }
+
+  /* ── 푸터 ── */
+  footer {
+    margin: 14px 16px 32px;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+  .footer-right {
+    text-align: right;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+  .footer-right strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-left">
+    <div class="qt-tag">📅 일일 Q.T</div>
+    <div class="date-txt">5월 7일 (목)</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<!-- 키 배너 -->
+<div class="key-banner">
+  <div class="key-ref">룻기 4장 1–6절 · 핵심 구절</div>
+  <div class="key-verse">
+    나는 내 기업에 <em>손해가 있을까 하여</em><br>
+    나를 위하여 <em>무르지 못하노니</em><br>
+    내가 무를 것을 네가 무르라
+  </div>
+</div>
+
+<!-- 본문 -->
+<div class="scripture-card">
+  <div class="sc-label">📖 룻기 4:1–6</div>
+  <div class="sc-text">
+    <sup>1</sup>보아스가 성문으로 올라가서 거기 앉아 있더니 마침 보아스가 말하던 기업 무를 자가 지나가는지라 보아스가 그에게 이르되 아무개여 이리로 와서 앉으라 하니 그가 와서 앉으매
+    <sup>2</sup>보아스가 그 성읍 장로 열 명을 불러 이르되 당신들은 여기 앉으라 하니 그들이 앉으매
+    <sup>3</sup>보아스가 그 기업 무를 자에게 이르되 모압 지방에서 돌아온 나오미가 우리 형제 엘리멜렉의 소유지를 팔려 하므로
+    <sup>4</sup>내가 여기 앉은 자들과 내 백성의 장로들 앞에서 그것을 사라고 네게 알리려 하였노라 만일 네가 무르려거든 무르거니와 만일 무르지 아니하려거든 내게 알리라 네 다음은 나요 나 외에는 무를 자가 없느니라 하니 그가 이르되 내가 무르리이다 하는지라
+    <sup>5</sup>보아스가 이르되 네가 나오미의 손에서 그 밭을 사는 날에 곧 죽은 자의 아내 모압 여인 룻에게서도 사야 하느니라 이는 그 죽은 자의 기업을 그의 이름으로 일으키기 위함이니라
+    <sup>6</sup>그 기업 무를 자가 이르되 나는 내 기업에 손해가 있을까 하여 나를 위하여 무르지 못하노니 내가 무를 것을 네가 무르라 나는 무르지 못하겠노라 하는지라
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 묵상 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🌿 오늘의 묵상</div>
+  <div class="sec-body">
+    <p>가장 가까운 친족은 자신의 재산에 손해가 생길 것을 계산하여 기업 무를 자의 책임을 포기합니다. 법적으로는 당연한 선택이었지만, 그것은 <strong>계산하는 사랑</strong>이었습니다.</p>
+    <div class="quote-block">
+      <p>"나는 내 기업에 손해가 있을까 하여<br>나를 위하여 무르지 못하노니"</p>
+      <small>— 룻기 4:6</small>
+    </div>
+    <p>눈앞의 이익과 손해만을 따지는 세상의 방식 속에서, <strong>진정한 헌신은 기꺼이 자신의 권리를 내려놓고 타인을 살리는 것</strong>임을 깨닫게 됩니다. 이 자리를 결국 보아스가 채웁니다. 나의 작은 유익보다 하나님의 뜻과 이웃을 향한 사랑을 먼저 선택하며, 묵묵히 사명의 자리를 지키는 우리가 되기를 소원합니다.</p>
+
+    <!-- 대조 카드 -->
+    <div class="contrast-grid" style="margin-top:14px;">
+      <div class="contrast-item world">
+        <div class="contrast-label">세상의 방식</div>
+        <div class="contrast-text">손해와 이익을 먼저 계산한다</div>
+      </div>
+      <div class="contrast-item faith">
+        <div class="contrast-label">믿음의 방식</div>
+        <div class="contrast-text">권리를 내려놓고 타인을 살린다</div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">계산하는 사랑</span>
+      <span class="tag">기업 무를 자</span>
+      <span class="tag">자기 포기</span>
+      <span class="tag">사명의 자리</span>
+    </div>
+  </div>
+</div>
+
+<!-- 적용 -->
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">나는 지금 손해가 두려워 내려놓지 못하고 있는 것이 있나요? 그것이 무엇인지 솔직하게 나눠봅시다.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">내 주변에서 누군가가 채워야 할 "기업 무를 자의 자리"가 있다면 어디인가요? 내가 그 자리를 기꺼이 채울 수 있나요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">오늘 나의 유익보다 하나님의 뜻과 이웃을 먼저 선택하기 위해 구체적으로 무엇을 결단할 수 있을까요?</div>
+  </div>
+</div>
+
+<!-- 기도 -->
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      헌신의 하나님,<br>
+      손해가 두려워 사명의 자리를 피하려 했던<br>
+      우리의 연약함을 고백합니다.<br><br>
+      계산하지 않고 기꺼이<br>
+      자신의 권리를 내려놓은 보아스처럼<br>
+      우리도 하나님의 뜻 앞에서<br>
+      나의 유익을 내려놓는 용기를 주소서.<br><br>
+      묵묵히 사명의 자리를 지키며<br>
+      이웃을 살리는 삶을 살게 하시고<br>
+      만나목장이 서로를 위해<br>
+      기꺼이 손해를 감수하는<br>
+      공동체가 되게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-left">
+    룻기 4:6<br>
+    2025년 5월 7일
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+</body>
+</html>
