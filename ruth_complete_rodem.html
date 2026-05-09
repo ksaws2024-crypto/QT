@@ -28,6 +28,37 @@ body {
   min-height: 100vh;
 }
 
+/* ── 목차 플로팅 버튼 ── */
+.toc-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--charcoal);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 16px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(43,43,43,0.35);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.3px;
+}
+.toc-fab:active {
+  background: var(--teal-dark);
+  transform: scale(0.95);
+}
+.toc-fab-icon { font-size: 16px; line-height: 1; }
+.toc-fab-label { font-size: 10px; color: var(--teal-mid); letter-spacing: 1px; font-weight: 700; }
+
 /* ── 커버 ── */
 .cover {
   background: var(--charcoal);
@@ -491,7 +522,7 @@ footer {
 </div>
 
 <!-- 목차 -->
-<div class="toc">
+<div class="toc" id="toc-anchor">
   <div class="toc-title">📋 목차 · INDEX</div>
   <a class="toc-item" href="#day0">
     <div class="toc-day">1</div>
@@ -1675,6 +1706,12 @@ footer {
 
     </div>
     
+
+<!-- 목차로 가는 플로팅 버튼 -->
+<a class="toc-fab" href="#toc-anchor">
+  <span class="toc-fab-icon">☰</span>
+  <span class="toc-fab-label">목차</span>
+</a>
 
 </body>
 </html>
