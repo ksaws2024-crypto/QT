@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 말씀 · 5월 11일</title>
+<!-- 카카오톡 링크 미리보기 -->
+<meta property="og:title" content="📅 5월 11일 일일 Q.T · 로뎀교회 만나목장">
+<meta property="og:description" content="십자가의 도가 멸망하는 자들에게는 미련한 것이요 구원을 받는 우리에게는 하나님의 능력이라 — 고린도전서 1:18">
+<meta property="og:image" content="https://ksaws2024-crypto.github.io/QT/thumbnail_0511_rodem.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:      #3aada0;
+    --teal-dark: #2b8c80;
+    --teal-lt:   #d0efec;
+    --teal-mid:  #5cc4b8;
+    --beige:     #c8a882;
+    --beige-lt:  #f2e8d8;
+    --charcoal:  #2b2b2b;
+    --white:     #ffffff;
+    --cream:     #f8f5f0;
+    --text:      #2b2b2b;
+    --muted:     #7a7268;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Pretendard', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    background: var(--charcoal);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .qt-tag {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .date-txt {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .church-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  .church-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .church-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--teal-mid);
+    font-weight: 600;
+  }
+
+  /* ── 키 배너 ── */
+  .key-banner {
+    background: var(--teal);
+    padding: 24px 22px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .key-banner::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .key-banner::after {
+    content: '';
+    position: absolute;
+    right: 20px; bottom: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .key-ref {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .key-verse {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.8;
+  }
+  .key-verse em {
+    font-style: normal;
+    color: var(--beige-lt);
+  }
+
+  /* ── 본문 카드 ── */
+  .scripture-card {
+    margin: 16px 16px 0;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .scripture-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--beige));
+  }
+  .sc-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .sc-text {
+    font-size: 13.5px;
+    line-height: 2.15;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  .sc-text sup {
+    font-size: 10px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+
+  /* ── 섹션 공통 ── */
+  .section {
+    margin: 14px 16px 0;
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(43,43,43,0.07);
+  }
+  .sec-pill {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pill-teal  { background: var(--teal-lt);  color: var(--teal-dark); }
+  .pill-beige { background: var(--beige-lt); color: #7a5c30; }
+
+  .sec-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .sec-body p + p { margin-top: 10px; }
+  .sec-body strong { color: var(--teal-dark); font-weight: 700; }
+
+  /* 인용 블록 */
+  .quote-block {
+    margin: 14px 0;
+    background: var(--beige-lt);
+    border-left: 4px solid var(--beige);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+  }
+  .quote-block p {
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--charcoal);
+    font-weight: 700;
+  }
+  .quote-block small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* 대조 카드 */
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .contrast-item {
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .contrast-item.world {
+    background: #f5f0f0;
+    border-left: 3px solid var(--beige);
+  }
+  .contrast-item.faith {
+    background: var(--teal-lt);
+    border-left: 3px solid var(--teal);
+  }
+  .contrast-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .world .contrast-label { color: #9a6a50; }
+  .faith .contrast-label { color: var(--teal-dark); }
+  .contrast-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .world .contrast-title { color: #5a3a2a; }
+  .faith .contrast-title { color: var(--teal-dark); }
+  .contrast-desc {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* 태그 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--teal-lt);
+    color: var(--teal-dark);
+    border: 1px solid rgba(58,173,160,0.2);
+  }
+
+  /* 적용 질문 */
+  .q-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--beige-lt);
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .q-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+
+  /* ── 기도 ── */
+  .pray-section {
+    margin: 14px 16px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.12);
+  }
+  .pray-head {
+    background: var(--teal-dark);
+    padding: 13px 20px;
+  }
+  .pray-head .sec-pill {
+    margin-bottom: 0;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+  .pray-body {
+    background: var(--teal);
+    padding: 18px 20px 24px;
+  }
+  .pray-text {
+    font-size: 14.5px;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.92);
+    font-weight: 400;
+  }
+  .pray-amen {
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--beige-lt);
+    letter-spacing: 3px;
+  }
+
+  /* ── 구분선 ── */
+  .divider {
+    margin: 14px 16px 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal) 0%, var(--beige) 100%);
+    opacity: 0.35;
+  }
+
+  /* ── 푸터 ── */
+  footer {
+    margin: 14px 16px 32px;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+  .footer-right {
+    text-align: right;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+  .footer-right strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-left">
+    <div class="qt-tag">📅 일일 Q.T</div>
+    <div class="date-txt">5월 11일 (월)</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<!-- 키 배너 -->
+<div class="key-banner">
+  <div class="key-ref">고린도전서 1장 18–25절 · 핵심 구절</div>
+  <div class="key-verse">
+    십자가의 도가<br>
+    멸망하는 자들에게는 <em>미련한 것</em>이요<br>
+    구원을 받는 우리에게는<br>
+    <em>하나님의 능력</em>이라
+  </div>
+</div>
+
+<!-- 본문 -->
+<div class="scripture-card">
+  <div class="sc-label">📖 고린도전서 1:18–25</div>
+  <div class="sc-text">
+    <sup>18</sup>십자가의 도가 멸망하는 자들에게는 미련한 것이요 구원을 받는 우리에게는 하나님의 능력이라
+    <sup>19</sup>기록된 바 내가 지혜 있는 자들의 지혜를 멸하고 총명한 자들의 총명을 폐하리라 하였으니
+    <sup>20</sup>지혜 있는 자가 어디 있느냐 선비가 어디 있느냐 이 세대에 변론가가 어디 있느냐 하나님께서 이 세상의 지혜를 미련하게 하신 것이 아니냐
+    <sup>21</sup>하나님의 지혜에 있어서는 이 세상이 자기 지혜로 하나님을 알지 못하므로 하나님께서 전도의 미련한 것으로 믿는 자들을 구원하시기를 기뻐하셨도다
+    <sup>22</sup>유대인은 표적을 구하고 헬라인은 지혜를 찾으나
+    <sup>23</sup>우리는 십자가에 못 박힌 그리스도를 전하니 유대인에게는 거리끼는 것이요 이방인에게는 미련한 것이로되
+    <sup>24</sup>오직 부르심을 받은 자들에게는 유대인이나 헬라인이나 그리스도는 하나님의 능력이요 하나님의 지혜니라
+    <sup>25</sup>하나님의 미련한 것이 사람보다 지혜롭고 하나님의 약한 것이 사람보다 강하니라
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 묵상 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🌿 오늘의 묵상</div>
+  <div class="sec-body">
+    <p>세상의 지혜는 십자가를 미련하게 봅니다. 유대인은 표적을 요구하고, 헬라인은 논리적 지혜를 찾습니다. 그러나 하나님은 세상이 가장 어리석다고 여기는 것을 통해 구원을 이루십니다.</p>
+    <div class="quote-block">
+      <p>"하나님의 미련한 것이 사람보다 지혜롭고<br>하나님의 약한 것이 사람보다 강하니라"</p>
+      <small>— 고린도전서 1:25</small>
+    </div>
+    <p>십자가는 세상의 기준으로는 실패와 수치의 상징이었습니다. 그러나 <strong>믿는 우리에게 십자가는 죽음을 이기는 하나님의 능력</strong>입니다. 십자가 복음만이 우리 가정을 살리는 유일한 길임을 믿고, 오늘 하루 그 능력을 의지하며 담대히 살아가는 우리가 되기를 소원합니다.</p>
+
+    <!-- 대조 카드 -->
+    <div class="contrast-grid">
+      <div class="contrast-item world">
+        <div class="contrast-label">세상의 시선</div>
+        <div class="contrast-title">미련한 것</div>
+        <div class="contrast-desc">표적과 논리를 요구하며 십자가를 거부함</div>
+      </div>
+      <div class="contrast-item faith">
+        <div class="contrast-label">믿음의 시선</div>
+        <div class="contrast-title">하나님의 능력</div>
+        <div class="contrast-desc">죽음을 이기는 구원의 능력이자 하나님의 지혜</div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">십자가의 도</span>
+      <span class="tag">하나님의 능력</span>
+      <span class="tag">역설의 복음</span>
+      <span class="tag">담대한 믿음</span>
+    </div>
+  </div>
+</div>
+
+<!-- 적용 -->
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">내 삶에서 십자가 복음이 '미련하게' 느껴졌던 순간이 있었나요? 그때 어떻게 반응했나요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">오늘 내가 의지하고 있는 '세상의 지혜'는 무엇인가요? 그것이 십자가의 능력을 가리고 있지는 않나요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">십자가 복음이 내 가정과 삶에 살아있는 능력이 되려면 오늘 무엇을 결단해야 할까요?</div>
+  </div>
+</div>
+
+<!-- 기도 -->
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      십자가의 능력이신 하나님,<br>
+      세상이 미련하다 여기는 복음이<br>
+      사실은 죽음을 이기는<br>
+      유일한 능력임을 고백합니다.<br><br>
+      세상의 지혜와 논리에 의지하던<br>
+      우리의 눈을 열어 주시고<br>
+      십자가 앞에 다시 서게 하소서.<br><br>
+      그 복음의 능력이 오늘<br>
+      우리의 가정과 삶의 현장에서<br>
+      살아있는 실력으로 나타나게 하시고<br>
+      만나목장이 담대히<br>
+      십자가를 자랑하는 공동체가<br>
+      되게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-left">
+    고린도전서 1:18<br>
+    2025년 5월 11일
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+</body>
+</html>
