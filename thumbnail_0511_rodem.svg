@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2b2b2b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3aada0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c8a882;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3aada0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2b8c80;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- 배경 원형 장식 -->
+  <circle cx="980" cy="120" r="220" fill="#3aada0" opacity="0.07"/>
+  <circle cx="1100" cy="520" r="160" fill="#c8a882" opacity="0.05"/>
+  <circle cx="80" cy="500" r="180" fill="#3aada0" opacity="0.05"/>
+
+  <!-- 왼쪽 틸 세로 바 -->
+  <rect x="0" y="0" width="8" height="630" fill="url(#tealGrad)"/>
+
+  <!-- 하단 그라데이션 바 -->
+  <rect x="0" y="620" width="1200" height="10" fill="url(#accentGrad)"/>
+
+  <!-- 교회명 뱃지 (우상단) -->
+  <rect x="960" y="36" width="204" height="38" rx="19" fill="none" stroke="#3aada0" stroke-width="1.5" opacity="0.5"/>
+  <text x="1062" y="61" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#5cc4b8" text-anchor="middle" letter-spacing="2">THE RODEM CHURCH</text>
+
+  <!-- 날짜 + Q.T 태그 (좌상단) -->
+  <rect x="40" y="36" width="130" height="32" rx="16" fill="#3aada0" opacity="0.2"/>
+  <text x="105" y="57" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#5cc4b8" text-anchor="middle" letter-spacing="2">📅 일일 Q.T</text>
+
+  <!-- 날짜 -->
+  <text x="40" y="118" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#5cc4b8" letter-spacing="1" opacity="0.8">5월 11일 (월)</text>
+
+  <!-- 메인 타이틀 -->
+  <text x="40" y="185" font-family="Arial, sans-serif" font-size="54" font-weight="900" fill="#ffffff" letter-spacing="-1">십자가의 도</text>
+
+  <!-- 부제 -->
+  <text x="40" y="248" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#c8a882">하나님의 능력이라</text>
+
+  <!-- 구분선 -->
+  <rect x="40" y="278" width="120" height="3" rx="2" fill="url(#accentGrad)"/>
+
+  <!-- 핵심 구절 박스 -->
+  <rect x="40" y="306" width="720" height="160" rx="16" fill="#3aada0" opacity="0.12"/>
+  <rect x="40" y="306" width="4" height="160" rx="2" fill="#3aada0"/>
+
+  <!-- 구절 텍스트 -->
+  <text x="64" y="345" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#5cc4b8" letter-spacing="2" opacity="0.8">고린도전서 1:18</text>
+  <text x="64" y="383" font-family="Arial, sans-serif" font-size="21" fill="#ffffffdd" font-weight="400">십자가의 도가 멸망하는 자들에게는</text>
+  <text x="64" y="416" font-family="Arial, sans-serif" font-size="21" fill="#ffffffdd" font-weight="400">미련한 것이요 구원을 받는</text>
+  <text x="64" y="449" font-family="Arial, sans-serif" font-size="21" fill="#ffffff" font-weight="700">우리에게는 하나님의 능력이라</text>
+
+  <!-- 오른쪽 장식 영역 -->
+  <!-- 십자가 심볼 -->
+  <rect x="860" y="260" width="14" height="100" rx="7" fill="#3aada0" opacity="0.6"/>
+  <rect x="820" y="296" width="94" height="14" rx="7" fill="#3aada0" opacity="0.6"/>
+
+  <!-- 원형 장식 -->
+  <circle cx="905" cy="310" r="70" fill="none" stroke="#3aada0" stroke-width="1.5" opacity="0.2"/>
+  <circle cx="905" cy="310" r="90" fill="none" stroke="#c8a882" stroke-width="1" opacity="0.12"/>
+
+  <!-- 대조 태그들 -->
+  <!-- 세상 태그 -->
+  <rect x="40" y="492" width="160" height="40" rx="20" fill="#f5f0f0" opacity="0.1"/>
+  <rect x="40" y="492" width="160" height="40" rx="20" fill="none" stroke="#c8a882" stroke-width="1.5" opacity="0.4"/>
+  <text x="120" y="517" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c8a882" text-anchor="middle">세상: 미련한 것</text>
+
+  <text x="214" y="517" font-family="Arial, sans-serif" font-size="18" fill="#5cc4b8" text-anchor="middle">→</text>
+
+  <!-- 믿음 태그 -->
+  <rect x="228" y="492" width="180" height="40" rx="20" fill="#3aada0" opacity="0.2"/>
+  <rect x="228" y="492" width="180" height="40" rx="20" fill="none" stroke="#3aada0" stroke-width="1.5" opacity="0.5"/>
+  <text x="318" y="517" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#5cc4b8" text-anchor="middle">믿음: 하나님의 능력</text>
+
+  <!-- 키워드 태그들 -->
+  <rect x="40" y="548" width="110" height="32" rx="16" fill="#3aada0" opacity="0.15"/>
+  <text x="95" y="569" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5cc4b8" text-anchor="middle">십자가의 도</text>
+
+  <rect x="160" y="548" width="100" height="32" rx="16" fill="#3aada0" opacity="0.15"/>
+  <text x="210" y="569" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5cc4b8" text-anchor="middle">역설의 복음</text>
+
+  <rect x="270" y="548" width="110" height="32" rx="16" fill="#3aada0" opacity="0.15"/>
+  <text x="325" y="569" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5cc4b8" text-anchor="middle">담대한 믿음</text>
+
+  <!-- 로뎀교회 로고 영역 (우하단) -->
+  <text x="1160" y="590" font-family="Arial, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="end" opacity="0.6">로뎀교회 만나목장</text>
+</svg>
