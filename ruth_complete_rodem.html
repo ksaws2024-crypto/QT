@@ -230,8 +230,8 @@ body {
   font-weight: 600;
 }
 .key-banner {
-  background: var(--teal);
-  padding: 24px 22px 22px;
+  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 100%);
+  padding: 26px 22px 24px;
   position: relative;
   overflow: hidden;
 }
@@ -239,15 +239,15 @@ body {
   content: '';
   position: absolute;
   right: -30px; top: -30px;
-  width: 120px; height: 120px;
+  width: 130px; height: 130px;
   border-radius: 50%;
   background: rgba(255,255,255,0.1);
 }
 .key-banner::after {
   content: '';
   position: absolute;
-  right: 20px; bottom: -20px;
-  width: 80px; height: 80px;
+  right: 20px; bottom: -25px;
+  width: 90px; height: 90px;
   border-radius: 50%;
   background: rgba(255,255,255,0.07);
 }
@@ -264,21 +264,21 @@ body {
   color: var(--white);
   line-height: 1.8;
 }
-.key-verse em { font-style: normal; color: var(--beige-lt); }
+.key-verse em { font-style: normal; color: #ffe97a; text-shadow: 0 0 20px rgba(255,233,122,0.25); }
 .scripture-card {
   margin: 16px 16px 0;
   background: var(--charcoal);
   border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 4px 18px rgba(43,43,43,0.18);
+  box-shadow: 0 6px 24px rgba(43,43,43,0.22);
   position: relative;
   overflow: hidden;
 }
 .scripture-card::before {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 4px;
+  top: 0; left: 0; right: 0;
+  height: 3px;
   background: linear-gradient(90deg, var(--teal), var(--beige));
 }
 .sc-label {
@@ -287,6 +287,7 @@ body {
   color: var(--teal-mid);
   font-weight: 700;
   margin-bottom: 14px;
+  padding-top: 4px;
 }
 .sc-text {
   font-size: 13.5px;
@@ -306,7 +307,8 @@ body {
   background: var(--white);
   border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(43,43,43,0.07);
+  box-shadow: 0 2px 12px rgba(43,43,43,0.09);
+  border-top: 3px solid var(--teal-lt);
 }
 .sec-pill {
   display: inline-block;
@@ -329,23 +331,36 @@ body {
 .sec-body strong { color: var(--teal-dark); font-weight: 700; }
 .quote-block {
   margin: 14px 0;
-  background: var(--beige-lt);
+  background: linear-gradient(135deg, var(--beige-lt) 0%, #f8eedd 100%);
   border-left: 4px solid var(--beige);
-  border-radius: 0 12px 12px 0;
-  padding: 14px 16px;
+  border-radius: 0 14px 14px 0;
+  padding: 16px 18px;
+  position: relative;
+}
+.quote-block::before {
+  content: '\201C';
+  position: absolute;
+  top: 4px; left: 12px;
+  font-size: 40px;
+  color: var(--beige);
+  opacity: 0.45;
+  font-family: Georgia, serif;
+  line-height: 1;
 }
 .quote-block p {
   font-size: 14px;
-  line-height: 1.95;
+  line-height: 2;
   color: var(--charcoal);
   font-weight: 700;
+  padding-left: 4px;
 }
 .quote-block small {
   display: block;
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 11.5px;
   color: var(--muted);
-  font-weight: 400;
+  font-weight: 500;
+  padding-left: 4px;
 }
 .tags {
   display: flex;
@@ -372,14 +387,15 @@ body {
 .q-item:last-child { border-bottom: none; padding-bottom: 0; }
 .q-num {
   flex-shrink: 0;
-  width: 26px; height: 26px;
+  width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--teal);
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
   color: var(--white);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 800;
   margin-top: 1px;
+  box-shadow: 0 2px 8px rgba(58,173,160,0.3);
 }
 .q-text {
   font-size: 13.5px;
@@ -402,8 +418,19 @@ body {
   color: var(--white);
 }
 .pray-body {
-  background: var(--teal);
-  padding: 18px 20px 24px;
+  background: linear-gradient(160deg, var(--teal) 0%, var(--teal-dark) 100%);
+  padding: 22px 22px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.pray-body::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  pointer-events: none;
 }
 .pray-text {
   font-size: 14.5px;
@@ -412,11 +439,12 @@ body {
   font-weight: 400;
 }
 .pray-amen {
-  margin-top: 18px;
-  font-size: 17px;
+  margin-top: 20px;
+  font-size: 18px;
   font-weight: 800;
-  color: var(--beige-lt);
-  letter-spacing: 3px;
+  color: #ffe97a;
+  letter-spacing: 4px;
+  position: relative;
 }
 .divider {
   margin: 14px 16px 0;
@@ -501,6 +529,56 @@ footer {
 .closing-icon { font-size: 32px; flex-shrink: 0; }
 .closing-title { font-size: 13px; font-weight: 800; color: var(--teal-mid); margin-bottom: 4px; }
 .closing-desc { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+/* ── 스크롤 진행 바 ── */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--beige));
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+/* ── 카카오 공유 버튼 ── */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FEE500;
+  color: #191919;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  margin-top: 18px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.share-btn:active { opacity: 0.8; transform: scale(0.96); }
+/* ── 토스트 ── */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(43,43,43,0.92);
+  color: var(--white);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 2000;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 /* 섹션 공통 */
 .banner-label { font-size: 10px; letter-spacing: 2.5px; color: rgba(255,255,255,0.65); font-weight: 700; margin-bottom: 10px; }
 .banner-title { font-size: 19px; font-weight: 800; color: var(--white); line-height: 1.55; position: relative; }
@@ -513,12 +591,21 @@ footer {
 </head>
 <body>
 
+<!-- 스크롤 진행 바 -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- 토스트 알림 -->
+<div class="toast" id="toast"></div>
+
 <!-- 커버 -->
 <div class="cover">
   <div class="cover-church">로뎀교회 만나목장 · THE RODEM CHURCH</div>
   <div class="cover-title">룻기 <span>완독</span> 묵상집</div>
   <div class="cover-sub">흉년 속에서도 멈추지 않는 하나님의 헤세드</div>
   <div class="cover-period">2025년 5월 1일 — 5월 9일</div>
+  <button class="share-btn" onclick="shareKakao()">
+    <span>💬</span> 카카오로 공유하기
+  </button>
 </div>
 
 <!-- 목차 -->
@@ -1712,6 +1799,69 @@ footer {
   <span class="toc-fab-icon">☰</span>
   <span class="toc-fab-label">목차</span>
 </a>
+
+<!-- Kakao SDK (카카오 개발자 콘솔에서 앱 키 발급 후 아래 스크립트 활성화) -->
+<!-- <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script> -->
+<script>
+/* ── 스크롤 진행 바 ── */
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  if (total > 0) {
+    document.getElementById('progressBar').style.width =
+      (window.scrollY / total * 100) + '%';
+  }
+}, { passive: true });
+
+/* ── 카카오 SDK 초기화 ──
+   https://developers.kakao.com/console/app 에서 JS 키 발급 후 교체 */
+function initKakao() {
+  if (window.Kakao && !Kakao.isInitialized()) {
+    Kakao.init('YOUR_KAKAO_APP_KEY');
+  }
+}
+
+function shareKakao() {
+  const title = '룻기 완독 묵상집 · 로뎀교회 만나목장';
+  const text  = '흉년 속에서도 멈추지 않는 하나님의 헤세드\n룻기 1–4장 8일 완독 묵상집';
+  const url   = window.location.href;
+
+  if (window.Kakao && Kakao.isInitialized()) {
+    try {
+      Kakao.Share.sendDefault({
+        objectType: 'text',
+        text: text,
+        link: { mobileWebUrl: url, webUrl: url },
+        buttonTitle: '묵상집 보기',
+      });
+      return;
+    } catch (e) {}
+  }
+
+  if (navigator.share) {
+    navigator.share({ title, text, url }).catch(() => copyFallback(url));
+    return;
+  }
+  copyFallback(url);
+}
+
+function copyFallback(url) {
+  const text = '룻기 완독 묵상집 · 로뎀교회 만나목장\n' + url;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('링크가 복사되었습니다 📋'))
+      .catch(() => showToast('주소창의 URL을 복사해 공유해 주세요'));
+  } else {
+    showToast('주소창의 URL을 복사해 공유해 주세요');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+</script>
 
 </body>
 </html>
