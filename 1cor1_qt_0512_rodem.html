@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 말씀 · 5월 12일</title>
+<!-- 카카오톡 링크 미리보기 -->
+<meta property="og:title" content="📅 5월 12일 일일 Q.T · 로뎀교회">
+<meta property="og:description" content="자랑하는 자는 주 안에서 자랑하라 — 고린도전서 1:31">
+<meta property="og:image" content="https://ksaws2024-crypto.github.io/QT/thumbnail_0512_rodem.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:      #3aada0;
+    --teal-dark: #2b8c80;
+    --teal-lt:   #d0efec;
+    --teal-mid:  #5cc4b8;
+    --beige:     #c8a882;
+    --beige-lt:  #f2e8d8;
+    --charcoal:  #2b2b2b;
+    --white:     #ffffff;
+    --cream:     #f8f5f0;
+    --text:      #2b2b2b;
+    --muted:     #7a7268;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Pretendard', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    background: var(--charcoal);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .qt-tag {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .date-txt {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .church-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  .church-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .church-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--teal-mid);
+    font-weight: 600;
+  }
+
+  /* ── 키 배너 ── */
+  .key-banner {
+    background: var(--teal);
+    padding: 24px 22px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .key-banner::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .key-banner::after {
+    content: '';
+    position: absolute;
+    right: 20px; bottom: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .key-ref {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .key-verse {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.8;
+  }
+  .key-verse em {
+    font-style: normal;
+    color: var(--beige-lt);
+  }
+
+  /* ── 본문 카드 ── */
+  .scripture-card {
+    margin: 16px 16px 0;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .scripture-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--beige));
+  }
+  .sc-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .sc-text {
+    font-size: 13.5px;
+    line-height: 2.15;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  .sc-text sup {
+    font-size: 10px;
+    color: var(--teal-mid);
+    font-weight: 700;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+
+  /* ── 섹션 공통 ── */
+  .section {
+    margin: 14px 16px 0;
+    background: var(--white);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(43,43,43,0.07);
+  }
+  .sec-pill {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pill-teal  { background: var(--teal-lt);  color: var(--teal-dark); }
+  .pill-beige { background: var(--beige-lt); color: #7a5c30; }
+
+  .sec-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .sec-body p + p { margin-top: 10px; }
+  .sec-body strong { color: var(--teal-dark); font-weight: 700; }
+
+  /* 인용 블록 */
+  .quote-block {
+    margin: 14px 0;
+    background: var(--beige-lt);
+    border-left: 4px solid var(--beige);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+  }
+  .quote-block p {
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--charcoal);
+    font-weight: 700;
+  }
+  .quote-block small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* 자랑의 방향 전환 카드 */
+  .boast-card {
+    margin-top: 14px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .boast-row {
+    display: flex;
+    align-items: stretch;
+  }
+  .boast-col {
+    flex: 1;
+    padding: 14px;
+  }
+  .boast-col.before {
+    background: #f5f0f0;
+    border-right: 1px solid #e8ddd0;
+  }
+  .boast-col.after {
+    background: var(--teal-lt);
+  }
+  .boast-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .before .boast-label { color: #9a6a50; }
+  .after  .boast-label { color: var(--teal-dark); }
+  .boast-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .before .boast-title { color: #5a3a2a; }
+  .after  .boast-title { color: var(--teal-dark); }
+  .boast-desc {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .boast-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--charcoal);
+    padding: 0 10px;
+    color: var(--teal-mid);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* 태그 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--teal-lt);
+    color: var(--teal-dark);
+    border: 1px solid rgba(58,173,160,0.2);
+  }
+
+  /* 적용 질문 */
+  .q-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--beige-lt);
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .q-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+
+  /* ── 기도 ── */
+  .pray-section {
+    margin: 14px 16px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(43,43,43,0.12);
+  }
+  .pray-head {
+    background: var(--teal-dark);
+    padding: 13px 20px;
+  }
+  .pray-head .sec-pill {
+    margin-bottom: 0;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+  .pray-body {
+    background: var(--teal);
+    padding: 18px 20px 24px;
+  }
+  .pray-text {
+    font-size: 14.5px;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.92);
+    font-weight: 400;
+  }
+  .pray-amen {
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--beige-lt);
+    letter-spacing: 3px;
+  }
+
+  /* ── 구분선 ── */
+  .divider {
+    margin: 14px 16px 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal) 0%, var(--beige) 100%);
+    opacity: 0.35;
+  }
+
+  /* ── 푸터 ── */
+  footer {
+    margin: 14px 16px 32px;
+    background: var(--charcoal);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+  .footer-right {
+    text-align: right;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+  .footer-right strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-left">
+    <div class="qt-tag">📅 일일 Q.T</div>
+    <div class="date-txt">5월 12일 (화)</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<!-- 키 배너 -->
+<div class="key-banner">
+  <div class="key-ref">고린도전서 1장 26–31절 · 핵심 구절</div>
+  <div class="key-verse">
+    자랑하는 자는<br>
+    <em>주 안에서 자랑하라</em>
+  </div>
+</div>
+
+<!-- 본문 -->
+<div class="scripture-card">
+  <div class="sc-label">📖 고린도전서 1:26–31</div>
+  <div class="sc-text">
+    <sup>26</sup>형제들아 너희를 부르심을 보라 육체를 따라 지혜로운 자가 많지 아니하며 능한 자가 많지 아니하며 문벌 좋은 자가 많지 아니하도다
+    <sup>27</sup>그러나 하나님께서 세상의 미련한 것들을 택하사 지혜 있는 자들을 부끄럽게 하려 하시고 세상의 약한 것들을 택하사 강한 것들을 부끄럽게 하려 하시며
+    <sup>28</sup>하나님께서 세상의 천한 것들과 멸시 받는 것들과 없는 것들을 택하사 있는 것들을 폐하려 하시나니
+    <sup>29</sup>이는 아무 육체도 하나님 앞에서 자랑하지 못하게 하려 하심이라
+    <sup>30</sup>너희는 하나님으로부터 나서 그리스도 예수 안에 있고 예수는 하나님으로부터 나와서 우리에게 지혜와 의로움과 거룩함과 구원함이 되셨으니
+    <sup>31</sup>기록된 바 자랑하는 자는 주 안에서 자랑하라 함과 같게 하려 함이라
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 묵상 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🌿 오늘의 묵상</div>
+  <div class="sec-body">
+    <p>하나님은 세상의 강한 자들을 부끄럽게 하시려고 미련하고 약한 우리를 택하셨습니다. 이것은 아무도 하나님 앞에서 자신을 자랑하지 못하게 하며 <strong>오직 우리 구주 그리스도만 높이게 하려 하심</strong>입니다.</p>
+    <div class="quote-block">
+      <p>"자랑하는 자는 주 안에서 자랑하라"</p>
+      <small>— 고린도전서 1:31</small>
+    </div>
+    <p>예수는 우리에게 <strong>지혜와 의로움과 거룩함과 구원함</strong>이 되셨습니다. 내 능력을 뽐내기보다 우리를 부르신 주님의 인자하심을 자랑하며, 오늘 하루 주 안에서 기뻐하고 주님만 높이는 우리가 되기를 소원합니다.</p>
+
+    <!-- 자랑의 방향 카드 -->
+    <div class="boast-card">
+      <div class="boast-row">
+        <div class="boast-col before">
+          <div class="boast-label">내 자랑</div>
+          <div class="boast-title">나의 능력·지혜·배경</div>
+          <div class="boast-desc">하나님의 영광을 가리는 짙은 구름</div>
+        </div>
+        <div class="boast-arrow">→</div>
+        <div class="boast-col after">
+          <div class="boast-label">주 안의 자랑</div>
+          <div class="boast-title">그리스도의 지혜와 구원</div>
+          <div class="boast-desc">세상이 감당 못하는 승리의 자랑</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">주 안에서 자랑</span>
+      <span class="tag">약함의 선택</span>
+      <span class="tag">그리스도의 실력</span>
+      <span class="tag">하나님께 영광</span>
+    </div>
+  </div>
+</div>
+
+<!-- 적용 -->
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">오늘 내가 자랑하고 싶은 것은 무엇인가요? 그것이 나를 향한 자랑인지, 주님을 향한 자랑인지 돌아봅시다.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">하나님이 나의 약함과 부족함을 통해 일하신 경험이 있다면 나눠봅시다.</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">오늘 하루 "주 안에서 자랑하라"는 말씀을 어떻게 구체적으로 실천할 수 있을까요?</div>
+  </div>
+</div>
+
+<!-- 기도 -->
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      우리를 부르신 하나님,<br>
+      강하고 지혜로운 자가 아닌<br>
+      약하고 미련한 우리를 택하신<br>
+      주님의 인자하심에 감사드립니다.<br><br>
+      내 능력과 배경을 자랑하려는<br>
+      욕심을 내려놓고<br>
+      오직 그리스도 예수 안에서만<br>
+      자랑하게 하소서.<br><br>
+      지혜와 의로움과 거룩함과 구원함이<br>
+      되어주신 주님만을 높이며<br>
+      오늘 하루를 기쁨으로<br>
+      살아가게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-left">
+    고린도전서 1:31<br>
+    2025년 5월 12일
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+</body>
+</html>
