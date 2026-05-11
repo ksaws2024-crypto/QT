@@ -699,6 +699,205 @@
     }
     .footer-link:hover { color: var(--indigo); }
 
+    /* ── 상담 스케줄 선택 ── */
+    .sched-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+    .sched-tab {
+        flex: 1;
+        padding: 14px 10px;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        cursor: pointer;
+        text-align: center;
+        transition: border-color 0.15s, background 0.15s;
+    }
+    .sched-tab.active {
+        border-color: var(--indigo);
+        background: rgba(74,92,240,0.06);
+    }
+    .sched-tab-date {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text-1);
+        line-height: 1.2;
+    }
+    .sched-tab.active .sched-tab-date { color: var(--indigo); }
+    .sched-tab-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-3);
+        margin-top: 4px;
+    }
+    .sched-tab.active .sched-tab-label { color: var(--indigo); }
+    .sched-tab-cnt {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        background: var(--indigo);
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 50px;
+        opacity: 0;
+        transition: opacity 0.15s;
+    }
+    .sched-tab.has-sel .sched-tab-cnt { opacity: 1; }
+
+    .sched-grid-wrap { position: relative; }
+    .sched-panel { display: none; }
+    .sched-panel.active { display: block; }
+
+    .sched-legend {
+        display: flex;
+        gap: 18px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+    }
+    .leg {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--text-3);
+        font-weight: 500;
+    }
+    .leg-dot {
+        width: 14px; height: 14px;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+    .leg-dot.avail { background: var(--surface); border: 1.5px solid var(--border); }
+    .leg-dot.sel   { background: var(--indigo); }
+    .leg-dot.full  { background: #F1F2F6; border: 1.5px solid #E0E2EE; }
+
+    .sched-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+    }
+    .slot {
+        padding: 14px 6px;
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        background: var(--surface);
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        transition: border-color 0.15s, background 0.15s, transform 0.1s;
+        position: relative;
+    }
+    .slot:hover:not(.full) { border-color: var(--indigo); transform: translateY(-1px); }
+    .slot.selected {
+        background: var(--indigo);
+        border-color: var(--indigo);
+        color: #fff;
+    }
+    .slot.full {
+        background: #F1F2F6;
+        border-color: #E0E2EE;
+        cursor: not-allowed;
+        opacity: 0.55;
+    }
+    .slot-time {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-1);
+        line-height: 1.2;
+    }
+    .slot.selected .slot-time { color: #fff; }
+    .slot.full .slot-time { color: var(--text-3); }
+    .slot-avail {
+        font-size: 11px;
+        color: var(--text-3);
+        margin-top: 4px;
+    }
+    .slot.selected .slot-avail { color: rgba(255,255,255,0.75); }
+    .slot-full-txt {
+        font-size: 11px;
+        color: var(--text-3);
+        margin-top: 4px;
+    }
+
+    .sched-summary {
+        margin-top: 20px;
+        background: rgba(74,92,240,0.05);
+        border: 1.5px solid rgba(74,92,240,0.15);
+        border-radius: 14px;
+        padding: 20px 24px;
+        display: none;
+    }
+    .sched-summary.show { display: block; }
+    .sched-summary-ttl {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--indigo);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .sched-summary-clear {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-3);
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 0;
+    }
+    .sched-summary-clear:hover { color: var(--accent); }
+    .sched-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .sched-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--indigo);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 50px;
+    }
+    .sched-chip-del {
+        cursor: pointer;
+        opacity: 0.7;
+        font-size: 14px;
+        line-height: 1;
+        transition: opacity 0.1s;
+    }
+    .sched-chip-del:hover { opacity: 1; }
+    .sched-submit {
+        margin-top: 16px;
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #4A5CF0, #6B3FE0);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: opacity 0.15s, transform 0.1s;
+    }
+    .sched-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+    .sched-max-notice {
+        display: none;
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--accent);
+        font-weight: 600;
+        text-align: center;
+    }
+    .sched-max-notice.show { display: block; }
+
     /* ── 모바일 ── */
     @media (max-width: 900px) {
         .top-bar { padding: 12px 24px; }
@@ -734,6 +933,13 @@
         .cta-btn-main { text-align: center; justify-content: center; }
 
         .footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+
+        .sched-grid { grid-template-columns: repeat(3, 1fr); }
+        .sched-tabs { gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+        .sched-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 480px) {
@@ -1037,6 +1243,66 @@
         </div>
     </div>
 
+    <!-- 상담 스케줄 선택 -->
+    <div class="section" id="schedule-section">
+        <div class="sh">
+            <div class="sh-title">상담 희망 일정 선택</div>
+            <div class="sh-sub">1일 최대 6슬롯 선택 가능</div>
+        </div>
+
+        <!-- 날짜 탭 -->
+        <div class="sched-tabs">
+            <div class="sched-tab active" data-day="0" onclick="switchDay(0)">
+                <div class="sched-tab-date">6/23</div>
+                <div class="sched-tab-label">화요일</div>
+                <div class="sched-tab-cnt" id="cnt-0">0</div>
+            </div>
+            <div class="sched-tab" data-day="1" onclick="switchDay(1)">
+                <div class="sched-tab-date">6/24</div>
+                <div class="sched-tab-label">수요일</div>
+                <div class="sched-tab-cnt" id="cnt-1">0</div>
+            </div>
+            <div class="sched-tab" data-day="2" onclick="switchDay(2)">
+                <div class="sched-tab-date">6/25</div>
+                <div class="sched-tab-label">목요일</div>
+                <div class="sched-tab-cnt" id="cnt-2">0</div>
+            </div>
+        </div>
+
+        <div class="sched-grid-wrap">
+            <!-- 범례 -->
+            <div class="sched-legend">
+                <div class="leg"><div class="leg-dot avail"></div> 신청 가능</div>
+                <div class="leg"><div class="leg-dot sel"></div> 선택됨</div>
+                <div class="leg"><div class="leg-dot full"></div> 마감</div>
+            </div>
+
+            <!-- Day 0: 6/23 -->
+            <div class="sched-panel active" id="panel-0"></div>
+            <!-- Day 1: 6/24 -->
+            <div class="sched-panel" id="panel-1"></div>
+            <!-- Day 2: 6/25 -->
+            <div class="sched-panel" id="panel-2"></div>
+
+            <!-- 최대 선택 알림 -->
+            <div class="sched-max-notice" id="max-notice">
+                ⚠️ 하루 최대 6슬롯까지 선택 가능합니다.
+            </div>
+
+            <!-- 선택 요약 -->
+            <div class="sched-summary" id="sched-summary">
+                <div class="sched-summary-ttl">
+                    선택한 상담 일정
+                    <button class="sched-summary-clear" onclick="clearAll()">전체 초기화</button>
+                </div>
+                <div class="sched-chips" id="sched-chips"></div>
+                <button class="sched-submit" onclick="submitSchedule()">
+                    선택 완료 — 바이어 신청서에 반영하기
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 하단 CTA 배너 -->
     <div class="cta-banner">
         <div class="cta-left">
@@ -1104,6 +1370,154 @@ function toggleFaq(btn) {
     document.querySelectorAll('.faq-item.open').forEach(function(el) { el.classList.remove('open'); });
     if (!isOpen) item.classList.add('open');
 }
+
+/* ── 상담 스케줄 선택 ── */
+(function () {
+    var TIMES = ['10:30','11:00','11:30','12:00','13:00','13:30',
+                 '14:00','14:30','15:00','15:30','16:00'];
+    var DAYS  = ['6/23(화)', '6/24(수)', '6/25(목)'];
+    var MAX_PER_DAY = 6;
+
+    /* 마감 슬롯 (day index → time 배열) */
+    var FULL = {
+        0: ['11:00','13:30','15:00'],
+        1: ['10:30','14:00'],
+        2: ['12:00','15:30','16:00']
+    };
+
+    /* 선택 상태: { '0_10:30': true, ... } */
+    var selected = {};
+
+    function key(day, time) { return day + '_' + time; }
+
+    function buildPanels() {
+        for (var d = 0; d < 3; d++) {
+            var panel = document.getElementById('panel-' + d);
+            var grid  = document.createElement('div');
+            grid.className = 'sched-grid';
+            TIMES.forEach(function(t) {
+                var isFull = (FULL[d] || []).indexOf(t) !== -1;
+                var slot = document.createElement('div');
+                slot.className = 'slot' + (isFull ? ' full' : '');
+                slot.dataset.day  = d;
+                slot.dataset.time = t;
+                slot.innerHTML = '<div class="slot-time">' + t + '</div>'
+                    + (isFull
+                        ? '<div class="slot-full-txt">마감</div>'
+                        : '<div class="slot-avail">신청 가능</div>');
+                if (!isFull) slot.addEventListener('click', onSlotClick);
+                grid.appendChild(slot);
+            });
+            panel.appendChild(grid);
+        }
+    }
+
+    function onSlotClick(e) {
+        var slot = e.currentTarget;
+        var d    = parseInt(slot.dataset.day);
+        var t    = slot.dataset.time;
+        var k    = key(d, t);
+
+        if (selected[k]) {
+            delete selected[k];
+            slot.classList.remove('selected');
+            slot.querySelector('.slot-avail').textContent = '신청 가능';
+        } else {
+            var dayCount = Object.keys(selected).filter(function(s){ return s.startsWith(d + '_'); }).length;
+            if (dayCount >= MAX_PER_DAY) {
+                showMaxNotice();
+                return;
+            }
+            selected[k] = true;
+            slot.classList.add('selected');
+            slot.querySelector('.slot-avail').textContent = '✓ 선택됨';
+        }
+        hideMaxNotice();
+        updateUI(d);
+    }
+
+    function updateUI(activeDay) {
+        /* 탭 카운터 */
+        for (var d = 0; d < 3; d++) {
+            var cnt = Object.keys(selected).filter(function(s){ return s.startsWith(d + '_'); }).length;
+            var cntEl = document.getElementById('cnt-' + d);
+            cntEl.textContent = cnt;
+            var tab = document.querySelector('.sched-tab[data-day="' + d + '"]');
+            cnt > 0 ? tab.classList.add('has-sel') : tab.classList.remove('has-sel');
+        }
+
+        /* 요약 칩 */
+        var total = Object.keys(selected).length;
+        var summary = document.getElementById('sched-summary');
+        var chips   = document.getElementById('sched-chips');
+        chips.innerHTML = '';
+        if (total === 0) { summary.classList.remove('show'); return; }
+        summary.classList.add('show');
+
+        Object.keys(selected).sort().forEach(function(k) {
+            var parts = k.split('_');
+            var d = parseInt(parts[0]), t = parts[1];
+            var chip = document.createElement('div');
+            chip.className = 'sched-chip';
+            chip.innerHTML = DAYS[d] + ' ' + t
+                + ' <span class="sched-chip-del" data-k="' + k + '">✕</span>';
+            chip.querySelector('.sched-chip-del').addEventListener('click', function(e) {
+                var k2 = e.target.dataset.k;
+                var p  = k2.split('_');
+                delete selected[k2];
+                var slotEl = document.querySelector('.slot[data-day="' + p[0] + '"][data-time="' + p[1] + '"]');
+                if (slotEl) {
+                    slotEl.classList.remove('selected');
+                    slotEl.querySelector('.slot-avail').textContent = '신청 가능';
+                }
+                updateUI(parseInt(p[0]));
+            });
+            chips.appendChild(chip);
+        });
+    }
+
+    var maxTimer;
+    function showMaxNotice() {
+        var el = document.getElementById('max-notice');
+        el.classList.add('show');
+        clearTimeout(maxTimer);
+        maxTimer = setTimeout(hideMaxNotice, 2500);
+    }
+    function hideMaxNotice() {
+        document.getElementById('max-notice').classList.remove('show');
+    }
+
+    window.clearAll = function() {
+        selected = {};
+        document.querySelectorAll('.slot.selected').forEach(function(s) {
+            s.classList.remove('selected');
+            var av = s.querySelector('.slot-avail');
+            if (av) av.textContent = '신청 가능';
+        });
+        updateUI(0);
+    };
+
+    window.switchDay = function(d) {
+        document.querySelectorAll('.sched-tab').forEach(function(t){ t.classList.remove('active'); });
+        document.querySelectorAll('.sched-panel').forEach(function(p){ p.classList.remove('active'); });
+        document.querySelector('.sched-tab[data-day="' + d + '"]').classList.add('active');
+        document.getElementById('panel-' + d).classList.add('active');
+        hideMaxNotice();
+    };
+
+    window.submitSchedule = function() {
+        var total = Object.keys(selected).length;
+        if (total === 0) { alert('상담 희망 일정을 선택해 주세요.'); return; }
+        var list = Object.keys(selected).sort().map(function(k) {
+            var p = k.split('_');
+            return DAYS[parseInt(p[0])] + ' ' + p[1];
+        }).join('\n');
+        alert('✅ 선택된 상담 일정 ' + total + '건이 확인되었습니다.\n\n' + list
+            + '\n\n바이어 신청서 제출 시 이 일정을 기재해 주세요.');
+    };
+
+    buildPanels();
+})();
 </script>
 
 </body>
