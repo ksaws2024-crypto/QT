@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 말씀 · 5월 15일</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:      #3aada0;
+    --teal-dark: #2b8c80;
+    --teal-lt:   #d0efec;
+    --teal-mid:  #5cc4b8;
+    --beige:     #c8a882;
+    --beige-lt:  #f2e8d8;
+    --charcoal:  #2b2b2b;
+    --white:     #ffffff;
+    --cream:     #f8f5f0;
+    --text:      #2b2b2b;
+    --muted:     #7a7268;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+  body { background:var(--cream); font-family:'Pretendard',sans-serif; color:var(--text); min-height:100vh; }
+
+  .header { background:var(--charcoal); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; }
+  .qt-tag { font-size:10px; letter-spacing:2.5px; color:var(--teal-mid); font-weight:700; margin-bottom:4px; }
+  .date-txt { font-size:19px; font-weight:800; color:var(--white); }
+  .church-badge { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+  .church-name { font-size:14px; font-weight:700; color:var(--white); letter-spacing:1px; }
+  .church-sub { font-size:9px; letter-spacing:2px; color:var(--teal-mid); font-weight:600; }
+
+  .key-banner { background:var(--teal); padding:24px 22px 22px; position:relative; overflow:hidden; }
+  .key-banner::before { content:''; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.1); }
+  .key-banner::after { content:''; position:absolute; right:20px; bottom:-20px; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.07); }
+  .key-ref { font-size:10px; letter-spacing:2.5px; color:rgba(255,255,255,0.7); font-weight:700; margin-bottom:10px; }
+  .key-verse { font-size:17px; font-weight:800; color:var(--white); line-height:1.85; }
+  .key-verse em { font-style:normal; color:var(--beige-lt); }
+
+  .scripture-card { margin:16px 16px 0; background:var(--charcoal); border-radius:18px; padding:20px; box-shadow:0 4px 18px rgba(43,43,43,0.18); position:relative; overflow:hidden; }
+  .scripture-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--teal),var(--beige)); }
+  .sc-label { font-size:10px; letter-spacing:2.5px; color:var(--teal-mid); font-weight:700; margin-bottom:14px; }
+  .sc-text { font-size:13.5px; line-height:2.15; color:rgba(255,255,255,0.85); font-weight:400; }
+  .sc-text sup { font-size:10px; color:var(--teal-mid); font-weight:700; vertical-align:super; margin-right:1px; }
+
+  .section { margin:14px 16px 0; background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 8px rgba(43,43,43,0.07); }
+  .sec-pill { display:inline-block; font-size:10px; letter-spacing:2px; font-weight:700; padding:5px 14px; border-radius:20px; text-transform:uppercase; margin-bottom:14px; }
+  .pill-teal { background:var(--teal-lt); color:var(--teal-dark); }
+  .pill-beige { background:var(--beige-lt); color:#7a5c30; }
+  .sec-body { font-size:14px; line-height:2; color:var(--text); }
+  .sec-body p + p { margin-top:10px; }
+  .sec-body strong { color:var(--teal-dark); font-weight:700; }
+
+  .quote-block { margin:14px 0; background:var(--beige-lt); border-left:4px solid var(--beige); border-radius:0 12px 12px 0; padding:14px 16px; }
+  .quote-block p { font-size:14px; line-height:1.95; color:var(--charcoal); font-weight:700; }
+  .quote-block small { display:block; margin-top:6px; font-size:11.5px; color:var(--muted); font-weight:400; }
+
+  /* 역할 흐름 카드 */
+  .role-flow { display:flex; align-items:center; gap:6px; margin-top:14px; flex-wrap:wrap; }
+  .role-item { flex:1; min-width:80px; background:var(--cream); border-radius:12px; padding:12px 10px; text-align:center; border:1px solid rgba(58,173,160,0.15); }
+  .role-icon { font-size:20px; margin-bottom:4px; }
+  .role-title { font-size:12px; font-weight:800; color:var(--charcoal); margin-bottom:2px; }
+  .role-desc { font-size:11px; color:var(--muted); line-height:1.5; }
+  .role-arrow { font-size:18px; color:var(--teal-mid); flex-shrink:0; }
+  .role-item.highlight { background:var(--teal-lt); border-color:rgba(58,173,160,0.3); }
+  .role-item.highlight .role-title { color:var(--teal-dark); }
+
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .tag { font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; background:var(--teal-lt); color:var(--teal-dark); border:1px solid rgba(58,173,160,0.2); }
+
+  .q-item { display:flex; gap:12px; align-items:flex-start; padding:13px 0; border-bottom:1px solid var(--beige-lt); }
+  .q-item:last-child { border-bottom:none; padding-bottom:0; }
+  .q-num { flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--teal); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; margin-top:1px; }
+  .q-text { font-size:13.5px; line-height:1.85; color:var(--text); }
+
+  .pray-section { margin:14px 16px 0; border-radius:18px; overflow:hidden; box-shadow:0 4px 18px rgba(43,43,43,0.12); }
+  .pray-head { background:var(--teal-dark); padding:13px 20px; }
+  .pray-head .sec-pill { margin-bottom:0; background:rgba(255,255,255,0.15); color:var(--white); }
+  .pray-body { background:var(--teal); padding:18px 20px 24px; }
+  .pray-text { font-size:14.5px; line-height:2.2; color:rgba(255,255,255,0.92); font-weight:400; }
+  .pray-amen { margin-top:18px; font-size:17px; font-weight:800; color:var(--beige-lt); letter-spacing:3px; }
+
+  .divider { margin:14px 16px 0; height:3px; border-radius:2px; background:linear-gradient(90deg,var(--teal) 0%,var(--beige) 100%); opacity:0.35; }
+
+  footer { margin:14px 16px 32px; background:var(--charcoal); border-radius:18px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-left { font-size:11px; color:rgba(255,255,255,0.35); line-height:1.7; }
+  .footer-right { text-align:right; font-size:11.5px; color:rgba(255,255,255,0.5); line-height:1.8; }
+  .footer-right strong { display:block; font-size:13px; color:var(--white); font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-left">
+    <div class="qt-tag">📅 일일 Q.T</div>
+    <div class="date-txt">5월 15일 (금)</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<!-- 키 배너 -->
+<div class="key-banner">
+  <div class="key-ref">고린도전서 3장 1–15절 · 핵심 구절</div>
+  <div class="key-verse">
+    심는 이나 물 주는 이는 아무 것도 아니로되<br>
+    오직 <em>자라게 하시는 이는 하나님뿐</em>이니라
+  </div>
+</div>
+
+<!-- 본문 -->
+<div class="scripture-card">
+  <div class="sc-label">📖 고린도전서 3:1–15</div>
+  <div class="sc-text">
+    <sup>1</sup>형제들아 내가 신령한 자들을 대함과 같이 너희에게 말할 수 없어서 육신에 속한 자 곧 그리스도 안에서 어린 아이들을 대함과 같이 하노라
+    <sup>3</sup>너희는 아직도 육신에 속한 자로다 너희 가운데 시기와 분쟁이 있으니 어찌 육신에 속하여 사람을 따라 행함이 아니리요
+    <sup>6</sup>나는 심었고 아볼로는 물을 주었으되 오직 하나님께서 자라나게 하셨나니
+    <sup>7</sup>그런즉 심는 이나 물 주는 이는 아무 것도 아니로되 오직 자라게 하시는 이는 하나님뿐이니라
+    <sup>8</sup>심는 이와 물 주는 이는 한가지이나 각각 자기가 일한 대로 자기의 상을 받으리라
+    <sup>11</sup>이 닦아 둔 것 외에 능히 다른 터를 닦아 둘 자가 없으니 이 터는 곧 예수 그리스도라
+    <sup>13</sup>각 사람의 공적이 나타날 터인데 그 날이 공적을 밝히리니 이는 불로 나타내고 그 불이 각 사람의 공적이 어떠한 것을 시험할 것임이라
+    <sup>14</sup>만일 누구든지 그 위에 세운 공적이 그대로 있으면 상을 받고
+    <sup>15</sup>누구든지 공적이 불타면 해를 받으리니 그러나 자신은 구원을 받되 불 가운데서 받은 것 같으리라
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 묵상 -->
+<div class="section">
+  <div class="sec-pill pill-teal">🌿 오늘의 묵상</div>
+  <div class="sec-body">
+    <p>바울은 심고, 아볼로는 물을 주었습니다. 그러나 <strong>자라게 하신 분은 하나님</strong>이십니다. 우리는 각자 맡은 자리에서 수고할 뿐, 결과는 하나님의 손 안에 있습니다.</p>
+    <div class="quote-block">
+      <p>"이 닦아 둔 것 외에 능히 다른 터를 닦아 둘 자가 없으니<br>이 터는 곧 예수 그리스도라"</p>
+      <small>— 고린도전서 3:11</small>
+    </div>
+    <p>신앙의 기초인 그리스도라는 터 위에 정성을 다해 집을 지어갈 때, 주님은 각 사람의 수고에 따라 상을 주십니다. 자라게 하시는 주님의 주권을 온전히 인정하며, 오늘 하루 <strong>맡겨진 작은 일에 충성을 다하는</strong> 우리가 되기를 소원합니다.</p>
+
+    <!-- 역할 흐름 -->
+    <div class="role-flow">
+      <div class="role-item">
+        <div class="role-icon">🌱</div>
+        <div class="role-title">심는 자</div>
+        <div class="role-desc">말씀을 전하고 씨앗을 뿌림</div>
+      </div>
+      <div class="role-arrow">→</div>
+      <div class="role-item">
+        <div class="role-icon">💧</div>
+        <div class="role-title">물 주는 자</div>
+        <div class="role-desc">양육하고 돌보며 세워감</div>
+      </div>
+      <div class="role-arrow">→</div>
+      <div class="role-item highlight">
+        <div class="role-icon">☀️</div>
+        <div class="role-title">자라게 하시는 분</div>
+        <div class="role-desc">오직 하나님만이</div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">하나님의 주권</span>
+      <span class="tag">그리스도라는 터</span>
+      <span class="tag">맡겨진 수고</span>
+      <span class="tag">충성된 삶</span>
+    </div>
+  </div>
+</div>
+
+<!-- 적용 -->
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">내가 지금 맡은 '심는 자리' 또는 '물 주는 자리'는 어디인가요? 그 자리에서 충성스럽게 섬기고 있나요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">결과를 내 손으로 만들려는 조급함이 있지는 않나요? 자라게 하시는 분이 하나님이심을 어떻게 신뢰할 수 있을까요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">내 삶과 신앙의 터가 예수 그리스도 위에 세워져 있는지 점검해봅시다. 불이 와도 남을 공적을 쌓고 있나요?</div>
+  </div>
+</div>
+
+<!-- 기도 -->
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      자라게 하시는 하나님,<br>
+      심고 물 주는 일은 우리가 하오나<br>
+      자라게 하시는 분은 오직 주님이심을<br>
+      고백합니다.<br><br>
+      결과에 대한 조급함을 내려놓고<br>
+      맡겨진 자리에서 성실히 수고하며<br>
+      주님의 주권을 온전히 인정하게 하소서.<br><br>
+      예수 그리스도라는 터 위에<br>
+      흔들리지 않는 신앙의 집을 지어가며<br>
+      오늘 하루 작은 일에 충성을 다하는<br>
+      만나목장이 되게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-left">
+    고린도전서 3:7<br>
+    2025년 5월 15일
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+</body>
+</html>
