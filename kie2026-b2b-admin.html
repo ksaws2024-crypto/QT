@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIE 2026 관리자 | B2B 매칭 플랫폼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root {
+  --primary:#4A5CF0; --primary-dk:#3547D4; --purple:#6B3FE0;
+  --gold:#C9960A; --gold-bg:#FFF8E1;
+  --emerald:#10B981; --em-bg:#ECFDF5;
+  --accent:#F25C54; --ac-bg:#FEF2F1;
+  --sidebar:#0E1020; --sidebar-hover:rgba(255,255,255,.07);
+  --bg:#EEF0F8; --surface:#FFFFFF; --card:#F7F8FC;
+  --border:rgba(0,0,0,.07); --border2:#E4E6EF;
+  --t1:#0E1020; --t2:#4A5068; --t3:#8E95B0;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;}
+
+/* ── 로그인 ── */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#080A1C 0%,#1a1060 100%);
+}
+.login-box{
+  background:var(--surface);border-radius:24px;padding:48px 40px;
+  width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.login-logo{
+  font-size:22px;font-weight:800;color:var(--t1);
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+}
+.login-logo span{
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;font-size:11px;font-weight:700;
+  padding:3px 9px;border-radius:50px;letter-spacing:1px;
+}
+.login-sub{font-size:14px;color:var(--t3);margin-bottom:32px;}
+.login-label{display:block;font-size:13px;font-weight:700;color:var(--t2);margin-bottom:6px;}
+.login-input{
+  width:100%;padding:13px 16px;border:1.5px solid var(--border2);
+  border-radius:10px;font-size:15px;font-family:inherit;
+  color:var(--t1);outline:none;transition:border-color .15s;
+  background:var(--card);margin-bottom:16px;
+}
+.login-input:focus{border-color:var(--primary);background:var(--surface);}
+.login-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;font-size:16px;font-weight:700;border:none;
+  border-radius:12px;cursor:pointer;transition:opacity .15s;
+}
+.login-btn:hover{opacity:.9;}
+.login-err{font-size:13px;color:var(--accent);margin-top:10px;text-align:center;display:none;}
+
+/* ── 레이아웃 ── */
+#admin-shell{display:none;min-height:100vh;}
+.layout{display:flex;min-height:100vh;}
+
+/* ── 사이드바 ── */
+.sidebar{
+  width:240px;flex-shrink:0;background:var(--sidebar);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:100;
+}
+.sb-logo{
+  padding:24px 20px 16px;
+  font-size:17px;font-weight:800;color:#fff;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sb-badge{
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:50px;letter-spacing:1px;
+}
+.sb-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px;}
+.sb-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:10px;
+  color:rgba(255,255,255,.55);font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .15s;border:none;background:none;
+  text-align:left;width:100%;
+}
+.sb-item:hover{background:var(--sidebar-hover);color:#fff;}
+.sb-item.active{background:rgba(74,92,240,.25);color:#fff;}
+.sb-item .sb-icon{font-size:18px;flex-shrink:0;}
+.sb-badge-cnt{
+  margin-left:auto;background:var(--accent);color:#fff;
+  font-size:10px;font-weight:800;
+  min-width:18px;height:18px;border-radius:50px;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+}
+.sb-bottom{padding:16px 10px;border-top:1px solid rgba(255,255,255,.08);}
+.sb-logout{
+  display:flex;align-items:center;gap:10px;
+  color:rgba(255,255,255,.4);font-size:13px;font-weight:600;
+  cursor:pointer;padding:10px 14px;border-radius:10px;
+  border:none;background:none;width:100%;
+  transition:all .15s;
+}
+.sb-logout:hover{background:rgba(242,92,84,.15);color:var(--accent);}
+
+/* ── 메인 콘텐츠 ── */
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{
+  background:var(--surface);border-bottom:1px solid var(--border2);
+  padding:0 28px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-title{font-size:18px;font-weight:800;color:var(--t1);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-admin{
+  font-size:13px;font-weight:700;color:var(--t2);
+  background:var(--card);padding:6px 14px;border-radius:50px;
+  border:1px solid var(--border2);
+}
+.content{padding:24px 28px;flex:1;}
+
+/* ── 뷰 ── */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── 통계 카드 ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.stat-card{
+  background:var(--surface);border-radius:16px;padding:22px 20px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);border:1px solid var(--border2);
+  display:flex;align-items:center;gap:16px;
+}
+.stat-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;
+}
+.stat-num{font-size:26px;font-weight:800;color:var(--t1);line-height:1.1;}
+.stat-lbl{font-size:13px;color:var(--t3);font-weight:600;margin-top:2px;}
+
+/* ── 섹션 헤더 ── */
+.sec-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.sec-title{
+  font-size:17px;font-weight:800;color:var(--t1);
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::before{
+  content:'';width:4px;height:18px;border-radius:2px;
+  background:linear-gradient(180deg,var(--primary),var(--purple));
+}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 18px;border-radius:10px;
+  font-size:13px;font-weight:700;cursor:pointer;
+  border:none;transition:all .15s;
+}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;}
+.btn-primary:hover{opacity:.9;}
+.btn-outline{background:var(--surface);color:var(--t2);border:1.5px solid var(--border2);}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.btn-danger{background:var(--ac-bg);color:var(--accent);border:1px solid rgba(242,92,84,.2);}
+.btn-danger:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn-xs{padding:4px 9px;font-size:11px;border-radius:7px;}
+
+/* ── 테이블 ── */
+.table-wrap{
+  background:var(--surface);border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);border:1px solid var(--border2);
+}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--card);}
+th{
+  padding:12px 16px;text-align:left;font-size:12px;font-weight:700;
+  color:var(--t3);text-transform:uppercase;letter-spacing:.8px;
+  border-bottom:1px solid var(--border2);white-space:nowrap;
+}
+td{
+  padding:13px 16px;font-size:14px;color:var(--t1);
+  border-bottom:1px solid var(--border2);vertical-align:middle;
+}
+tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:rgba(74,92,240,.03);}
+
+/* ── 배지 ── */
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:50px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+}
+.badge-food   {background:rgba(16,185,129,.1);color:#059669;}
+.badge-beauty {background:rgba(236,72,153,.1);color:#DB2777;}
+.badge-health {background:rgba(14,165,233,.1);color:#0284C7;}
+.badge-living {background:rgba(245,158,11,.1);color:#D97706;}
+.badge-drinks {background:rgba(107,63,224,.1);color:#7C3AED;}
+.badge-pending  {background:rgba(245,158,11,.12);color:#D97706;}
+.badge-approved {background:rgba(16,185,129,.12);color:#059669;}
+.badge-rejected {background:rgba(242,92,84,.12);color:#DC2626;}
+.badge-confirmed{background:rgba(74,92,240,.12);color:var(--primary);}
+.badge-cancelled{background:var(--card);color:var(--t3);}
+
+/* ── 검색/필터 바 ── */
+.filter-row{
+  display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;
+}
+.search-input{
+  flex:1;min-width:200px;padding:9px 14px;
+  border:1.5px solid var(--border2);border-radius:10px;
+  font-size:13px;font-family:inherit;outline:none;
+  background:var(--surface);transition:border-color .15s;
+}
+.search-input:focus{border-color:var(--primary);}
+.filter-select{
+  padding:9px 14px;border:1.5px solid var(--border2);border-radius:10px;
+  font-size:13px;font-family:inherit;background:var(--surface);
+  color:var(--t1);outline:none;cursor:pointer;
+}
+
+/* ── 모달 ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.45);align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--surface);border-radius:20px;
+  width:100%;max-width:560px;max-height:90vh;
+  overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:modalIn .2s ease;
+}
+.modal-box.wide{max-width:780px;}
+@keyframes modalIn{from{transform:scale(.96);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-hd{
+  padding:20px 24px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border2);position:sticky;top:0;
+  background:var(--surface);z-index:1;
+}
+.modal-hd-title{font-size:17px;font-weight:800;color:var(--t1);}
+.modal-x{
+  width:34px;height:34px;border-radius:50%;background:var(--card);
+  border:none;cursor:pointer;font-size:17px;color:var(--t2);
+  display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+.modal-x:hover{background:var(--border2);}
+.modal-bd{padding:24px;}
+.modal-ft{
+  padding:16px 24px;border-top:1px solid var(--border2);
+  display:flex;justify-content:flex-end;gap:10px;
+  background:var(--card);border-radius:0 0 20px 20px;
+}
+
+/* ── 폼 ── */
+.fg{margin-bottom:16px;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.fl{display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:5px;}
+.fl span{color:var(--accent);}
+.fi{
+  width:100%;padding:10px 14px;
+  border:1.5px solid var(--border2);border-radius:10px;
+  font-size:14px;font-family:inherit;color:var(--t1);
+  background:var(--card);outline:none;transition:border-color .15s;
+}
+.fi:focus{border-color:var(--primary);background:var(--surface);}
+textarea.fi{resize:vertical;min-height:80px;}
+select.fi{cursor:pointer;}
+.fi-toggle{display:flex;align-items:center;gap:10px;}
+.toggle{
+  position:relative;width:44px;height:24px;cursor:pointer;
+  background:var(--border2);border-radius:50px;border:none;
+  transition:background .2s;flex-shrink:0;
+}
+.toggle.on{background:var(--emerald);}
+.toggle::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:18px;height:18px;border-radius:50%;
+  background:#fff;transition:transform .2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.toggle.on::after{transform:translateX(20px);}
+
+/* 태그 입력 */
+.tags-wrap{
+  display:flex;flex-wrap:wrap;gap:7px;align-items:center;
+  border:1.5px solid var(--border2);border-radius:10px;
+  padding:7px 10px;background:var(--card);min-height:44px;
+  cursor:text;transition:border-color .15s;
+}
+.tags-wrap:focus-within{border-color:var(--primary);background:var(--surface);}
+.tag-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(74,92,240,.1);color:var(--primary);
+  font-size:12px;font-weight:700;padding:4px 10px;border-radius:50px;
+}
+.tag-chip-del{cursor:pointer;font-size:13px;opacity:.6;transition:opacity .1s;}
+.tag-chip-del:hover{opacity:1;}
+.tag-input{
+  border:none;outline:none;background:none;
+  font-size:13px;font-family:inherit;color:var(--t1);
+  flex:1;min-width:100px;padding:2px;
+}
+
+/* 카테고리 체크박스 */
+.cat-checks{display:flex;flex-wrap:wrap;gap:8px;}
+.cat-lbl{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 12px;border-radius:50px;
+  border:1.5px solid var(--border2);background:var(--card);
+  cursor:pointer;font-size:13px;font-weight:600;color:var(--t2);
+  transition:all .15s;user-select:none;
+}
+.cat-lbl input{display:none;}
+.cat-lbl.on{background:rgba(74,92,240,.08);border-color:rgba(74,92,240,.3);color:var(--primary);}
+
+/* ── 타임테이블 ── */
+.tt-day-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.tt-tab{
+  flex:1;padding:12px;text-align:center;
+  border:1.5px solid var(--border2);border-radius:12px;
+  background:var(--surface);cursor:pointer;font-size:15px;font-weight:700;
+  color:var(--t2);transition:all .15s;
+}
+.tt-tab.active{
+  border-color:var(--primary);background:rgba(74,92,240,.08);color:var(--primary);
+}
+.tt-wrap{overflow-x:auto;}
+.tt-tbl{
+  border-collapse:separate;border-spacing:0;
+  background:var(--surface);border-radius:16px;
+  overflow:hidden;border:1px solid var(--border2);
+  min-width:600px;width:100%;
+}
+.tt-tbl th{
+  padding:10px 8px;font-size:11px;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  text-align:center;white-space:nowrap;
+}
+.tt-tbl th:first-child{text-align:left;padding-left:14px;min-width:110px;}
+.tt-tbl td{
+  padding:6px;border-bottom:1px solid var(--border2);
+  border-right:1px solid var(--border2);
+  font-size:11px;vertical-align:middle;
+  min-width:120px;
+}
+.tt-tbl td:first-child{
+  font-size:12px;font-weight:700;color:var(--t2);
+  padding-left:14px;background:var(--card);min-width:110px;
+}
+.tt-tbl tr:last-child td{border-bottom:none;}
+.tt-tbl td:last-child{border-right:none;}
+.tt-cell-booked{
+  background:rgba(74,92,240,.08);border:1px solid rgba(74,92,240,.2);
+  border-radius:7px;padding:5px 7px;cursor:pointer;transition:background .1s;
+  margin:2px;
+}
+.tt-cell-booked:hover{background:rgba(74,92,240,.15);}
+.tt-cb-buyer{font-weight:700;color:var(--primary);font-size:11px;}
+.tt-cb-cat{font-size:10px;color:var(--t3);margin-top:1px;}
+.tt-cell-empty{
+  text-align:center;color:var(--t3);font-size:11px;
+  cursor:pointer;padding:8px 4px;
+}
+.tt-cell-empty:hover{color:var(--primary);}
+.tt-lunch td{
+  background:var(--gold-bg);color:var(--gold);
+  font-size:12px;font-weight:700;text-align:center;
+}
+
+/* ── 최근 예약 ── */
+.recent-bk{display:flex;flex-direction:column;gap:8px;}
+.rbk-item{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 16px;background:var(--card);border-radius:12px;
+  border:1px solid var(--border2);font-size:13px;
+}
+.rbk-left{display:flex;align-items:center;gap:12px;}
+.rbk-flag{font-size:22px;}
+.rbk-company{font-weight:800;color:var(--t1);}
+.rbk-detail{font-size:12px;color:var(--t3);margin-top:1px;}
+
+/* ── 내보내기 ── */
+.export-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.exp-card{
+  background:var(--surface);border-radius:16px;padding:24px;
+  border:1px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+.exp-icon{font-size:36px;margin-bottom:12px;}
+.exp-title{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:6px;}
+.exp-desc{font-size:13px;color:var(--t3);line-height:1.6;margin-bottom:16px;}
+
+/* ── 토스트 ── */
+.toast-wrap{
+  position:fixed;top:70px;right:20px;z-index:1000;
+  display:flex;flex-direction:column;gap:8px;pointer-events:none;width:300px;
+}
+.toast{
+  padding:12px 16px;border-radius:12px;font-size:13px;font-weight:600;
+  color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);
+  animation:tIn .2s ease;display:flex;align-items:center;gap:8px;
+}
+@keyframes tIn{from{transform:translateX(20px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.toast.ok {background:#0f7c50;}
+.toast.err{background:#c0392b;}
+.toast.inf{background:var(--primary);}
+
+/* ── 빈 상태 ── */
+.empty{
+  text-align:center;padding:60px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.empty-ico{font-size:48px;}
+.empty-ttl{font-size:17px;font-weight:700;color:var(--t2);}
+.empty-sub{font-size:14px;color:var(--t3);}
+
+/* ── 반응형 ── */
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .fg-row{grid-template-columns:1fr;}
+  .export-cards{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── 로그인 ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">KIE 2026 <span>ADMIN</span></div>
+    <div class="login-sub">관리자 페이지에 로그인하세요</div>
+    <label class="login-label">비밀번호</label>
+    <input class="login-input" id="pw-input" type="password"
+      placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">로그인 →</button>
+    <div class="login-err" id="login-err">비밀번호가 올바르지 않습니다.</div>
+    <div style="margin-top:16px;font-size:12px;color:var(--t3);text-align:center;">
+      기본 비밀번호: <strong>kie2026</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ── 어드민 쉘 ── -->
+<div id="admin-shell">
+  <div class="layout">
+
+    <!-- 사이드바 -->
+    <aside class="sidebar">
+      <div class="sb-logo">KIE 2026 <span class="sb-badge">ADMIN</span></div>
+      <nav class="sb-nav">
+        <button class="sb-item active" data-view="dashboard" onclick="nav('dashboard')">
+          <span class="sb-icon">📊</span> 대시보드
+        </button>
+        <button class="sb-item" data-view="suppliers" onclick="nav('suppliers')">
+          <span class="sb-icon">🌐</span> 공급업체
+          <span class="sb-badge-cnt" id="sb-sup-cnt">0</span>
+        </button>
+        <button class="sb-item" data-view="buyers" onclick="nav('buyers')">
+          <span class="sb-icon">👥</span> 바이어
+          <span class="sb-badge-cnt" id="sb-buy-cnt" style="display:none">0</span>
+        </button>
+        <button class="sb-item" data-view="bookings" onclick="nav('bookings')">
+          <span class="sb-icon">📅</span> 예약 타임테이블
+        </button>
+        <button class="sb-item" data-view="export" onclick="nav('export')">
+          <span class="sb-icon">📤</span> 데이터 내보내기
+        </button>
+      </nav>
+      <div class="sb-bottom">
+        <button class="sb-logout" onclick="doLogout()">🚪 로그아웃</button>
+      </div>
+    </aside>
+
+    <!-- 메인 -->
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">대시보드</div>
+        <div class="topbar-right">
+          <div class="topbar-admin">👤 관리자</div>
+        </div>
+      </div>
+      <div class="content">
+
+        <!-- 대시보드 -->
+        <div class="view active" id="v-dashboard">
+          <div class="stats-grid" id="stat-grid"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <div class="sec-header"><div class="sec-title">최근 예약</div></div>
+              <div id="recent-bookings"></div>
+            </div>
+            <div>
+              <div class="sec-header"><div class="sec-title">승인 대기 바이어</div></div>
+              <div id="pending-buyers"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 공급업체 -->
+        <div class="view" id="v-suppliers">
+          <div class="sec-header">
+            <div class="sec-title">공급업체 관리</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-outline" onclick="importSampleSuppliers()">📦 샘플 데이터 불러오기</button>
+              <button class="btn btn-primary" onclick="openSupModal()">+ 공급업체 추가</button>
+            </div>
+          </div>
+          <div class="filter-row">
+            <input class="search-input" id="sup-search" placeholder="🔍 회사명·국가 검색" oninput="renderSuppliers()">
+            <select class="filter-select" id="sup-cat-filter" onchange="renderSuppliers()">
+              <option value="">전체 카테고리</option>
+              <option>식품·음료</option><option>뷰티·화장품</option>
+              <option>건강·기능식품</option><option>리빙·가구</option><option>주류·음료</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table><thead><tr>
+              <th>국가</th><th>회사명</th><th>카테고리</th><th>부스</th>
+              <th>노출</th><th>잔여슬롯</th><th>관리</th>
+            </tr></thead>
+            <tbody id="sup-tbody"></tbody></table>
+          </div>
+        </div>
+
+        <!-- 바이어 -->
+        <div class="view" id="v-buyers">
+          <div class="sec-header">
+            <div class="sec-title">바이어 관리</div>
+            <button class="btn btn-primary" onclick="openBuyModal()">+ 바이어 추가</button>
+          </div>
+          <div class="filter-row">
+            <input class="search-input" id="buy-search" placeholder="🔍 이름·회사 검색" oninput="renderBuyers()">
+            <select class="filter-select" id="buy-status-filter" onchange="renderBuyers()">
+              <option value="">전체 상태</option>
+              <option value="pending">승인대기</option>
+              <option value="approved">승인완료</option>
+              <option value="rejected">거절</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table><thead><tr>
+              <th>이름</th><th>회사</th><th>연락처</th><th>관심 카테고리</th>
+              <th>상태</th><th>예약수</th><th>관리</th>
+            </tr></thead>
+            <tbody id="buy-tbody"></tbody></table>
+          </div>
+        </div>
+
+        <!-- 타임테이블 -->
+        <div class="view" id="v-bookings">
+          <div class="sec-header">
+            <div class="sec-title">예약 타임테이블</div>
+            <button class="btn btn-primary" onclick="openBkModal()">+ 예약 직접 등록</button>
+          </div>
+          <div class="tt-day-tabs">
+            <div class="tt-tab active" onclick="switchTTDay(0)">6/23 (화)</div>
+            <div class="tt-tab" onclick="switchTTDay(1)">6/24 (수)</div>
+            <div class="tt-tab" onclick="switchTTDay(2)">6/25 (목)</div>
+          </div>
+          <div class="tt-wrap" id="tt-content"></div>
+        </div>
+
+        <!-- 내보내기 -->
+        <div class="view" id="v-export">
+          <div class="sec-header"><div class="sec-title">데이터 내보내기 / 가져오기</div></div>
+          <div class="export-cards">
+            <div class="exp-card">
+              <div class="exp-icon">📊</div>
+              <div class="exp-title">공급업체 CSV 다운로드</div>
+              <div class="exp-desc">등록된 모든 공급업체 정보를 CSV 파일로 내보냅니다.</div>
+              <button class="btn btn-primary" onclick="exportCSV('suppliers')">CSV 다운로드</button>
+            </div>
+            <div class="exp-card">
+              <div class="exp-icon">👥</div>
+              <div class="exp-title">바이어 CSV 다운로드</div>
+              <div class="exp-desc">등록된 모든 바이어 정보를 CSV 파일로 내보냅니다.</div>
+              <button class="btn btn-primary" onclick="exportCSV('buyers')">CSV 다운로드</button>
+            </div>
+            <div class="exp-card">
+              <div class="exp-icon">📅</div>
+              <div class="exp-title">예약 현황 CSV 다운로드</div>
+              <div class="exp-desc">전체 예약 내역(바이어·공급업체·일시)을 CSV로 내보냅니다.</div>
+              <button class="btn btn-primary" onclick="exportCSV('bookings')">CSV 다운로드</button>
+            </div>
+            <div class="exp-card">
+              <div class="exp-icon">🔄</div>
+              <div class="exp-title">전체 데이터 JSON 백업</div>
+              <div class="exp-desc">모든 데이터를 JSON으로 백업하거나 다른 기기에서 복원합니다.</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="exportJSON()">JSON 백업</button>
+                <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">JSON 복원</button>
+                <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(this)">
+              </div>
+            </div>
+            <div class="exp-card" style="grid-column:1/-1">
+              <div class="exp-icon">🗑️</div>
+              <div class="exp-title">데이터 초기화</div>
+              <div class="exp-desc">모든 데이터를 삭제합니다. 되돌릴 수 없으니 먼저 JSON 백업을 권장합니다.</div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-danger" onclick="clearData('suppliers')">공급업체 초기화</button>
+                <button class="btn btn-danger" onclick="clearData('buyers')">바이어 초기화</button>
+                <button class="btn btn-danger" onclick="clearData('bookings')">예약 초기화</button>
+                <button class="btn btn-danger" onclick="clearData('all')">전체 초기화</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /admin-shell -->
+
+<!-- ── 공급업체 모달 ── -->
+<div class="modal-overlay" id="sup-modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-title" id="sup-modal-title">공급업체 추가</div>
+      <button class="modal-x" onclick="closeModal('sup-modal')">✕</button>
+    </div>
+    <div class="modal-bd">
+      <input type="hidden" id="sup-id">
+      <div class="fg-row">
+        <div class="fg"><label class="fl">국기 이모지</label>
+          <input class="fi" id="s-flag" placeholder="🇩🇪"></div>
+        <div class="fg"><label class="fl">국가명 <span>*</span></label>
+          <input class="fi" id="s-country" placeholder="독일"></div>
+      </div>
+      <div class="fg"><label class="fl">회사명 <span>*</span></label>
+        <input class="fi" id="s-company" placeholder="BioNatur GmbH"></div>
+      <div class="fg-row">
+        <div class="fg"><label class="fl">카테고리 <span>*</span></label>
+          <select class="fi" id="s-category">
+            <option value="">선택</option>
+            <option>식품·음료</option><option>뷰티·화장품</option>
+            <option>건강·기능식품</option><option>리빙·가구</option><option>주류·음료</option>
+          </select></div>
+        <div class="fg"><label class="fl">부스번호 <span>*</span></label>
+          <input class="fi" id="s-booth" placeholder="B-101"></div>
+      </div>
+      <div class="fg"><label class="fl">한줄 소개</label>
+        <input class="fi" id="s-tagline" placeholder="독일 유기농 인증 식품 전문"></div>
+      <div class="fg"><label class="fl">상세 설명</label>
+        <textarea class="fi" id="s-desc" rows="3" placeholder="회사 소개 내용..."></textarea></div>
+      <div class="fg"><label class="fl">주요 제품 (엔터로 추가)</label>
+        <div class="tags-wrap" id="s-products-wrap" onclick="document.getElementById('s-prod-input').focus()">
+          <input class="tag-input" id="s-prod-input" placeholder="제품명 입력 후 Enter"
+            onkeydown="addTag(event,'s-products-wrap','s-products')">
+        </div>
+        <input type="hidden" id="s-products" value="[]">
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label class="fl">이메일</label>
+          <input class="fi" id="s-email" placeholder="info@company.com"></div>
+        <div class="fg"><label class="fl">웹사이트</label>
+          <input class="fi" id="s-website" placeholder="www.company.com"></div>
+      </div>
+      <div class="fg"><label class="fl">플랫폼 노출</label>
+        <div class="fi-toggle">
+          <button class="toggle on" id="s-active-toggle" onclick="toggleBtn(this)"></button>
+          <span style="font-size:13px;color:var(--t2);" id="s-active-label">노출 중</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-outline" onclick="closeModal('sup-modal')">취소</button>
+      <button class="btn btn-primary" onclick="saveSupplier()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 바이어 모달 ── -->
+<div class="modal-overlay" id="buy-modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-title" id="buy-modal-title">바이어 추가</div>
+      <button class="modal-x" onclick="closeModal('buy-modal')">✕</button>
+    </div>
+    <div class="modal-bd">
+      <input type="hidden" id="buy-id">
+      <div class="fg-row">
+        <div class="fg"><label class="fl">성명 <span>*</span></label>
+          <input class="fi" id="b-name" placeholder="홍길동"></div>
+        <div class="fg"><label class="fl">직책</label>
+          <input class="fi" id="b-position" placeholder="MD, 바이어, 대표..."></div>
+      </div>
+      <div class="fg"><label class="fl">회사명 <span>*</span></label>
+        <input class="fi" id="b-company" placeholder="(주)예시무역"></div>
+      <div class="fg-row">
+        <div class="fg"><label class="fl">이메일 <span>*</span></label>
+          <input class="fi" id="b-email" type="email" placeholder="email@company.com"></div>
+        <div class="fg"><label class="fl">연락처 <span>*</span></label>
+          <input class="fi" id="b-phone" placeholder="010-0000-0000"></div>
+      </div>
+      <div class="fg"><label class="fl">관심 카테고리</label>
+        <div class="cat-checks" id="buy-cat-checks"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label class="fl">승인 상태</label>
+          <select class="fi" id="b-status">
+            <option value="pending">승인대기</option>
+            <option value="approved">승인완료</option>
+            <option value="rejected">거절</option>
+          </select></div>
+        <div class="fg"><label class="fl">내부 메모</label>
+          <input class="fi" id="b-notes" placeholder="관리자 메모..."></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-outline" onclick="closeModal('buy-modal')">취소</button>
+      <button class="btn btn-primary" onclick="saveBuyer()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 예약 등록 모달 ── -->
+<div class="modal-overlay" id="bk-modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-title">예약 등록</div>
+      <button class="modal-x" onclick="closeModal('bk-modal')">✕</button>
+    </div>
+    <div class="modal-bd">
+      <div class="fg"><label class="fl">바이어 <span>*</span></label>
+        <select class="fi" id="bk-buyer"></select></div>
+      <div class="fg"><label class="fl">공급업체 <span>*</span></label>
+        <select class="fi" id="bk-supplier"></select></div>
+      <div class="fg-row">
+        <div class="fg"><label class="fl">날짜 <span>*</span></label>
+          <select class="fi" id="bk-day">
+            <option value="2026-06-23">6월 23일 (화)</option>
+            <option value="2026-06-24">6월 24일 (수)</option>
+            <option value="2026-06-25">6월 25일 (목)</option>
+          </select></div>
+        <div class="fg"><label class="fl">시간 슬롯 <span>*</span></label>
+          <select class="fi" id="bk-slot"></select></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-outline" onclick="closeModal('bk-modal')">취소</button>
+      <button class="btn btn-primary" onclick="saveBooking()">예약 등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+/* ─────────────────────────────────────
+   상수
+───────────────────────────────────── */
+const ADMIN_PW = 'kie2026';
+
+const DAYS_LIST = [
+  { key:'2026-06-23', label:'6/23(화)' },
+  { key:'2026-06-24', label:'6/24(수)' },
+  { key:'2026-06-25', label:'6/25(목)' },
+];
+
+const SLOTS_LIST = [
+  { id:'s1', time:'10:30~11:00' },
+  { id:'s2', time:'11:00~11:30' },
+  { id:'s3', time:'11:30~12:00' },
+  { id:'s4', time:'12:00~12:30' },
+  { id:'s5', time:'13:30~14:00' },
+  { id:'s6', time:'14:00~14:30' },
+  { id:'s7', time:'14:30~15:00' },
+  { id:'s8', time:'15:00~15:30' },
+  { id:'s9', time:'15:30~16:00' },
+];
+
+const CAT_CLASS = {
+  '식품·음료':'badge-food','뷰티·화장품':'badge-beauty',
+  '건강·기능식품':'badge-health','리빙·가구':'badge-living','주류·음료':'badge-drinks'
+};
+const CAT_ICON = {
+  '식품·음료':'🥗','뷰티·화장품':'💄','건강·기능식품':'💊','리빙·가구':'🏠','주류·음료':'🥃'
+};
+const CATEGORIES = Object.keys(CAT_ICON);
+
+const SAMPLE_SUPPLIERS = [
+  {flag:'🇩🇪',country:'독일',company:'BioNatur GmbH',category:'식품·음료',booth:'B-101',tagline:'독일 유기농 인증 식품 전문',desc:'1985년 설립된 독일 유기농 식품 기업. EU 유기농 인증을 받은 시리얼, 곡물, 건강식품을 글로벌 40개국에 수출합니다.',products:['유기농 오트밀','뮤즐리 시리얼','통곡물 스낵바','캐모마일 허브티'],email:'info@bionatur.de',website:'www.bionatur.de',active:true},
+  {flag:'🇫🇷',country:'프랑스',company:'Maison Beauté Paris',category:'뷰티·화장품',booth:'B-205',tagline:'파리 럭셔리 스킨케어 브랜드',desc:'파리 마레 지구 본사의 프리미엄 스킨케어 브랜드.',products:['앤티에이징 세럼 30ml','딥모이스처 크림','선크림 SPF50+','미셀라 클렌징'],email:'export@maisonbeaute.fr',website:'www.maisonbeaute.fr',active:true},
+  {flag:'🇮🇹',country:'이탈리아',company:'Famiglia Rossi Srl',category:'식품·음료',booth:'B-308',tagline:'시칠리아 DOP 인증 올리브오일',desc:'3대째 이어온 시칠리아 가족 농장. DOP 인증 올리브오일과 파스타 소스 수출.',products:['EVOO 엑스트라버진 500ml','바질 페스토','아라비아따 소스','트러플 오일'],email:'export@famigliarossi.it',website:'www.famigliarossi.it',active:true},
+  {flag:'🇯🇵',country:'일본',company:'Sakura Cosmetics Co.',category:'뷰티·화장품',booth:'B-412',tagline:'벚꽃 추출 자연주의 화장품',desc:'도쿄 본사 자연주의 화장품 브랜드.',products:['사쿠라 에센스 로션','히알루론 세럼','수분 젤크림','UV 프로텍션'],email:'global@sakura-cos.jp',website:'www.sakura-cos.jp',active:true},
+  {flag:'🇺🇸',country:'미국',company:'VitalNutrition Inc.',category:'건강·기능식품',booth:'B-503',tagline:'FDA 인증 프리미엄 건강기능식품',desc:'실리콘밸리 기반 헬스케어 기업. FDA 인증 보충제 60개국 수출.',products:['멀티비타민 90정','프로바이오틱스 30억CFU','콜라겐 파우더','오메가3'],email:'asia@vitalnutrition.com',website:'www.vitalnutrition.com',active:true},
+  {flag:'🇦🇺',country:'호주',company:'AusGreen Foods Pty',category:'식품·음료',booth:'B-601',tagline:'호주 청정 자연 유기농 식품',desc:'퀸즐랜드주 청정 지역의 유기농 마카다미아·코코넛오일 수출.',products:['마카다미아 너트 250g','코코넛오일 500ml','마누카 허니 MGO300+','귀리 그래놀라'],email:'export@ausgreen.com.au',website:'www.ausgreen.com.au',active:true},
+  {flag:'🇹🇭',country:'태국',company:'Thai Premium Export Co.',category:'식품·음료',booth:'B-704',tagline:'태국 프리미엄 소스 & 열대과일',desc:'방콕 본사 식품 수출 기업.',products:['그린커리 페이스트','스위트칠리 소스','냉동 망고 청크','코코넛 밀크'],email:'korea@thaipremium.co.th',website:'www.thaipremium.co.th',active:true},
+  {flag:'🇬🇧',country:'영국',company:'Highland Spirits Ltd.',category:'주류·음료',booth:'B-802',tagline:'스코틀랜드 150년 싱글몰트',desc:'스코틀랜드 하이랜드 위스키 증류소. 독점 수입 파트너 모집.',products:['싱글몰트 12년 700ml','스모키 피트 18년','블렌디드 스카치','소다 믹서'],email:'export@highland-spirits.co.uk',website:'www.highland-spirits.co.uk',active:true},
+  {flag:'🇻🇳',country:'베트남',company:'VietFresh Corporation',category:'식품·음료',booth:'B-905',tagline:'다락 고원 스페셜티 커피',desc:'아라비카 스페셜티 커피 농장 직영 수출.',products:['아라비카 원두 250g','드립백 커피 10입','스페셜티 블렌드','레몬그라스 티'],email:'export@vietfresh.vn',website:'www.vietfresh.vn',active:true},
+  {flag:'🇨🇳',country:'중국',company:'Huayi Health Products',category:'건강·기능식품',booth:'B-1003',tagline:'GMP 인증 한방 건강기능식품',desc:'상하이 본사 GMP 인증 한방 건강기능식품 전문.',products:['홍삼 농축액 240g','영지버섯 캡슐','녹용 추출물','한방 다이어트티'],email:'intl@huayi-health.cn',website:'www.huayi-health.cn',active:true},
+  {flag:'🇩🇪',country:'독일',company:'Schmidt Haushalte GmbH',category:'리빙·가구',booth:'B-1104',tagline:'독일 프리미엄 주방·생활용품',desc:'뮌헨 본사 프리미엄 주방용품 브랜드. 유럽 20개국 유통.',products:['스테인리스 프라이팬 26cm','실리콘 조리도구 세트','에코 주방세제','대나무 도마'],email:'asia@schmidt-haushalte.de',website:'www.schmidt-haushalte.de',active:true},
+  {flag:'🇫🇷',country:'프랑스',company:'Bordeaux Select Wines',category:'주류·음료',booth:'B-1207',tagline:'보르도 AOC 와인 전문 수출',desc:'보르도 지롱드 와인 에이전시. 레스토랑·와인바 공급.',products:['Bordeaux Rouge 2021','Sauternes 375ml','Rosé Provence','샴페인 브뤼'],email:'korea@bordeaux-select.fr',website:'www.bordeaux-select.fr',active:true},
+];
+
+/* ─────────────────────────────────────
+   데이터 (localStorage)
+───────────────────────────────────── */
+const DB = {
+  get(key) {
+    try { return JSON.parse(localStorage.getItem('kie2026_' + key) || '[]'); }
+    catch(e) { return []; }
+  },
+  set(key, val) { localStorage.setItem('kie2026_' + key, JSON.stringify(val)); },
+  suppliers() { return this.get('suppliers'); },
+  buyers()    { return this.get('buyers'); },
+  bookings()  { return this.get('bookings'); },
+};
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+}
+
+/* ─────────────────────────────────────
+   로그인
+───────────────────────────────────── */
+function doLogin() {
+  const pw = document.getElementById('pw-input').value;
+  if (pw === ADMIN_PW) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-shell').style.display  = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+function doLogout() {
+  document.getElementById('admin-shell').style.display  = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+}
+
+/* ─────────────────────────────────────
+   네비게이션
+───────────────────────────────────── */
+const VIEW_TITLES = {
+  dashboard:'대시보드', suppliers:'공급업체 관리',
+  buyers:'바이어 관리', bookings:'예약 타임테이블', export:'데이터 내보내기'
+};
+let currentTTDay = 0;
+
+function nav(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('v-' + v).classList.add('active');
+  document.querySelector(`.sb-item[data-view="${v}"]`).classList.add('active');
+  document.getElementById('topbar-title').textContent = VIEW_TITLES[v];
+  if (v === 'dashboard') renderDashboard();
+  if (v === 'suppliers') renderSuppliers();
+  if (v === 'buyers')    renderBuyers();
+  if (v === 'bookings')  renderTimetable(currentTTDay);
+}
+
+/* ─────────────────────────────────────
+   모달
+───────────────────────────────────── */
+function openModal(id)  { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
+});
+
+/* ─────────────────────────────────────
+   토스트
+───────────────────────────────────── */
+function toast(msg, type='inf') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  const icons = {ok:'✅', err:'❌', inf:'ℹ️'};
+  t.innerHTML = `<span>${icons[type]||''}</span><span>${msg}</span>`;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+/* ─────────────────────────────────────
+   태그 입력
+───────────────────────────────────── */
+function addTag(e, wrapId, hiddenId) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  const input = e.target;
+  const val   = input.value.trim();
+  if (!val) return;
+  const hidden = document.getElementById(hiddenId);
+  const tags   = JSON.parse(hidden.value || '[]');
+  if (tags.includes(val)) { input.value=''; return; }
+  tags.push(val);
+  hidden.value = JSON.stringify(tags);
+  renderTags(wrapId, hiddenId);
+  input.value = '';
+}
+
+function renderTags(wrapId, hiddenId) {
+  const wrap   = document.getElementById(wrapId);
+  const hidden = document.getElementById(hiddenId);
+  const tags   = JSON.parse(hidden.value || '[]');
+  const input  = wrap.querySelector('.tag-input');
+  wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
+  tags.forEach((t, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'tag-chip';
+    chip.innerHTML = `${t} <span class="tag-chip-del" onclick="removeTag(${i},'${wrapId}','${hiddenId}')">✕</span>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function removeTag(i, wrapId, hiddenId) {
+  const hidden = document.getElementById(hiddenId);
+  const tags   = JSON.parse(hidden.value || '[]');
+  tags.splice(i, 1);
+  hidden.value = JSON.stringify(tags);
+  renderTags(wrapId, hiddenId);
+}
+
+function toggleBtn(el) {
+  el.classList.toggle('on');
+  const label = el.nextElementSibling;
+  if (label) label.textContent = el.classList.contains('on') ? '노출 중' : '비활성';
+}
+
+/* ─────────────────────────────────────
+   대시보드
+───────────────────────────────────── */
+function renderDashboard() {
+  const sups = DB.suppliers();
+  const buys = DB.buyers();
+  const bks  = DB.bookings().filter(b => b.status === 'confirmed');
+  const pending = buys.filter(b => b.status === 'pending').length;
+
+  document.getElementById('stat-grid').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(74,92,240,.1)">🌐</div>
+      <div><div class="stat-num">${sups.length}</div><div class="stat-lbl">공급업체</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(16,185,129,.1)">👥</div>
+      <div><div class="stat-num">${buys.length}</div><div class="stat-lbl">등록 바이어</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(201,150,10,.1)">📅</div>
+      <div><div class="stat-num">${bks.length}</div><div class="stat-lbl">확정 예약</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(242,92,84,.1)">⏳</div>
+      <div><div class="stat-num">${pending}</div><div class="stat-lbl">승인 대기</div></div>
+    </div>`;
+
+  const recent = [...DB.bookings()].reverse().slice(0, 5);
+  const rbEl   = document.getElementById('recent-bookings');
+  if (!recent.length) {
+    rbEl.innerHTML = `<div class="empty"><div class="empty-ico">📭</div><div class="empty-sub">예약이 없습니다</div></div>`;
+  } else {
+    rbEl.innerHTML = `<div class="recent-bk">${recent.map(bk => {
+      const s = sups.find(x => x.id === bk.supplierId) || {};
+      const b = buys.find(x => x.id === bk.buyerId) || {};
+      const sl = SLOTS_LIST.find(x => x.id === bk.slotId) || {};
+      return `<div class="rbk-item">
+        <div class="rbk-left">
+          <span class="rbk-flag">${s.flag||'🏢'}</span>
+          <div>
+            <div class="rbk-company">${s.company||'알수없음'}</div>
+            <div class="rbk-detail">${b.company||''} · ${bk.day} ${sl.time||''}</div>
+          </div>
+        </div>
+        <span class="badge badge-confirmed">확정</span>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  const pbEl = document.getElementById('pending-buyers');
+  const pendingList = buys.filter(b => b.status === 'pending').slice(0, 5);
+  if (!pendingList.length) {
+    pbEl.innerHTML = `<div class="empty"><div class="empty-ico">✅</div><div class="empty-sub">대기 중인 바이어가 없습니다</div></div>`;
+  } else {
+    pbEl.innerHTML = `<div class="recent-bk">${pendingList.map(b => `
+      <div class="rbk-item">
+        <div class="rbk-left">
+          <div>
+            <div class="rbk-company">${b.name} — ${b.company}</div>
+            <div class="rbk-detail">${b.email}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-xs" style="background:var(--em-bg);color:var(--emerald);border:none;"
+            onclick="quickApprove('${b.id}','approved')">승인</button>
+          <button class="btn btn-xs btn-danger"
+            onclick="quickApprove('${b.id}','rejected')">거절</button>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+
+  updateSidebar();
+}
+
+function quickApprove(id, status) {
+  const buyers = DB.buyers();
+  const b = buyers.find(x => x.id === id);
+  if (b) { b.status = status; DB.set('buyers', buyers); renderDashboard(); }
+  toast(status === 'approved' ? '승인 완료' : '거절 처리', status === 'approved' ? 'ok' : 'inf');
+}
+
+function updateSidebar() {
+  const sups = DB.suppliers();
+  const buys = DB.buyers();
+  const pending = buys.filter(b => b.status === 'pending').length;
+  document.getElementById('sb-sup-cnt').textContent = sups.length;
+  const pbEl = document.getElementById('sb-buy-cnt');
+  pbEl.textContent = pending;
+  pbEl.style.display = pending > 0 ? 'flex' : 'none';
+}
+
+/* ─────────────────────────────────────
+   공급업체
+───────────────────────────────────── */
+function renderSuppliers() {
+  const q    = (document.getElementById('sup-search')?.value||'').toLowerCase();
+  const cat  = document.getElementById('sup-cat-filter')?.value||'';
+  let list   = DB.suppliers();
+  if (q)   list = list.filter(s => s.company.toLowerCase().includes(q) || s.country.toLowerCase().includes(q));
+  if (cat) list = list.filter(s => s.category === cat);
+  const bks  = DB.bookings().filter(b => b.status === 'confirmed');
+  const tbody = document.getElementById('sup-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-ico">🌐</div>
+      <div class="empty-ttl">공급업체가 없습니다</div>
+      <div class="empty-sub">추가 버튼을 눌러 등록하거나 샘플 데이터를 불러오세요.</div></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = list.map(s => {
+    const booked = bks.filter(b => b.supplierId === s.id).length;
+    const total  = DAYS_LIST.length * SLOTS_LIST.length;
+    const remain = total - booked;
+    return `<tr>
+      <td>${s.flag||''} ${s.country}</td>
+      <td><strong>${s.company}</strong></td>
+      <td><span class="badge ${CAT_CLASS[s.category]||''}">${s.category}</span></td>
+      <td style="font-weight:700;color:var(--t2)">${s.booth}</td>
+      <td>${s.active ? '<span style="color:var(--emerald);font-weight:700;">●&nbsp;노출</span>'
+                     : '<span style="color:var(--t3);">○&nbsp;비활성</span>'}</td>
+      <td style="font-weight:700;color:var(--primary)">${remain}/${total}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-outline btn-xs" onclick="editSupplier('${s.id}')">수정</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteSup('${s.id}')">삭제</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  updateSidebar();
+}
+
+function openSupModal(id) {
+  document.getElementById('sup-modal-title').textContent = id ? '공급업체 수정' : '공급업체 추가';
+  document.getElementById('sup-id').value = id || '';
+  const fields = ['flag','country','company','category','booth','tagline','desc','email','website'];
+  const s = id ? DB.suppliers().find(x => x.id === id) : null;
+  fields.forEach(f => {
+    const el = document.getElementById('s-' + f);
+    if (el) el.value = s ? (s[f]||'') : '';
+  });
+  const hidden = document.getElementById('s-products');
+  hidden.value = JSON.stringify(s ? (s.products||[]) : []);
+  renderTags('s-products-wrap', 's-products');
+  const toggle = document.getElementById('s-active-toggle');
+  const active = s ? s.active !== false : true;
+  toggle.classList.toggle('on', active);
+  document.getElementById('s-active-label').textContent = active ? '노출 중' : '비활성';
+  openModal('sup-modal');
+}
+
+function editSupplier(id) { openSupModal(id); }
+window.editSupplier = editSupplier;
+
+function saveSupplier() {
+  const company  = document.getElementById('s-company').value.trim();
+  const country  = document.getElementById('s-country').value.trim();
+  const category = document.getElementById('s-category').value;
+  const booth    = document.getElementById('s-booth').value.trim();
+  if (!company || !country || !category || !booth) {
+    toast('필수 항목을 입력해주세요.','err'); return;
+  }
+  const id    = document.getElementById('sup-id').value;
+  const sups  = DB.suppliers();
+  const entry = {
+    id: id || uid(), flag: document.getElementById('s-flag').value.trim(),
+    country, company, category, booth,
+    tagline: document.getElementById('s-tagline').value.trim(),
+    desc:    document.getElementById('s-desc').value.trim(),
+    products: JSON.parse(document.getElementById('s-products').value||'[]'),
+    email:   document.getElementById('s-email').value.trim(),
+    website: document.getElementById('s-website').value.trim(),
+    active:  document.getElementById('s-active-toggle').classList.contains('on'),
+  };
+  if (id) {
+    const idx = sups.findIndex(x => x.id === id);
+    if (idx !== -1) sups[idx] = entry;
+  } else {
+    sups.push(entry);
+  }
+  DB.set('suppliers', sups);
+  closeModal('sup-modal');
+  toast(id ? '수정 완료' : '공급업체 추가 완료', 'ok');
+  renderSuppliers();
+}
+
+function deleteSup(id) {
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+  DB.set('suppliers', DB.suppliers().filter(x => x.id !== id));
+  toast('삭제 완료','inf');
+  renderSuppliers();
+}
+window.deleteSup = deleteSup;
+
+function importSampleSuppliers() {
+  if (!confirm(`기본 샘플 공급업체 ${SAMPLE_SUPPLIERS.length}개를 추가하시겠습니까?`)) return;
+  const existing = DB.suppliers();
+  const added = SAMPLE_SUPPLIERS.filter(s => !existing.find(e => e.company === s.company))
+    .map(s => ({ ...s, id: uid() }));
+  DB.set('suppliers', [...existing, ...added]);
+  toast(`${added.length}개 공급업체 추가 완료`, 'ok');
+  renderSuppliers();
+}
+
+/* ─────────────────────────────────────
+   바이어
+───────────────────────────────────── */
+function renderBuyers() {
+  const q      = (document.getElementById('buy-search')?.value||'').toLowerCase();
+  const status = document.getElementById('buy-status-filter')?.value||'';
+  let list     = DB.buyers();
+  if (q)      list = list.filter(b => b.name.toLowerCase().includes(q) || b.company.toLowerCase().includes(q));
+  if (status) list = list.filter(b => b.status === status);
+  const bks   = DB.bookings().filter(b => b.status === 'confirmed');
+  const tbody = document.getElementById('buy-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-ico">👥</div>
+      <div class="empty-ttl">바이어가 없습니다</div></div></td></tr>`;
+    updateSidebar(); return;
+  }
+  tbody.innerHTML = list.map(b => {
+    const cnt  = bks.filter(x => x.buyerId === b.id).length;
+    const stBadge = {'pending':'badge-pending','approved':'badge-approved','rejected':'badge-rejected'};
+    const stLabel = {'pending':'승인대기','approved':'승인완료','rejected':'거절'};
+    return `<tr>
+      <td><strong>${b.name}</strong>${b.position ? `<span style="font-size:11px;color:var(--t3);margin-left:6px">${b.position}</span>`:''}</td>
+      <td>${b.company}</td>
+      <td style="font-size:12px;">${b.email}<br><span style="color:var(--t3)">${b.phone}</span></td>
+      <td style="font-size:12px;">${(b.categories||[]).join(', ')||'-'}</td>
+      <td><span class="badge ${stBadge[b.status]||''}">${stLabel[b.status]||b.status}</span></td>
+      <td style="font-weight:700;color:var(--primary)">${cnt}</td>
+      <td>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          ${b.status==='pending'?`
+            <button class="btn btn-xs" style="background:var(--em-bg);color:var(--emerald);border:none"
+              onclick="setStatus('${b.id}','approved')">승인</button>
+            <button class="btn btn-xs btn-danger" onclick="setStatus('${b.id}','rejected')">거절</button>`:''}
+          <button class="btn btn-outline btn-xs" onclick="editBuyer('${b.id}')">수정</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteBuyer('${b.id}')">삭제</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  updateSidebar();
+}
+
+function setStatus(id, status) {
+  const buyers = DB.buyers();
+  const b = buyers.find(x => x.id === id);
+  if (b) { b.status = status; DB.set('buyers', buyers); renderBuyers(); }
+  toast(status === 'approved' ? '승인 처리 완료' : '거절 처리 완료', 'ok');
+}
+window.setStatus = setStatus;
+
+function openBuyModal(id) {
+  document.getElementById('buy-modal-title').textContent = id ? '바이어 수정' : '바이어 추가';
+  document.getElementById('buy-id').value = id || '';
+  const b = id ? DB.buyers().find(x => x.id === id) : null;
+  ['name','position','company','email','phone','notes'].forEach(f => {
+    document.getElementById('b-' + f).value = b ? (b[f]||'') : '';
+  });
+  document.getElementById('b-status').value = b ? (b.status||'pending') : 'pending';
+  const chkWrap = document.getElementById('buy-cat-checks');
+  chkWrap.innerHTML = CATEGORIES.map(c => {
+    const on = (b?.categories||[]).includes(c) ? ' on' : '';
+    return `<label class="cat-lbl${on}" onclick="this.classList.toggle('on')">
+      <input type="checkbox" value="${c}" ${on?'checked':''}>${CAT_ICON[c]} ${c}
+    </label>`;
+  }).join('');
+  openModal('buy-modal');
+}
+
+function editBuyer(id) { openBuyModal(id); }
+window.editBuyer = editBuyer;
+
+function saveBuyer() {
+  const name    = document.getElementById('b-name').value.trim();
+  const company = document.getElementById('b-company').value.trim();
+  const email   = document.getElementById('b-email').value.trim();
+  const phone   = document.getElementById('b-phone').value.trim();
+  if (!name||!company||!email||!phone) { toast('필수 항목을 입력해주세요.','err'); return; }
+  const cats = Array.from(document.querySelectorAll('#buy-cat-checks .cat-lbl.on input')).map(i => i.value);
+  const id   = document.getElementById('buy-id').value;
+  const buyers = DB.buyers();
+  const entry  = {
+    id: id || uid(), name, company, email, phone,
+    position: document.getElementById('b-position').value.trim(),
+    notes:    document.getElementById('b-notes').value.trim(),
+    status:   document.getElementById('b-status').value,
+    categories: cats,
+    registeredAt: new Date().toISOString(),
+  };
+  if (id) {
+    const idx = buyers.findIndex(x => x.id === id);
+    if (idx !== -1) buyers[idx] = entry;
+  } else {
+    buyers.push(entry);
+  }
+  DB.set('buyers', buyers);
+  closeModal('buy-modal');
+  toast(id ? '수정 완료' : '바이어 추가 완료', 'ok');
+  renderBuyers();
+}
+
+function deleteBuyer(id) {
+  if (!confirm('바이어를 삭제하시겠습니까?')) return;
+  DB.set('buyers', DB.buyers().filter(x => x.id !== id));
+  toast('삭제 완료','inf');
+  renderBuyers();
+}
+window.deleteBuyer = deleteBuyer;
+
+/* ─────────────────────────────────────
+   타임테이블
+───────────────────────────────────── */
+function switchTTDay(di) {
+  currentTTDay = di;
+  document.querySelectorAll('.tt-tab').forEach((t, i) => t.classList.toggle('active', i === di));
+  renderTimetable(di);
+}
+window.switchTTDay = switchTTDay;
+
+function renderTimetable(di) {
+  const day  = DAYS_LIST[di];
+  const sups = DB.suppliers().filter(s => s.active !== false);
+  const bks  = DB.bookings().filter(b => b.status === 'confirmed' && b.day === day.key);
+  const buys = DB.buyers();
+  const el   = document.getElementById('tt-content');
+  if (!sups.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-ico">🌐</div>
+      <div class="empty-ttl">노출 중인 공급업체가 없습니다</div></div>`; return;
+  }
+  let html = `<div class="tt-wrap"><table class="tt-tbl"><thead><tr>
+    <th>시간</th>
+    ${sups.map(s => `<th>${s.flag||''} ${s.company}<br>
+      <span style="font-size:10px;opacity:.8">${s.booth}</span></th>`).join('')}
+  </tr></thead><tbody>`;
+
+  SLOTS_LIST.forEach((slot, si) => {
+    if (si === 4) {
+      html += `<tr class="tt-lunch"><td colspan="${sups.length+1}">
+        🍱 점심시간 &nbsp; 12:30 ~ 13:30</td></tr>`;
+    }
+    html += `<tr><td class="tt-time-cell">${slot.time}</td>`;
+    sups.forEach(s => {
+      const bk = bks.find(b => b.supplierId === s.id && b.slotId === slot.id);
+      if (bk) {
+        const buyer = buys.find(x => x.id === bk.buyerId);
+        html += `<td><div class="tt-cell-booked" onclick="cancelBkFromTT('${bk.id}')">
+          <div class="tt-cb-buyer">🏢 ${buyer?.company||'바이어'}</div>
+          <div class="tt-cb-cat">${buyer?.name||''} · 취소▸</div>
+        </div></td>`;
+      } else {
+        html += `<td><div class="tt-cell-empty"
+          onclick="quickBook('${s.id}','${day.key}','${slot.id}')">+ 예약</div></td>`;
+      }
+    });
+    html += `</tr>`;
+  });
+  html += `</tbody></table></div>`;
+  el.innerHTML = html;
+}
+
+function cancelBkFromTT(id) {
+  if (!confirm('예약을 취소하시겠습니까?')) return;
+  const bks = DB.bookings();
+  const b = bks.find(x => x.id === id);
+  if (b) { b.status = 'cancelled'; DB.set('bookings', bks); }
+  toast('예약 취소 완료','inf');
+  renderTimetable(currentTTDay);
+}
+window.cancelBkFromTT = cancelBkFromTT;
+
+function quickBook(supId, dayKey, slotId) {
+  const buyers = DB.buyers().filter(b => b.status === 'approved');
+  if (!buyers.length) { toast('승인된 바이어가 없습니다.','err'); return; }
+  const bkDay = document.getElementById('bk-day');
+  const bkSlot = document.getElementById('bk-slot');
+  const bkSup = document.getElementById('bk-supplier');
+  populateBkSelects();
+  bkDay.value  = dayKey;
+  bkSup.value  = supId;
+  bkSlot.value = slotId;
+  openModal('bk-modal');
+}
+window.quickBook = quickBook;
+
+/* ─────────────────────────────────────
+   예약 등록
+───────────────────────────────────── */
+function openBkModal() { populateBkSelects(); openModal('bk-modal'); }
+
+function populateBkSelects() {
+  const buyers = DB.buyers().filter(b => b.status === 'approved');
+  const sups   = DB.suppliers().filter(s => s.active !== false);
+  document.getElementById('bk-buyer').innerHTML =
+    buyers.length
+      ? buyers.map(b => `<option value="${b.id}">${b.company} — ${b.name}</option>`).join('')
+      : '<option value="">승인된 바이어 없음</option>';
+  document.getElementById('bk-supplier').innerHTML =
+    sups.length
+      ? sups.map(s => `<option value="${s.id}">${s.flag||''} ${s.company} (${s.booth})</option>`).join('')
+      : '<option value="">공급업체 없음</option>';
+  document.getElementById('bk-slot').innerHTML =
+    SLOTS_LIST.map(sl => `<option value="${sl.id}">${sl.time}</option>`).join('');
+}
+
+function saveBooking() {
+  const buyerId    = document.getElementById('bk-buyer').value;
+  const supplierId = document.getElementById('bk-supplier').value;
+  const day        = document.getElementById('bk-day').value;
+  const slotId     = document.getElementById('bk-slot').value;
+  if (!buyerId||!supplierId||!day||!slotId) { toast('모든 항목을 선택해주세요.','err'); return; }
+  const bks = DB.bookings();
+  const dup = bks.find(b => b.status==='confirmed' && b.supplierId===supplierId && b.day===day && b.slotId===slotId);
+  if (dup) { toast('이미 예약된 슬롯입니다.','err'); return; }
+  const conflict = bks.find(b => b.status==='confirmed' && b.buyerId===buyerId && b.day===day && b.slotId===slotId);
+  if (conflict) { toast('바이어가 같은 시간에 다른 예약이 있습니다.','err'); return; }
+  bks.push({ id:uid(), buyerId, supplierId, day, slotId, status:'confirmed', createdAt: new Date().toISOString() });
+  DB.set('bookings', bks);
+  closeModal('bk-modal');
+  toast('예약 등록 완료', 'ok');
+  renderTimetable(currentTTDay);
+  updateSidebar();
+}
+
+/* ─────────────────────────────────────
+   내보내기
+───────────────────────────────────── */
+function exportCSV(type) {
+  let rows = [], headers = [], data = [];
+  if (type === 'suppliers') {
+    headers = ['ID','국기','국가','회사명','카테고리','부스','한줄소개','이메일','웹사이트','노출'];
+    data = DB.suppliers().map(s => [s.id,s.flag,s.country,s.company,s.category,s.booth,s.tagline,s.email,s.website,s.active?'노출':'비활성']);
+  } else if (type === 'buyers') {
+    headers = ['ID','성명','직책','회사','이메일','연락처','상태','관심카테고리'];
+    data = DB.buyers().map(b => [b.id,b.name,b.position,b.company,b.email,b.phone,b.status,(b.categories||[]).join('|')]);
+  } else {
+    const sups = DB.suppliers(), buys = DB.buyers();
+    headers = ['예약ID','바이어회사','바이어명','공급업체','날짜','시간','상태'];
+    data = DB.bookings().map(bk => {
+      const s = sups.find(x => x.id === bk.supplierId)||{};
+      const b = buys.find(x => x.id === bk.buyerId)||{};
+      const sl = SLOTS_LIST.find(x => x.id === bk.slotId)||{};
+      return [bk.id, b.company, b.name, s.company, bk.day, sl.time, bk.status];
+    });
+  }
+  rows = [headers, ...data];
+  const csv = '﻿' + rows.map(r => r.map(v => `"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  download(csv, `kie2026_${type}_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+  toast('CSV 다운로드 완료','ok');
+}
+
+function exportJSON() {
+  const data = { suppliers: DB.suppliers(), buyers: DB.buyers(), bookings: DB.bookings(), exportedAt: new Date().toISOString() };
+  download(JSON.stringify(data, null, 2), `kie2026_backup_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
+  toast('JSON 백업 완료','ok');
+}
+
+function importJSON(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.suppliers) DB.set('suppliers', data.suppliers);
+      if (data.buyers)    DB.set('buyers',    data.buyers);
+      if (data.bookings)  DB.set('bookings',  data.bookings);
+      toast('데이터 복원 완료','ok');
+      renderDashboard();
+    } catch { toast('JSON 파일이 올바르지 않습니다.','err'); }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function clearData(type) {
+  if (!confirm(`정말 ${type === 'all' ? '전체' : type} 데이터를 삭제하시겠습니까?`)) return;
+  if (type === 'all' || type === 'suppliers') DB.set('suppliers', []);
+  if (type === 'all' || type === 'buyers')    DB.set('buyers', []);
+  if (type === 'all' || type === 'bookings')  DB.set('bookings', []);
+  toast('초기화 완료','inf');
+  renderDashboard();
+}
+
+function download(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ─────────────────────────────────────
+   초기화
+───────────────────────────────────── */
+function initAdmin() {
+  renderDashboard();
+}
+
+window.openSupModal   = openSupModal;
+window.openBuyModal   = openBuyModal;
+window.openBkModal    = openBkModal;
+window.importSampleSuppliers = importSampleSuppliers;
+window.quickApprove   = quickApprove;
+</script>
+</body>
+</html>
