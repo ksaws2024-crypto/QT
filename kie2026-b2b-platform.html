@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KIE 2026 | B2B 매칭 플랫폼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+/* ── 토큰 ── */
+:root {
+  --indigo:    #4A5CF0;
+  --indigo-dk: #3547D4;
+  --purple:    #6B3FE0;
+  --gold:      #C9960A;
+  --gold-bg:   #FFF8E1;
+  --emerald:   #10B981;
+  --em-bg:     #ECFDF5;
+  --accent:    #F25C54;
+  --ac-bg:     #FEF2F1;
+  --sky:       #0EA5E9;
+  --sky-bg:    #F0F9FF;
+  --bg:        #EEF0F8;
+  --card:      #F7F8FC;
+  --surface:   #FFFFFF;
+  --border:    rgba(0,0,0,0.07);
+  --t1:        #0E1020;
+  --t2:        #4A5068;
+  --t3:        #8E95B0;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 72px;
+}
+
+/* ── 상단 내비게이션 ── */
+.app-header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+.app-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 18px; font-weight: 800; color: var(--t1); text-decoration: none;
+}
+.app-logo-badge {
+  background: linear-gradient(135deg,var(--indigo),var(--purple));
+  color:#fff; font-size:10px; font-weight:700;
+  padding: 3px 9px; border-radius: 50px; letter-spacing:1px;
+}
+.app-header-right { display: flex; align-items: center; gap: 10px; }
+.btn-register {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg,var(--indigo),var(--purple));
+  color:#fff; font-size:13px; font-weight:700;
+  padding: 8px 18px; border-radius: 50px;
+  border: none; cursor: pointer; transition: opacity .15s;
+}
+.btn-register:hover { opacity:.88; }
+.profile-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 50px;
+  font-size: 13px; font-weight: 700; color: var(--t2);
+  cursor: pointer;
+}
+.profile-chip .avatar {
+  width:26px; height:26px; border-radius:50%;
+  background: linear-gradient(135deg,var(--indigo),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; color:#fff; font-weight:800;
+}
+.booking-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color:#fff;
+  font-size:11px; font-weight:800;
+  width:18px; height:18px; border-radius:50%; margin-left:-2px;
+}
+
+/* ── 하단 탭 바 ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  height: 64px;
+}
+.bnav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+  cursor: pointer; border: none; background: none;
+  color: var(--t3); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2px; position: relative;
+  transition: color .15s;
+}
+.bnav-item.active { color: var(--indigo); }
+.bnav-icon { font-size: 22px; line-height: 1; }
+.bnav-cnt {
+  position: absolute; top: 8px; right: calc(50% - 16px);
+  background: var(--accent); color:#fff;
+  font-size:10px; font-weight:800;
+  min-width:16px; height:16px;
+  border-radius:50px; padding:0 4px;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .15s;
+}
+.bnav-cnt.show { opacity:1; }
+
+/* ── 뷰 공통 ── */
+.view { display:none; max-width:900px; margin:0 auto; padding:20px 16px; }
+.view.active { display:block; }
+
+/* ── 홈 뷰 ── */
+.home-hero {
+  background: linear-gradient(135deg,#080A1C 0%,#1a1060 100%);
+  border-radius: 20px; padding: 40px 28px; color: #fff;
+  position: relative; overflow: hidden; margin-bottom: 20px;
+}
+.home-hero::before {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:200px; height:200px; border-radius:50%;
+  background: rgba(74,92,240,0.15);
+}
+.home-hero-badge {
+  display:inline-flex; align-items:center; gap:7px;
+  background: rgba(74,92,240,0.8); color:#fff;
+  font-size:12px; font-weight:700; padding:6px 16px;
+  border-radius:50px; letter-spacing:1.2px; margin-bottom:18px;
+  border:1px solid rgba(255,255,255,0.2);
+}
+.home-hero-badge::before {
+  content:''; width:7px; height:7px; border-radius:50%;
+  background:#5FE08A; box-shadow:0 0 0 3px rgba(95,224,138,.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{box-shadow:0 0 0 3px rgba(95,224,138,.3);}
+  50%{box-shadow:0 0 0 6px rgba(95,224,138,.1);}
+}
+.home-hero-title {
+  font-size:30px; font-weight:800; line-height:1.3;
+  letter-spacing:-1px; margin-bottom:10px;
+}
+.home-hero-title em {
+  font-style:normal;
+  background:linear-gradient(90deg,#7B8FF8,#A78BFA);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.home-hero-sub {
+  font-size:15px; color:rgba(255,255,255,.75);
+  line-height:1.7; margin-bottom:24px; word-break:keep-all;
+}
+.home-hero-info {
+  display:flex; gap:16px; flex-wrap:wrap;
+}
+.home-info-item {
+  background:rgba(255,255,255,.1); border-radius:10px;
+  padding:10px 16px; display:flex; flex-direction:column; gap:2px;
+}
+.home-info-v { font-size:16px; font-weight:800; }
+.home-info-l { font-size:11px; color:rgba(255,255,255,.6); font-weight:600; }
+
+.stat-row {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+  margin-bottom:20px;
+}
+.stat-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:20px 16px; text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+.stat-num { font-size:28px; font-weight:800; color:var(--indigo); }
+.stat-lbl { font-size:12px; color:var(--t3); font-weight:600; margin-top:4px; }
+
+.quick-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.qa-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:20px 18px;
+  display:flex; align-items:center; gap:14px;
+  cursor:pointer; transition:transform .15s, box-shadow .15s;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+.qa-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.09); }
+.qa-icon { font-size:32px; flex-shrink:0; }
+.qa-title { font-size:15px; font-weight:800; color:var(--t1); }
+.qa-sub { font-size:13px; color:var(--t3); margin-top:3px; }
+
+.timeline-info {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+.timeline-info-title {
+  font-size:14px; font-weight:800; color:var(--t1);
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+}
+.timeline-info-title::before {
+  content:''; width:4px; height:16px;
+  background:linear-gradient(180deg,var(--indigo),var(--purple));
+  border-radius:2px;
+}
+.slot-list { display:flex; flex-direction:column; gap:6px; }
+.slot-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 12px; border-radius:8px;
+  font-size:13px;
+}
+.slot-row.morning { background:rgba(74,92,240,.06); }
+.slot-row.afternoon { background:rgba(16,185,129,.06); }
+.slot-row.lunch { background:rgba(201,150,10,.08); }
+.slot-time { font-weight:700; color:var(--t1); }
+.slot-type { font-size:12px; color:var(--t3); }
+.slot-dur { font-size:12px; font-weight:600; }
+.slot-row.morning .slot-dur { color:var(--indigo); }
+.slot-row.afternoon .slot-dur { color:var(--emerald); }
+.slot-row.lunch .slot-dur { color:var(--gold); }
+
+/* ── 공급업체 목록 ── */
+.filter-bar {
+  display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;
+  margin-bottom:16px; scrollbar-width:none;
+}
+.filter-bar::-webkit-scrollbar { display:none; }
+.filter-btn {
+  flex-shrink:0; padding:8px 16px; border-radius:50px;
+  border:1.5px solid var(--border); background:var(--surface);
+  font-size:13px; font-weight:600; color:var(--t2);
+  cursor:pointer; transition:all .15s; white-space:nowrap;
+}
+.filter-btn.active {
+  background:rgba(74,92,240,.08); border-color:rgba(74,92,240,.3);
+  color:var(--indigo);
+}
+
+.supplier-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+}
+.s-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:18px 16px;
+  cursor:pointer; transition:transform .15s, box-shadow .15s;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+  position:relative;
+}
+.s-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.09); }
+.s-card-top {
+  display:flex; align-items:flex-start; justify-content:space-between;
+  margin-bottom:10px;
+}
+.s-flag { font-size:28px; }
+.s-cat-badge {
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:50px;
+}
+.s-company { font-size:15px; font-weight:800; color:var(--t1); margin-bottom:4px; line-height:1.3; }
+.s-country { font-size:12px; color:var(--t3); font-weight:600; margin-bottom:8px; }
+.s-tagline { font-size:12px; color:var(--t2); line-height:1.5; word-break:keep-all; }
+.s-booth {
+  display:inline-block; margin-top:10px;
+  font-size:11px; font-weight:700; color:var(--t3);
+  background:var(--card); padding:3px 8px; border-radius:6px;
+}
+.s-avail-bar {
+  margin-top:12px; height:3px; border-radius:2px;
+  background:var(--border); overflow:hidden;
+}
+.s-avail-fill { height:100%; border-radius:2px; background:var(--emerald); }
+
+.cat-food    { background:rgba(16,185,129,.1);  color:#059669; }
+.cat-beauty  { background:rgba(236,72,153,.1);  color:#DB2777; }
+.cat-health  { background:rgba(14,165,233,.1);  color:#0284C7; }
+.cat-living  { background:rgba(245,158,11,.1);  color:#D97706; }
+.cat-drinks  { background:rgba(107,63,224,.1);  color:#7C3AED; }
+
+/* ── 공급업체 상세 모달 ── */
+.modal-overlay {
+  display:none; position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.45); align-items:flex-end; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-sheet {
+  background:var(--surface); border-radius:24px 24px 0 0;
+  width:100%; max-width:900px; max-height:92vh;
+  overflow-y:auto; padding-bottom:env(safe-area-inset-bottom);
+  animation: slideUp .25s ease;
+}
+@keyframes slideUp { from{transform:translateY(60px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+.modal-handle {
+  width:40px; height:4px; border-radius:2px;
+  background:var(--border); margin:14px auto 0;
+}
+.modal-header {
+  padding:16px 20px 12px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.modal-title { font-size:18px; font-weight:800; color:var(--t1); }
+.modal-close {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--card); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:var(--t2); transition:background .15s;
+}
+.modal-close:hover { background:var(--border); }
+.modal-body { padding:20px; }
+
+.s-detail-top {
+  display:flex; align-items:center; gap:16px; margin-bottom:20px;
+}
+.s-detail-flag { font-size:48px; }
+.s-detail-info {}
+.s-detail-company { font-size:20px; font-weight:800; color:var(--t1); }
+.s-detail-country { font-size:14px; color:var(--t3); font-weight:600; margin-top:2px; }
+.s-detail-booth-badge {
+  display:inline-block; margin-top:6px;
+  font-size:12px; font-weight:700;
+  background:rgba(74,92,240,.08); color:var(--indigo);
+  padding:4px 10px; border-radius:50px;
+}
+
+.s-detail-desc { font-size:14px; color:var(--t2); line-height:1.75; margin-bottom:20px; word-break:keep-all; }
+
+.detail-section-title {
+  font-size:13px; font-weight:800; color:var(--t3);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;
+}
+.product-list {
+  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;
+}
+.product-tag {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:8px; padding:6px 12px;
+  font-size:13px; font-weight:600; color:var(--t2);
+}
+
+/* 예약 슬롯 그리드 */
+.booking-days { display:flex; gap:8px; margin-bottom:12px; }
+.booking-day-tab {
+  flex:1; padding:10px 6px; text-align:center;
+  border:1.5px solid var(--border); border-radius:10px;
+  background:var(--card); cursor:pointer;
+  font-size:14px; font-weight:700; color:var(--t2);
+  transition:all .15s;
+}
+.booking-day-tab.active {
+  border-color:var(--indigo); background:rgba(74,92,240,.06); color:var(--indigo);
+}
+.booking-slot-panel { display:none; }
+.booking-slot-panel.active { display:block; }
+
+.slot-legend {
+  display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap;
+}
+.sl { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--t3); }
+.sl-dot {
+  width:12px; height:12px; border-radius:3px;
+}
+.sl-dot.avail  { background:var(--surface); border:1.5px solid var(--border); }
+.sl-dot.mine   { background:var(--indigo); }
+.sl-dot.others { background:#F1F2F6; border:1.5px solid #E0E2EE; }
+.sl-dot.conflict { background:rgba(242,92,84,.12); border:1.5px solid rgba(242,92,84,.3); }
+
+.slots-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:7px;
+  margin-bottom:6px;
+}
+.b-slot {
+  padding:12px 6px; border-radius:9px;
+  border:1.5px solid var(--border); background:var(--surface);
+  text-align:center; cursor:pointer;
+  transition:all .15s; user-select:none;
+}
+.b-slot:hover:not(.full):not(.conflict-slot) {
+  border-color:var(--indigo); transform:translateY(-1px);
+}
+.b-slot.mine-slot {
+  background:var(--indigo); border-color:var(--indigo); color:#fff;
+}
+.b-slot.full {
+  background:#F1F2F6; border-color:#E0E2EE; cursor:not-allowed; opacity:.6;
+}
+.b-slot.conflict-slot {
+  background:rgba(242,92,84,.06); border-color:rgba(242,92,84,.2); cursor:not-allowed;
+}
+.b-slot-time { font-size:12px; font-weight:700; color:var(--t1); }
+.b-slot.mine-slot .b-slot-time { color:#fff; }
+.b-slot.full .b-slot-time { color:var(--t3); }
+.b-slot-status { font-size:11px; color:var(--t3); margin-top:3px; }
+.b-slot.mine-slot .b-slot-status { color:rgba(255,255,255,.8); }
+
+.lunch-divider {
+  text-align:center; padding:8px;
+  font-size:12px; font-weight:700; color:var(--gold);
+  background:var(--gold-bg); border-radius:8px; margin-bottom:7px;
+}
+
+/* ── 타임테이블 ── */
+.tt-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:16px;
+}
+.tt-title { font-size:20px; font-weight:800; }
+.tt-legend { display:flex; gap:10px; }
+.tt-leg { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--t3); }
+.tt-leg-dot { width:10px; height:10px; border-radius:3px; }
+
+.tt-table-wrap { overflow-x:auto; }
+.tt-table {
+  width:100%; border-collapse:separate; border-spacing:0;
+  background:var(--surface); border-radius:16px; overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+  min-width:460px;
+}
+.tt-table th {
+  background: linear-gradient(135deg,var(--indigo),var(--purple));
+  color:#fff; font-size:13px; font-weight:700;
+  padding:14px 8px; text-align:center;
+}
+.tt-table th:first-child { text-align:left; padding-left:16px; width:110px; }
+.tt-table td {
+  padding:8px; vertical-align:middle; border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+.tt-table tr:last-child td { border-bottom:none; }
+.tt-time-cell {
+  font-size:12px; font-weight:700; color:var(--t2); padding-left:12px;
+  white-space:nowrap;
+}
+.tt-slot-cell { text-align:center; }
+.tt-empty { color:var(--t3); font-size:11px; }
+.tt-booked {
+  background:linear-gradient(135deg,rgba(74,92,240,.1),rgba(107,63,224,.1));
+  border:1px solid rgba(74,92,240,.2); border-radius:8px;
+  padding:6px 8px; cursor:pointer; transition:transform .1s;
+}
+.tt-booked:hover { transform:scale(1.02); }
+.tt-booked-company { font-size:11px; font-weight:800; color:var(--indigo); }
+.tt-booked-cat { font-size:10px; color:var(--t3); margin-top:1px; }
+.tt-lunch {
+  background:var(--gold-bg); color:var(--gold);
+  font-size:12px; font-weight:700; text-align:center;
+  padding:10px; border-bottom:1px solid var(--border);
+}
+.tt-lunch td { text-align:center; color:var(--gold); font-weight:700; border-bottom:none; }
+
+.tt-empty-state {
+  text-align:center; padding:48px 20px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.tt-empty-icon { font-size:48px; }
+.tt-empty-title { font-size:17px; font-weight:700; color:var(--t2); }
+.tt-empty-sub { font-size:14px; color:var(--t3); }
+
+/* ── 내 정보 ── */
+.profile-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:24px; margin-bottom:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+.profile-top { display:flex; align-items:center; gap:16px; margin-bottom:20px; }
+.profile-avatar {
+  width:56px; height:56px; border-radius:50%;
+  background:linear-gradient(135deg,var(--indigo),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:800; color:#fff; flex-shrink:0;
+}
+.profile-name { font-size:18px; font-weight:800; color:var(--t1); }
+.profile-company { font-size:14px; color:var(--t3); font-weight:600; margin-top:2px; }
+.profile-meta { display:flex; flex-direction:column; gap:10px; }
+.pm-row { display:flex; align-items:center; gap:10px; font-size:14px; }
+.pm-label { color:var(--t3); font-weight:600; width:70px; flex-shrink:0; }
+.pm-value { color:var(--t1); font-weight:600; }
+
+.booking-summary {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px;
+}
+.bs-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:14px; padding:16px 12px; text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.03);
+}
+.bs-num { font-size:24px; font-weight:800; color:var(--indigo); }
+.bs-lbl { font-size:11px; color:var(--t3); font-weight:600; margin-top:3px; }
+
+.booking-list { display:flex; flex-direction:column; gap:10px; }
+.bk-item {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:14px; padding:14px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  box-shadow:0 1px 6px rgba(0,0,0,.03);
+}
+.bk-left { display:flex; align-items:center; gap:12px; }
+.bk-flag { font-size:24px; }
+.bk-company { font-size:14px; font-weight:800; color:var(--t1); }
+.bk-time { font-size:12px; color:var(--t3); font-weight:600; margin-top:2px; }
+.bk-cancel {
+  flex-shrink:0; border:1px solid rgba(242,92,84,.3);
+  background:transparent; color:var(--accent);
+  font-size:12px; font-weight:700; padding:6px 12px; border-radius:8px;
+  cursor:pointer; transition:all .15s;
+}
+.bk-cancel:hover { background:var(--ac-bg); }
+
+/* ── 바이어 등록 모달 ── */
+.reg-modal .modal-body { padding:24px 20px; }
+.form-group { margin-bottom:16px; }
+.form-label {
+  display:block; font-size:13px; font-weight:700; color:var(--t2);
+  margin-bottom:6px;
+}
+.form-input {
+  width:100%; padding:12px 14px;
+  border:1.5px solid var(--border); border-radius:10px;
+  font-size:14px; font-family:inherit; color:var(--t1);
+  background:var(--card); outline:none;
+  transition:border-color .15s;
+}
+.form-input:focus { border-color:var(--indigo); background:var(--surface); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.cat-checkboxes { display:flex; flex-wrap:wrap; gap:8px; }
+.cat-chk {
+  display:flex; align-items:center; gap:6px;
+  padding:7px 12px; border-radius:50px;
+  border:1.5px solid var(--border); background:var(--card);
+  cursor:pointer; font-size:13px; font-weight:600; color:var(--t2);
+  transition:all .15s; user-select:none;
+}
+.cat-chk input { display:none; }
+.cat-chk.checked {
+  background:rgba(74,92,240,.08); border-color:rgba(74,92,240,.3); color:var(--indigo);
+}
+.btn-submit-reg {
+  width:100%; padding:16px;
+  background:linear-gradient(135deg,var(--indigo),var(--purple));
+  color:#fff; font-size:16px; font-weight:700;
+  border:none; border-radius:12px; cursor:pointer;
+  margin-top:6px; transition:opacity .15s;
+}
+.btn-submit-reg:hover { opacity:.9; }
+
+/* ── 토스트 ── */
+.toast-container {
+  position:fixed; top:72px; left:50%; transform:translateX(-50%);
+  z-index:1000; display:flex; flex-direction:column; gap:8px;
+  pointer-events:none; width:calc(100% - 32px); max-width:400px;
+}
+.toast {
+  background:var(--t1); color:#fff;
+  padding:12px 18px; border-radius:12px;
+  font-size:14px; font-weight:600; line-height:1.4;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+  animation: toastIn .25s ease;
+  display:flex; align-items:center; gap:10px;
+}
+.toast.success { background:#0f7c50; }
+.toast.error   { background:#c0392b; }
+.toast.info    { background:var(--indigo); }
+@keyframes toastIn { from{transform:translateY(-10px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+
+/* ── 섹션 헤더 ── */
+.section-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:16px;
+}
+.section-title {
+  font-size:18px; font-weight:800; color:var(--t1);
+  display:flex; align-items:center; gap:10px;
+}
+.section-title::before {
+  content:''; width:4px; height:18px;
+  background:linear-gradient(180deg,var(--indigo),var(--purple));
+  border-radius:2px;
+}
+
+/* ── 공통 버튼 ── */
+.btn-primary {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  background:linear-gradient(135deg,var(--indigo),var(--purple));
+  color:#fff; font-size:15px; font-weight:700;
+  padding:14px 0; width:100%; border-radius:12px;
+  border:none; cursor:pointer; transition:opacity .15s, transform .1s;
+}
+.btn-primary:hover { opacity:.9; transform:translateY(-1px); }
+
+/* ── 빈 상태 ── */
+.empty-state {
+  text-align:center; padding:60px 20px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.empty-icon { font-size:52px; }
+.empty-title { font-size:18px; font-weight:700; color:var(--t2); }
+.empty-sub { font-size:14px; color:var(--t3); line-height:1.6; word-break:keep-all; }
+
+/* ── 반응형 ── */
+@media (min-width:600px) {
+  .supplier-grid { grid-template-columns:repeat(3,1fr); }
+  .slots-grid { grid-template-columns:repeat(4,1fr); }
+}
+@media (max-width:400px) {
+  .stat-row { grid-template-columns:1fr 1fr 1fr; }
+  .quick-actions { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- 상단 헤더 -->
+<header class="app-header">
+  <div class="app-logo" onclick="navigate('home')">
+    KIE 2026 <span class="app-logo-badge">B2B</span>
+  </div>
+  <div class="app-header-right" id="header-right">
+    <button class="btn-register" onclick="openRegModal()">바이어 등록</button>
+  </div>
+</header>
+
+<!-- 뷰: 홈 -->
+<div class="view active" id="view-home">
+  <div class="home-hero">
+    <div class="home-hero-badge">KIE 2026 · B2B MATCHING</div>
+    <div class="home-hero-title">한국수입엑스포<br><em>1:1 B2B 매칭 플랫폼</em></div>
+    <div class="home-hero-sub">해외 우수 공급업체와 국내 바이어를 직접 연결하는 공식 매칭 플랫폼입니다.</div>
+    <div class="home-hero-info">
+      <div class="home-info-item">
+        <span class="home-info-v">6.23~6.25</span>
+        <span class="home-info-l">행사 기간</span>
+      </div>
+      <div class="home-info-item">
+        <span class="home-info-v">COEX Hall B</span>
+        <span class="home-info-l">장소</span>
+      </div>
+      <div class="home-info-item">
+        <span class="home-info-v">25분 상담</span>
+        <span class="home-info-l">1회 상담</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num">12</div>
+      <div class="stat-lbl">참가 공급업체</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">8</div>
+      <div class="stat-lbl">참가 국가</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">324</div>
+      <div class="stat-lbl">총 상담 슬롯</div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <div class="qa-card" onclick="navigate('suppliers')">
+      <div class="qa-icon">🌐</div>
+      <div>
+        <div class="qa-title">공급업체 둘러보기</div>
+        <div class="qa-sub">12개 해외 기업 카탈로그</div>
+      </div>
+    </div>
+    <div class="qa-card" onclick="navigate('timetable')">
+      <div class="qa-icon">📅</div>
+      <div>
+        <div class="qa-title">내 상담 일정</div>
+        <div class="qa-sub">예약 타임테이블 보기</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-info">
+    <div class="timeline-info-title">상담 시간표 (1일 기준)</div>
+    <div class="slot-list" id="home-slot-list"></div>
+  </div>
+</div>
+
+<!-- 뷰: 공급업체 -->
+<div class="view" id="view-suppliers">
+  <div class="section-header">
+    <div class="section-title">공급업체 목록</div>
+    <div style="font-size:13px;color:var(--t3)" id="supplier-count-txt"></div>
+  </div>
+  <div class="filter-bar" id="filter-bar"></div>
+  <div class="supplier-grid" id="supplier-grid"></div>
+</div>
+
+<!-- 뷰: 타임테이블 -->
+<div class="view" id="view-timetable">
+  <div class="tt-header">
+    <div class="tt-title">내 상담 타임테이블</div>
+  </div>
+  <div id="timetable-content"></div>
+</div>
+
+<!-- 뷰: 내 정보 -->
+<div class="view" id="view-profile">
+  <div id="profile-content"></div>
+</div>
+
+<!-- 하단 탭 -->
+<nav class="bottom-nav">
+  <button class="bnav-item active" data-view="home" onclick="navigate('home')">
+    <span class="bnav-icon">🏠</span><span>홈</span>
+  </button>
+  <button class="bnav-item" data-view="suppliers" onclick="navigate('suppliers')">
+    <span class="bnav-icon">🌐</span><span>공급업체</span>
+  </button>
+  <button class="bnav-item" data-view="timetable" onclick="navigate('timetable')">
+    <span class="bnav-icon">📅</span><span>타임테이블</span>
+    <span class="bnav-cnt" id="bnav-cnt">0</span>
+  </button>
+  <button class="bnav-item" data-view="profile" onclick="navigate('profile')">
+    <span class="bnav-icon">👤</span><span>내 정보</span>
+  </button>
+</nav>
+
+<!-- 공급업체 상세 모달 -->
+<div class="modal-overlay" id="supplier-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="sm-title">공급업체 정보</div>
+      <button class="modal-close" onclick="closeModal('supplier-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="sm-body"></div>
+  </div>
+</div>
+
+<!-- 바이어 등록 모달 -->
+<div class="modal-overlay reg-modal" id="reg-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title">바이어 등록</div>
+      <button class="modal-close" onclick="closeModal('reg-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">담당자 성명 *</label>
+          <input class="form-input" id="f-name" placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label class="form-label">직책</label>
+          <input class="form-input" id="f-title" placeholder="MD, 바이어, 대표 등">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">회사명 *</label>
+        <input class="form-input" id="f-company" placeholder="(주)예시무역">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">이메일 *</label>
+          <input class="form-input" id="f-email" type="email" placeholder="email@company.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">연락처 *</label>
+          <input class="form-input" id="f-phone" placeholder="010-0000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">관심 카테고리</label>
+        <div class="cat-checkboxes" id="cat-checkboxes"></div>
+      </div>
+      <button class="btn-submit-reg" onclick="submitReg()">등록 완료 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+/* ──────────────────────────────────────
+   DATA
+────────────────────────────────────── */
+const DAYS = [
+  { label:'6/23(화)', key:'d0' },
+  { label:'6/24(수)', key:'d1' },
+  { label:'6/25(목)', key:'d2' },
+];
+
+const SLOTS = [
+  { id:'s1', time:'10:30~11:00', label:'오전', start:'10:30' },
+  { id:'s2', time:'11:00~11:30', label:'오전', start:'11:00' },
+  { id:'s3', time:'11:30~12:00', label:'오전', start:'11:30' },
+  { id:'s4', time:'12:00~12:30', label:'오전', start:'12:00' },
+  // lunch 12:30~13:30
+  { id:'s5', time:'13:30~14:00', label:'오후', start:'13:30' },
+  { id:'s6', time:'14:00~14:30', label:'오후', start:'14:00' },
+  { id:'s7', time:'14:30~15:00', label:'오후', start:'14:30' },
+  { id:'s8', time:'15:00~15:30', label:'오후', start:'15:00' },
+  { id:'s9', time:'15:30~16:00', label:'오후', start:'15:30' },
+];
+
+const CATEGORIES = ['식품·음료','뷰티·화장품','건강·기능식품','리빙·가구','주류·음료'];
+const CAT_CLASS = {
+  '식품·음료':'cat-food','뷰티·화장품':'cat-beauty',
+  '건강·기능식품':'cat-health','리빙·가구':'cat-living','주류·음료':'cat-drinks'
+};
+const CAT_ICON = {
+  '식품·음료':'🥗','뷰티·화장품':'💄','건강·기능식품':'💊','리빙·가구':'🏠','주류·음료':'🥃'
+};
+
+const SUPPLIERS = [
+  { id:1, flag:'🇩🇪', country:'독일', company:'BioNatur GmbH', booth:'B-101',
+    category:'식품·음료',
+    tagline:'독일 유기농 인증 식품 전문',
+    desc:'1985년 설립된 독일 유기농 식품 기업. EU 유기농 인증을 받은 시리얼, 곡물, 건강식품을 글로벌 40개국에 수출합니다.',
+    products:['유기농 오트밀','뮤즐리 시리얼','통곡물 스낵바','캐모마일 허브티'],
+    contact:'info@bionatur.de' },
+  { id:2, flag:'🇫🇷', country:'프랑스', company:'Maison Beauté Paris', booth:'B-205',
+    category:'뷰티·화장품',
+    tagline:'파리 럭셔리 스킨케어 브랜드',
+    desc:'파리 마레 지구 본사의 프리미엄 스킨케어 브랜드. 천연 성분 기반 앤티에이징 라인으로 유럽 전역에서 인정받고 있습니다.',
+    products:['앤티에이징 세럼 30ml','딥모이스처 크림','선크림 SPF50+','미셀라 클렌징'],
+    contact:'export@maisonbeaute.fr' },
+  { id:3, flag:'🇮🇹', country:'이탈리아', company:'Famiglia Rossi Srl', booth:'B-308',
+    category:'식품·음료',
+    tagline:'시칠리아 DOP 인증 올리브오일',
+    desc:'3대째 이어온 시칠리아 가족 농장. DOP 인증 엑스트라버진 올리브오일과 이탈리안 파스타 소스를 수출합니다.',
+    products:['EVOO 엑스트라버진 500ml','바질 페스토','아라비아따 소스','트러플 오일'],
+    contact:'export@famigliarossi.it' },
+  { id:4, flag:'🇯🇵', country:'일본', company:'Sakura Cosmetics Co.', booth:'B-412',
+    category:'뷰티·화장품',
+    tagline:'벚꽃 추출 일본 자연주의 화장품',
+    desc:'도쿄 본사 자연주의 화장품 브랜드. 벚꽃 추출물과 히알루론산 성분의 수분 케어 제품으로 아시아 전역에서 인기입니다.',
+    products:['사쿠라 에센스 로션','히알루론 세럼','수분 젤크림','UV 프로텍션 베이스'],
+    contact:'global@sakura-cos.jp' },
+  { id:5, flag:'🇺🇸', country:'미국', company:'VitalNutrition Inc.', booth:'B-503',
+    category:'건강·기능식품',
+    tagline:'FDA 인증 프리미엄 건강기능식품',
+    desc:'실리콘밸리 기반 헬스케어 기업. FDA 인증 프리바이오틱스·비타민·단백질 보충제 라인을 글로벌 60개국에 수출합니다.',
+    products:['멀티비타민 90정','프로바이오틱스 30억CFU','콜라겐 파우더','오메가3 피쉬오일'],
+    contact:'asia@vitalnutrition.com' },
+  { id:6, flag:'🇦🇺', country:'호주', company:'AusGreen Foods Pty', booth:'B-601',
+    category:'식품·음료',
+    tagline:'호주 청정 자연 유기농 식품',
+    desc:'퀸즐랜드주 청정 지역의 유기농 마카다미아·코코넛오일·꿀 등 자연 식품 수출 전문 기업입니다.',
+    products:['마카다미아 너트 250g','코코넛오일 500ml','마누카 허니 MGO300+','귀리 그래놀라'],
+    contact:'export@ausgreen.com.au' },
+  { id:7, flag:'🇹🇭', country:'태국', company:'Thai Premium Export Co.', booth:'B-704',
+    category:'식품·음료',
+    tagline:'태국 프리미엄 소스 & 열대과일',
+    desc:'방콕 본사 식품 수출 기업. 태국 전통 소스류와 냉동 열대과일을 한국 F&B 업계에 공급합니다.',
+    products:['그린커리 페이스트','스위트칠리 소스','냉동 망고 청크','코코넛 밀크'],
+    contact:'korea@thaipremium.co.th' },
+  { id:8, flag:'🇬🇧', country:'영국', company:'Highland Spirits Ltd.', booth:'B-802',
+    category:'주류·음료',
+    tagline:'스코틀랜드 150년 싱글몰트 위스키',
+    desc:'스코틀랜드 하이랜드 150년 역사의 위스키 증류소. 국내 독점 수입 파트너를 모집 중입니다.',
+    products:['싱글몰트 12년 700ml','스모키 피트 18년','블렌디드 스카치','소다 믹서'],
+    contact:'export@highland-spirits.co.uk' },
+  { id:9, flag:'🇻🇳', country:'베트남', company:'VietFresh Corporation', booth:'B-905',
+    category:'식품·음료',
+    tagline:'다락 고원 스페셜티 커피 전문',
+    desc:'다락 고원 유기농 커피 농장 직영 수출 기업. 아라비카 스페셜티 커피와 베트남 전통 허브 제품 전문입니다.',
+    products:['아라비카 원두 250g','드립백 커피 10입','스페셜티 블렌드','레몬그라스 티'],
+    contact:'export@vietfresh.vn' },
+  { id:10, flag:'🇨🇳', country:'중국', company:'Huayi Health Products', booth:'B-1003',
+    category:'건강·기능식품',
+    tagline:'GMP 인증 한방 건강기능식품',
+    desc:'상하이 본사 한방 건강기능식품 전문 기업. GMP 인증 홍삼·영지버섯 추출물 제품 라인.',
+    products:['홍삼 농축액 240g','영지버섯 캡슐','녹용 추출물','한방 다이어트티'],
+    contact:'intl@huayi-health.cn' },
+  { id:11, flag:'🇩🇪', country:'독일', company:'Schmidt Haushalte GmbH', booth:'B-1104',
+    category:'리빙·가구',
+    tagline:'독일 프리미엄 주방·생활용품',
+    desc:'뮌헨 본사 프리미엄 주방용품 브랜드. 스테인리스 쿡웨어·에코 주방 도구로 유럽 20개국 유통.',
+    products:['스테인리스 프라이팬 26cm','실리콘 조리도구 세트','에코 주방세제','대나무 도마'],
+    contact:'asia@schmidt-haushalte.de' },
+  { id:12, flag:'🇫🇷', country:'프랑스', company:'Bordeaux Select Wines', booth:'B-1207',
+    category:'주류·음료',
+    tagline:'보르도 AOC 와인 전문 수출',
+    desc:'보르도 지롱드 와인 에이전시. AOC 인증 레드·화이트·로제 와인과 샴페인을 레스토랑·와인바에 공급합니다.',
+    products:['Bordeaux Rouge 2021','Sauternes 375ml','Rosé Provence','샴페인 브뤼'],
+    contact:'korea@bordeaux-select.fr' },
+];
+
+/* 랜덤 선점 슬롯 생성 (타사 예약) */
+function genOccupied(supplierId) {
+  const occ = {};
+  const seed = supplierId * 137;
+  DAYS.forEach((d, di) => {
+    SLOTS.forEach((s, si) => {
+      const hash = ((seed + di * 31 + si * 17) % 100);
+      if (hash < 38) occ[d.key + '_' + s.id] = 'others';
+    });
+  });
+  return occ;
+}
+const OCCUPIED = {};
+SUPPLIERS.forEach(s => { OCCUPIED[s.id] = genOccupied(s.id); });
+
+/* ──────────────────────────────────────
+   STATE
+────────────────────────────────────── */
+let state = {
+  buyer: null,
+  bookings: [],     // { supplierId, dayKey, slotId }
+  view: 'home',
+  filterCat: 'all',
+  openDetailId: null,
+  openDetailDay: 0,
+};
+
+/* ──────────────────────────────────────
+   NAVIGATION
+────────────────────────────────────── */
+function navigate(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  document.getElementById('view-' + view).classList.add('active');
+  state.view = view;
+  if (view === 'timetable') renderTimetable();
+  if (view === 'profile')   renderProfile();
+  if (view === 'suppliers') renderSuppliers();
+  window.scrollTo(0, 0);
+}
+
+/* ──────────────────────────────────────
+   MODAL
+────────────────────────────────────── */
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => {
+    if (e.target === el) closeModal(el.id);
+  });
+});
+
+/* ──────────────────────────────────────
+   TOAST
+────────────────────────────────────── */
+function toast(msg, type = 'info') {
+  const tc = document.getElementById('toast-container');
+  const t  = document.createElement('div');
+  t.className = 'toast ' + type;
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  t.innerHTML = `<span>${icons[type]||''}</span><span>${msg}</span>`;
+  tc.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+/* ──────────────────────────────────────
+   HOME — 슬롯 리스트
+────────────────────────────────────── */
+function renderHomeSlots() {
+  const el = document.getElementById('home-slot-list');
+  const morning = SLOTS.filter(s => s.label === '오전');
+  const afternoon = SLOTS.filter(s => s.label === '오후');
+  let html = '';
+  morning.forEach(s => {
+    html += `<div class="slot-row morning">
+      <span class="slot-time">${s.time}</span>
+      <span class="slot-type">오전 상담</span>
+      <span class="slot-dur">25분 상담 + 5분 휴식</span>
+    </div>`;
+  });
+  html += `<div class="slot-row lunch">
+    <span class="slot-time">12:30~13:30</span>
+    <span class="slot-type" style="color:var(--gold)">점심시간</span>
+    <span class="slot-dur" style="color:var(--gold)">60분</span>
+  </div>`;
+  afternoon.forEach(s => {
+    html += `<div class="slot-row afternoon">
+      <span class="slot-time">${s.time}</span>
+      <span class="slot-type">오후 상담</span>
+      <span class="slot-dur">25분 상담 + 5분 휴식</span>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+/* ──────────────────────────────────────
+   SUPPLIER LIST
+────────────────────────────────────── */
+function renderFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  const cats = ['all', ...CATEGORIES];
+  bar.innerHTML = cats.map(c => {
+    const active = state.filterCat === c ? ' active' : '';
+    const label  = c === 'all' ? '🌐 전체' : (CAT_ICON[c]||'') + ' ' + c;
+    return `<button class="filter-btn${active}" onclick="setFilter('${c}')">${label}</button>`;
+  }).join('');
+}
+
+function setFilter(cat) {
+  state.filterCat = cat;
+  renderFilterBar();
+  renderSuppliers();
+}
+
+function renderSuppliers() {
+  renderFilterBar();
+  const filtered = state.filterCat === 'all'
+    ? SUPPLIERS
+    : SUPPLIERS.filter(s => s.category === state.filterCat);
+  const grid = document.getElementById('supplier-grid');
+  const countTxt = document.getElementById('supplier-count-txt');
+  countTxt.textContent = `${filtered.length}개 업체`;
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">해당 카테고리 업체가 없습니다</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(s => {
+    const totalSlots = DAYS.length * SLOTS.length;
+    const occupied   = Object.values(OCCUPIED[s.id]).filter(v => v === 'others').length;
+    const myBooked   = state.bookings.filter(b => b.supplierId === s.id).length;
+    const availCount = totalSlots - occupied - myBooked;
+    const availPct   = Math.round((availCount / totalSlots) * 100);
+    return `
+    <div class="s-card" onclick="openSupplier(${s.id})">
+      <div class="s-card-top">
+        <span class="s-flag">${s.flag}</span>
+        <span class="s-cat-badge ${CAT_CLASS[s.category]||''}">${s.category}</span>
+      </div>
+      <div class="s-company">${s.company}</div>
+      <div class="s-country">${s.country} · ${s.booth}</div>
+      <div class="s-tagline">${s.tagline}</div>
+      <div class="s-avail-bar">
+        <div class="s-avail-fill" style="width:${availPct}%"></div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-top:5px;">잔여 ${availCount}슬롯</div>
+    </div>`;
+  }).join('');
+}
+
+/* ──────────────────────────────────────
+   SUPPLIER DETAIL MODAL
+────────────────────────────────────── */
+function openSupplier(id) {
+  const s = SUPPLIERS.find(x => x.id === id);
+  if (!s) return;
+  state.openDetailId = id;
+  state.openDetailDay = 0;
+  document.getElementById('sm-title').textContent = s.company;
+  renderSupplierModal(s);
+  openModal('supplier-modal');
+}
+
+function renderSupplierModal(s) {
+  const body = document.getElementById('sm-body');
+  const dayTabs = DAYS.map((d, i) => `
+    <div class="booking-day-tab ${i === state.openDetailDay ? 'active' : ''}"
+         onclick="switchDetailDay(${i})">${d.label}</div>`).join('');
+
+  const panels = DAYS.map((d, di) => `
+    <div class="booking-slot-panel ${di === state.openDetailDay ? 'active' : ''}" id="bsp-${di}">
+      ${renderSlotPanel(s, di, d.key)}
+    </div>`).join('');
+
+  body.innerHTML = `
+    <div class="s-detail-top">
+      <div class="s-detail-flag">${s.flag}</div>
+      <div class="s-detail-info">
+        <div class="s-detail-company">${s.company}</div>
+        <div class="s-detail-country">${s.country}</div>
+        <span class="s-detail-booth-badge">📍 ${s.booth}</span>
+      </div>
+    </div>
+    <div class="s-detail-desc">${s.desc}</div>
+
+    <div class="detail-section-title">주요 제품</div>
+    <div class="product-list">
+      ${s.products.map(p => `<div class="product-tag">📦 ${p}</div>`).join('')}
+    </div>
+    <div style="font-size:12px;color:var(--t3);margin-bottom:20px;">
+      📧 ${s.contact}
+    </div>
+
+    <div class="detail-section-title">상담 일정 신청</div>
+    <div class="slot-legend">
+      <div class="sl"><div class="sl-dot avail"></div>신청 가능</div>
+      <div class="sl"><div class="sl-dot mine"></div>내 예약</div>
+      <div class="sl"><div class="sl-dot others"></div>마감</div>
+      <div class="sl"><div class="sl-dot conflict"></div>다른 상담 있음</div>
+    </div>
+    <div class="booking-days">${dayTabs}</div>
+    <div id="slot-panels">${panels}</div>
+    <p style="font-size:12px;color:var(--t3);margin-top:8px;">
+      ※ 상담 시간: 25분 + 5분 휴식 / 점심시간 12:30~13:30 제외
+    </p>`;
+}
+
+function renderSlotPanel(s, di, dayKey) {
+  let html = '';
+  const morning   = SLOTS.filter(sl => sl.label === '오전');
+  const afternoon = SLOTS.filter(sl => sl.label === '오후');
+
+  function slotHtml(sl) {
+    const k      = dayKey + '_' + sl.id;
+    const isMine = state.bookings.some(b => b.supplierId === s.id && b.dayKey === dayKey && b.slotId === sl.id);
+    const isFull = OCCUPIED[s.id][k] === 'others' && !isMine;
+    const hasConflict = !isMine && !isFull && state.bookings.some(
+      b => b.dayKey === dayKey && b.slotId === sl.id && b.supplierId !== s.id
+    );
+    let cls = 'b-slot';
+    let status = '신청 가능';
+    if (isMine)       { cls += ' mine-slot'; status = '✓ 예약됨'; }
+    else if (isFull)  { cls += ' full'; status = '마감'; }
+    else if (hasConflict) { cls += ' conflict-slot'; status = '시간 중복'; }
+    const onclick = (!isFull && !hasConflict)
+      ? `onclick="toggleBooking(${s.id},'${dayKey}','${sl.id}')"` : '';
+    return `<div class="${cls}" ${onclick}>
+      <div class="b-slot-time">${sl.time}</div>
+      <div class="b-slot-status">${status}</div>
+    </div>`;
+  }
+
+  html += `<div class="slots-grid">${morning.map(slotHtml).join('')}</div>`;
+  html += `<div class="lunch-divider">🍱 점심시간 12:30 ~ 13:30</div>`;
+  html += `<div class="slots-grid">${afternoon.map(slotHtml).join('')}</div>`;
+  return html;
+}
+
+function switchDetailDay(di) {
+  state.openDetailDay = di;
+  const s = SUPPLIERS.find(x => x.id === state.openDetailId);
+  document.querySelectorAll('.booking-day-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === di);
+  });
+  DAYS.forEach((d, i) => {
+    const panel = document.getElementById('bsp-' + i);
+    if (panel) {
+      panel.classList.toggle('active', i === di);
+      if (i === di) panel.innerHTML = renderSlotPanel(s, di, d.key);
+    }
+  });
+}
+window.switchDetailDay = switchDetailDay;
+
+/* ──────────────────────────────────────
+   BOOKING
+────────────────────────────────────── */
+function toggleBooking(supplierId, dayKey, slotId) {
+  if (!state.buyer) {
+    toast('먼저 바이어 등록을 해주세요.', 'error');
+    closeModal('supplier-modal');
+    setTimeout(() => openRegModal(), 300);
+    return;
+  }
+  const existing = state.bookings.findIndex(
+    b => b.supplierId === supplierId && b.dayKey === dayKey && b.slotId === slotId
+  );
+  if (existing !== -1) {
+    state.bookings.splice(existing, 1);
+    toast('상담 예약이 취소되었습니다.', 'info');
+  } else {
+    state.bookings.push({ supplierId, dayKey, slotId });
+    const s    = SUPPLIERS.find(x => x.id === supplierId);
+    const day  = DAYS.find(d => d.key === dayKey);
+    const slot = SLOTS.find(sl => sl.id === slotId);
+    toast(`${s.company} ${day.label} ${slot.time} 예약 완료!`, 'success');
+  }
+  updateBadge();
+  /* 현재 패널 새로고침 */
+  const di = state.openDetailDay;
+  const d  = DAYS[di];
+  const panel = document.getElementById('bsp-' + di);
+  const s = SUPPLIERS.find(x => x.id === supplierId);
+  if (panel) panel.innerHTML = renderSlotPanel(s, di, d.key);
+}
+window.toggleBooking = toggleBooking;
+
+function updateBadge() {
+  const cnt  = state.bookings.length;
+  const el   = document.getElementById('bnav-cnt');
+  el.textContent = cnt;
+  el.classList.toggle('show', cnt > 0);
+}
+
+/* ──────────────────────────────────────
+   TIMETABLE
+────────────────────────────────────── */
+function renderTimetable() {
+  const el = document.getElementById('timetable-content');
+  if (!state.buyer) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📅</div>
+      <div class="empty-title">바이어 등록 후 이용 가능합니다</div>
+      <div class="empty-sub">등록하시면 예약한 상담 일정을<br>타임테이블로 확인하실 수 있습니다.</div>
+      <button class="btn-primary" style="width:200px;margin-top:8px" onclick="openRegModal()">바이어 등록하기</button>
+    </div>`;
+    return;
+  }
+  if (!state.bookings.length) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <div class="empty-title">예약된 상담이 없습니다</div>
+      <div class="empty-sub">공급업체 목록에서 원하는 업체를<br>선택해 상담을 신청하세요.</div>
+      <button class="btn-primary" style="width:200px;margin-top:8px" onclick="navigate('suppliers')">공급업체 둘러보기</button>
+    </div>`;
+    return;
+  }
+
+  const byCnt = state.bookings.length;
+  let html = `
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+      <div class="bs-card" style="flex:1;min-width:100px">
+        <div class="bs-num">${byCnt}</div>
+        <div class="bs-lbl">총 예약</div>
+      </div>
+      <div class="bs-card" style="flex:1;min-width:100px">
+        <div class="bs-num">${Math.round(byCnt * 25 / 60 * 10)/10}h</div>
+        <div class="bs-lbl">총 상담 시간</div>
+      </div>
+      <div class="bs-card" style="flex:1;min-width:100px">
+        <div class="bs-num">${new Set(state.bookings.map(b=>b.supplierId)).size}</div>
+        <div class="bs-lbl">업체 수</div>
+      </div>
+    </div>
+    <div class="tt-table-wrap">
+    <table class="tt-table">
+      <thead><tr>
+        <th>시간</th>
+        ${DAYS.map(d => `<th>${d.label}</th>`).join('')}
+      </tr></thead>
+      <tbody>`;
+
+  SLOTS.forEach((slot, si) => {
+    if (si === 4) {
+      html += `<tr class="tt-lunch"><td colspan="4">🍱 점심시간 &nbsp; 12:30 ~ 13:30</td></tr>`;
+    }
+    html += `<tr><td class="tt-time-cell">${slot.time}</td>`;
+    DAYS.forEach(d => {
+      const booking = state.bookings.find(b => b.dayKey === d.key && b.slotId === slot.id);
+      if (booking) {
+        const s = SUPPLIERS.find(x => x.id === booking.supplierId);
+        html += `<td class="tt-slot-cell">
+          <div class="tt-booked" onclick="cancelFromTT(${s.id},'${d.key}','${slot.id}')">
+            <div class="tt-booked-company">${s.flag} ${s.company}</div>
+            <div class="tt-booked-cat">${s.category} · 취소▸</div>
+          </div>
+        </td>`;
+      } else {
+        html += `<td class="tt-slot-cell"><span class="tt-empty">-</span></td>`;
+      }
+    });
+    html += `</tr>`;
+  });
+  html += `</tbody></table></div>`;
+  el.innerHTML = html;
+}
+
+function cancelFromTT(supplierId, dayKey, slotId) {
+  const idx = state.bookings.findIndex(
+    b => b.supplierId === supplierId && b.dayKey === dayKey && b.slotId === slotId
+  );
+  if (idx !== -1) {
+    state.bookings.splice(idx, 1);
+    const s    = SUPPLIERS.find(x => x.id === supplierId);
+    const day  = DAYS.find(d => d.key === dayKey);
+    const slot = SLOTS.find(sl => sl.id === slotId);
+    toast(`${s.company} ${day.label} ${slot.time} 예약이 취소되었습니다.`, 'info');
+    updateBadge();
+    renderTimetable();
+  }
+}
+window.cancelFromTT = cancelFromTT;
+
+/* ──────────────────────────────────────
+   PROFILE
+────────────────────────────────────── */
+function renderProfile() {
+  const el = document.getElementById('profile-content');
+  if (!state.buyer) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">👤</div>
+      <div class="empty-title">바이어 등록이 필요합니다</div>
+      <div class="empty-sub">등록하시면 프로필과 예약 내역을<br>확인하실 수 있습니다.</div>
+      <button class="btn-primary" style="width:200px;margin-top:8px" onclick="openRegModal()">바이어 등록하기</button>
+    </div>`;
+    return;
+  }
+  const b = state.buyer;
+  const initials = b.name.substring(0, 1);
+  const bklist   = state.bookings.map(bk => {
+    const s    = SUPPLIERS.find(x => x.id === bk.supplierId);
+    const day  = DAYS.find(d => d.key === bk.dayKey);
+    const slot = SLOTS.find(sl => sl.id === bk.slotId);
+    return `<div class="bk-item">
+      <div class="bk-left">
+        <span class="bk-flag">${s.flag}</span>
+        <div>
+          <div class="bk-company">${s.company}</div>
+          <div class="bk-time">${day.label} · ${slot.time} · ${s.booth}</div>
+        </div>
+      </div>
+      <button class="bk-cancel" onclick="cancelBooking(${s.id},'${bk.dayKey}','${bk.slotId}')">취소</button>
+    </div>`;
+  }).join('') || `<div style="text-align:center;padding:24px;color:var(--t3);font-size:14px;">예약된 상담이 없습니다.</div>`;
+
+  el.innerHTML = `
+    <div class="profile-card">
+      <div class="profile-top">
+        <div class="profile-avatar">${initials}</div>
+        <div>
+          <div class="profile-name">${b.name}</div>
+          <div class="profile-company">${b.company}</div>
+        </div>
+      </div>
+      <div class="profile-meta">
+        ${b.title ? `<div class="pm-row"><span class="pm-label">직책</span><span class="pm-value">${b.title}</span></div>` : ''}
+        <div class="pm-row"><span class="pm-label">이메일</span><span class="pm-value">${b.email}</span></div>
+        <div class="pm-row"><span class="pm-label">연락처</span><span class="pm-value">${b.phone}</span></div>
+        ${b.categories && b.categories.length ? `<div class="pm-row"><span class="pm-label">관심분야</span><span class="pm-value">${b.categories.join(', ')}</span></div>` : ''}
+      </div>
+    </div>
+
+    <div class="booking-summary">
+      <div class="bs-card"><div class="bs-num">${state.bookings.length}</div><div class="bs-lbl">총 예약</div></div>
+      <div class="bs-card"><div class="bs-num">${new Set(state.bookings.map(b=>b.dayKey)).size}/3</div><div class="bs-lbl">참여 일수</div></div>
+      <div class="bs-card"><div class="bs-num">${new Set(state.bookings.map(b=>b.supplierId)).size}</div><div class="bs-lbl">예약 업체</div></div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">예약 내역</div>
+    </div>
+    <div class="booking-list">${bklist}</div>`;
+}
+
+function cancelBooking(supplierId, dayKey, slotId) {
+  const idx = state.bookings.findIndex(
+    b => b.supplierId === supplierId && b.dayKey === dayKey && b.slotId === slotId
+  );
+  if (idx !== -1) {
+    state.bookings.splice(idx, 1);
+    toast('예약이 취소되었습니다.', 'info');
+    updateBadge();
+    renderProfile();
+  }
+}
+window.cancelBooking = cancelBooking;
+
+/* ──────────────────────────────────────
+   BUYER REGISTRATION
+────────────────────────────────────── */
+function openRegModal() {
+  const chkWrap = document.getElementById('cat-checkboxes');
+  chkWrap.innerHTML = CATEGORIES.map(c => `
+    <label class="cat-chk" onclick="toggleCat(this)">
+      <input type="checkbox" value="${c}">
+      ${CAT_ICON[c]||''} ${c}
+    </label>`).join('');
+  openModal('reg-modal');
+}
+window.openRegModal = openRegModal;
+
+function toggleCat(el) {
+  el.classList.toggle('checked');
+}
+window.toggleCat = toggleCat;
+
+function submitReg() {
+  const name    = document.getElementById('f-name').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  if (!name || !company || !email || !phone) {
+    toast('필수 항목을 모두 입력해주세요.', 'error'); return;
+  }
+  const cats = Array.from(document.querySelectorAll('.cat-chk.checked input'))
+    .map(i => i.value);
+  state.buyer = {
+    name, company, email, phone,
+    title: document.getElementById('f-title').value.trim(),
+    categories: cats,
+  };
+  closeModal('reg-modal');
+  toast(`환영합니다, ${name}님! 바이어 등록이 완료되었습니다.`, 'success');
+  renderHeaderProfile();
+  if (state.view === 'profile')   renderProfile();
+  if (state.view === 'timetable') renderTimetable();
+}
+window.submitReg = submitReg;
+
+function renderHeaderProfile() {
+  if (!state.buyer) return;
+  const b = state.buyer;
+  document.getElementById('header-right').innerHTML = `
+    <div class="profile-chip" onclick="navigate('profile')">
+      <div class="avatar">${b.name.substring(0,1)}</div>
+      ${b.company}
+    </div>`;
+}
+
+/* ──────────────────────────────────────
+   INIT
+────────────────────────────────────── */
+renderHomeSlots();
+renderSuppliers();
+</script>
+</body>
+</html>
