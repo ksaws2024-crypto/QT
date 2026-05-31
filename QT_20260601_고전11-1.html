@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 말씀 · 6월 1일</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --teal:#3aada0; --teal-dark:#2b8c80; --teal-lt:#d0efec; --teal-mid:#5cc4b8;
+    --beige:#c8a882; --beige-lt:#f2e8d8; --charcoal:#2b2b2b; --white:#ffffff;
+    --cream:#f8f5f0; --text:#2b2b2b; --muted:#7a7268;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+  body { background:var(--cream); font-family:'Pretendard',sans-serif; color:var(--text); min-height:100vh; padding-bottom:80px; }
+
+  .header { background:var(--charcoal); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; }
+  .qt-tag { font-size:10px; letter-spacing:2.5px; color:var(--teal-mid); font-weight:700; margin-bottom:4px; }
+  .date-txt { font-size:19px; font-weight:800; color:var(--white); }
+  .church-badge { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+  .church-name { font-size:14px; font-weight:700; color:var(--white); letter-spacing:1px; }
+  .church-sub { font-size:9px; letter-spacing:2px; color:var(--teal-mid); font-weight:600; }
+
+  .key-banner { background:var(--teal); padding:24px 22px 22px; position:relative; overflow:hidden; }
+  .key-banner::before { content:''; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.1); }
+  .key-banner::after { content:''; position:absolute; right:20px; bottom:-20px; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.07); }
+  .key-ref { font-size:10px; letter-spacing:2.5px; color:rgba(255,255,255,0.7); font-weight:700; margin-bottom:10px; }
+  .key-verse { font-size:17px; font-weight:800; color:var(--white); line-height:1.85; }
+  .key-verse em { font-style:normal; color:var(--beige-lt); }
+
+  .scripture-card { margin:16px 16px 0; background:var(--charcoal); border-radius:18px; padding:20px; box-shadow:0 4px 18px rgba(43,43,43,0.18); position:relative; overflow:hidden; }
+  .scripture-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--teal),var(--beige)); }
+  .sc-label { font-size:10px; letter-spacing:2.5px; color:var(--teal-mid); font-weight:700; margin-bottom:14px; }
+  .sc-text { font-size:13.5px; line-height:2.15; color:rgba(255,255,255,0.85); font-weight:400; }
+  .sc-text sup { font-size:10px; color:var(--teal-mid); font-weight:700; vertical-align:super; margin-right:1px; }
+
+  .section { margin:14px 16px 0; background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 8px rgba(43,43,43,0.07); }
+  .sec-pill { display:inline-block; font-size:10px; letter-spacing:2px; font-weight:700; padding:5px 14px; border-radius:20px; text-transform:uppercase; margin-bottom:14px; }
+  .pill-teal { background:var(--teal-lt); color:var(--teal-dark); }
+  .pill-beige { background:var(--beige-lt); color:#7a5c30; }
+  .sec-body { font-size:14px; line-height:2; color:var(--text); }
+  .sec-body p + p { margin-top:10px; }
+  .sec-body strong { color:var(--teal-dark); font-weight:700; }
+
+  .quote-block { margin:14px 0; background:var(--beige-lt); border-left:4px solid var(--beige); border-radius:0 12px 12px 0; padding:14px 16px; }
+  .quote-block p { font-size:14px; line-height:1.95; color:var(--charcoal); font-weight:700; }
+  .quote-block small { display:block; margin-top:6px; font-size:11.5px; color:var(--muted); font-weight:400; }
+
+  .flow-card { margin-top:14px; background:var(--charcoal); border-radius:14px; padding:16px 18px; }
+  .flow-label { font-size:10px; letter-spacing:2px; color:var(--teal-mid); font-weight:700; margin-bottom:12px; }
+  .flow-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .flow-item { flex:1; min-width:70px; text-align:center; }
+  .flow-icon { font-size:22px; margin-bottom:4px; }
+  .flow-name { font-size:12px; font-weight:800; color:var(--beige); margin-bottom:2px; }
+  .flow-desc { font-size:11px; color:rgba(255,255,255,0.5); line-height:1.5; }
+  .flow-sep { font-size:18px; color:var(--teal-mid); opacity:0.5; flex-shrink:0; }
+
+  .contrast-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+  .contrast-item { border-radius:12px; padding:14px; }
+  .contrast-item.world { background:#f5f0f0; border-left:3px solid var(--beige); }
+  .contrast-item.faith { background:var(--teal-lt); border-left:3px solid var(--teal); }
+  .contrast-label { font-size:9px; letter-spacing:1.5px; font-weight:700; margin-bottom:5px; }
+  .world .contrast-label { color:#9a6a50; }
+  .faith .contrast-label { color:var(--teal-dark); }
+  .contrast-title { font-size:13px; font-weight:800; margin-bottom:4px; }
+  .world .contrast-title { color:#5a3a2a; }
+  .faith .contrast-title { color:var(--teal-dark); }
+  .contrast-desc { font-size:12px; line-height:1.7; color:var(--muted); }
+
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .tag { font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; background:var(--teal-lt); color:var(--teal-dark); border:1px solid rgba(58,173,160,0.2); }
+
+  .q-item { display:flex; gap:12px; align-items:flex-start; padding:13px 0; border-bottom:1px solid var(--beige-lt); }
+  .q-item:last-child { border-bottom:none; padding-bottom:0; }
+  .q-num { flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--teal); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; margin-top:1px; }
+  .q-text { font-size:13.5px; line-height:1.85; color:var(--text); }
+
+  .pray-section { margin:14px 16px 0; border-radius:18px; overflow:hidden; box-shadow:0 4px 18px rgba(43,43,43,0.12); }
+  .pray-head { background:var(--teal-dark); padding:13px 20px; }
+  .pray-head .sec-pill { margin-bottom:0; background:rgba(255,255,255,0.15); color:var(--white); }
+  .pray-body { background:var(--teal); padding:18px 20px 24px; }
+  .pray-text { font-size:14.5px; line-height:2.2; color:rgba(255,255,255,0.92); font-weight:400; }
+  .pray-amen { margin-top:18px; font-size:17px; font-weight:800; color:var(--beige-lt); letter-spacing:3px; }
+
+  .divider { margin:14px 16px 0; height:3px; border-radius:2px; background:linear-gradient(90deg,var(--teal) 0%,var(--beige) 100%); opacity:0.35; }
+
+  footer { margin:14px 16px 32px; background:var(--charcoal); border-radius:18px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-left { font-size:11px; color:rgba(255,255,255,0.35); line-height:1.7; }
+  .footer-right { text-align:right; font-size:11.5px; color:rgba(255,255,255,0.5); line-height:1.8; }
+  .footer-right strong { display:block; font-size:13px; color:var(--white); font-weight:700; }
+
+  .hl-toolbar { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:999; background:var(--charcoal); border-radius:50px; padding:8px 14px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 20px rgba(0,0,0,0.35); }
+  .hl-label { font-size:11px; color:rgba(255,255,255,0.5); font-weight:600; letter-spacing:0.5px; white-space:nowrap; }
+  .hl-btn { width:26px; height:26px; border-radius:50%; border:2.5px solid transparent; cursor:pointer; transition:transform 0.15s,border-color 0.15s; flex-shrink:0; }
+  .hl-btn:active { transform:scale(0.88); }
+  .hl-btn.active { border-color:var(--white); }
+  .hl-sep { width:1px; height:18px; background:rgba(255,255,255,0.15); flex-shrink:0; }
+  .hl-erase { background:none; border:none; color:rgba(255,255,255,0.5); font-size:16px; cursor:pointer; padding:0 2px; line-height:1; }
+  .hl-erase.active { color:var(--white); }
+  mark { border-radius:2px; padding:0 1px; }
+  mark.hl-yellow { background:rgba(255,236,0,0.55); }
+  mark.hl-green  { background:rgba(100,220,160,0.5); }
+  mark.hl-pink   { background:rgba(255,130,170,0.45); }
+  mark.hl-blue   { background:rgba(100,180,255,0.45); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="qt-tag">📅 일일 Q.T</div>
+    <div class="date-txt">6월 1일 (월)</div>
+  </div>
+  <div class="church-badge">
+    <div class="church-name">로뎀교회</div>
+    <div class="church-sub">THE RODEM CHURCH</div>
+  </div>
+</div>
+
+<div class="key-banner">
+  <div class="key-ref">고린도전서 11장 1–16절 · 핵심 구절</div>
+  <div class="key-verse">
+    내가 그리스도를 본받는 자가 된 것 같이<br>
+    너희는 <em>나를 본받는 자가 되라</em>
+  </div>
+</div>
+
+<div class="scripture-card">
+  <div class="sc-label">📖 고린도전서 11:1–16</div>
+  <div class="sc-text">
+    <sup>1</sup>내가 그리스도를 본받는 자가 된 것 같이 너희는 나를 본받는 자가 되라
+    <sup>2</sup>너희가 모든 일에 나를 기억하고 또 내가 너희에게 전하여 준 대로 그 전통을 너희가 지키므로 너희를 칭찬하노라
+    <sup>3</sup>그러나 나는 너희가 알기를 원하노니 각 남자의 머리는 그리스도요 여자의 머리는 남자요 그리스도의 머리는 하나님이시라
+    <sup>11</sup>그러나 주 안에는 남자 없이 여자만 있지 않고 여자 없이 남자만 있지 아니하니라
+    <sup>12</sup>이는 여자가 남자에게서 났으나 남자도 여자로 말미암아 났음이라 그리고 모든 것이 하나님에게서 났느니라
+    <sup>16</sup>논쟁하려는 생각을 가진 자가 있을지라도 우리에게나 하나님의 모든 교회에는 이런 관례가 없느니라
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-pill pill-teal">🌿 오늘의 묵상</div>
+  <div class="sec-body">
+    <p>바울은 성도들에게 자신을 본받으라고 권면하지만, 이는 자신의 어떠함이 아닌 <strong>철저히 그리스도를 따르는 삶에 근거한 고백</strong>이었습니다. 그가 가리킨 것은 언제나 그리스도였습니다.</p>
+    <div class="quote-block">
+      <p>"각 남자의 머리는 그리스도요<br>여자의 머리는 남자요<br>그리스도의 머리는 하나님이시라"</p>
+      <small>— 고린도전서 11:3</small>
+    </div>
+    <p>성도는 세상의 문화나 풍습을 따르기보다 주님이 세우신 <strong>창조의 질서와 영적 권위</strong>를 존중하며 공동체의 덕을 세워가야 합니다. 나를 드러내려는 욕심을 내려놓고, 오늘 하루 삶의 모든 자리에서 오직 그리스도의 양식과 성품을 본받아 행하는 우리가 되기를 소원합니다.</p>
+
+    <div class="flow-card">
+      <div class="flow-label">✦ 11:3 · 머리됨의 질서</div>
+      <div class="flow-row">
+        <div class="flow-item">
+          <div class="flow-icon">👑</div>
+          <div class="flow-name">하나님</div>
+          <div class="flow-desc">그리스도의 머리</div>
+        </div>
+        <div class="flow-sep">→</div>
+        <div class="flow-item">
+          <div class="flow-icon">✝️</div>
+          <div class="flow-name">그리스도</div>
+          <div class="flow-desc">남자의 머리</div>
+        </div>
+        <div class="flow-sep">→</div>
+        <div class="flow-item">
+          <div class="flow-icon">🤝</div>
+          <div class="flow-name">서로 존중</div>
+          <div class="flow-desc">주 안에서 상호 의존</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contrast-grid">
+      <div class="contrast-item world">
+        <div class="contrast-label">세상의 방식</div>
+        <div class="contrast-title">나를 드러냄</div>
+        <div class="contrast-desc">자기 주장과 풍습을 앞세움</div>
+      </div>
+      <div class="contrast-item faith">
+        <div class="contrast-label">본받음의 삶</div>
+        <div class="contrast-title">그리스도를 가리킴</div>
+        <div class="contrast-desc">질서를 존중하며 공동체의 덕을 세움</div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">그리스도를 본받음</span>
+      <span class="tag">창조의 질서</span>
+      <span class="tag">상호 존중</span>
+      <span class="tag">공동체의 덕</span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-pill pill-beige">✍️ 삶에 적용하기</div>
+  <div class="q-item">
+    <div class="q-num">1</div>
+    <div class="q-text">"나를 본받으라"고 말할 수 있으려면 먼저 그리스도를 본받아야 합니다. 누군가 나를 본받는다면, 그들이 나를 통해 그리스도를 볼 수 있을까요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">2</div>
+    <div class="q-text">주 안에서 "남자도 여자로 말미암아 났다"(12절)고 합니다. 내 관계 속에서 서로의 존재를 귀하게 여기고 존중하고 있나요?</div>
+  </div>
+  <div class="q-item">
+    <div class="q-num">3</div>
+    <div class="q-text">나를 드러내려는 욕심 때문에 공동체의 덕을 해친 적이 있나요? 오늘 내려놓아야 할 자기 주장은 무엇인가요?</div>
+  </div>
+</div>
+
+<div class="pray-section">
+  <div class="pray-head">
+    <span class="sec-pill">🙏 오늘의 기도</span>
+  </div>
+  <div class="pray-body">
+    <div class="pray-text">
+      본이 되신 그리스도여,<br>
+      바울이 주님을 본받았듯이<br>
+      우리도 오직 그리스도를<br>
+      본받는 자가 되기를 원합니다.<br><br>
+      나를 드러내려는 욕심을 내려놓고<br>
+      주님이 세우신 질서와 권위를<br>
+      겸손히 존중하게 하소서.<br><br>
+      삶의 모든 자리에서<br>
+      그리스도의 성품을 본받아<br>
+      공동체의 덕을 세우는<br>
+      만나목장이 되게 하옵소서.
+    </div>
+    <div class="pray-amen">아멘.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    고린도전서 11:1<br>
+    2025년 6월 1일
+  </div>
+  <div class="footer-right">
+    <strong>로뎀교회 만나목장</strong>
+    THE RODEM CHURCH
+  </div>
+</footer>
+
+<div class="hl-toolbar" id="hlToolbar">
+  <span class="hl-label">형광펜</span>
+  <button class="hl-btn active" id="btn-yellow" style="background:#ffec00;" onclick="setColor('yellow')"></button>
+  <button class="hl-btn" id="btn-green"  style="background:#64dca0;" onclick="setColor('green')"></button>
+  <button class="hl-btn" id="btn-pink"   style="background:#ff82aa;" onclick="setColor('pink')"></button>
+  <button class="hl-btn" id="btn-blue"   style="background:#64b4ff;" onclick="setColor('blue')"></button>
+  <div class="hl-sep"></div>
+  <button class="hl-erase" id="btn-erase" onclick="setColor('erase')">✕</button>
+</div>
+
+<script>
+  let currentColor = 'yellow';
+  function setColor(color) {
+    currentColor = color;
+    document.querySelectorAll('.hl-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-erase').classList.remove('active');
+    if (color === 'erase') document.getElementById('btn-erase').classList.add('active');
+    else { const btn = document.getElementById('btn-' + color); if (btn) btn.classList.add('active'); }
+  }
+  document.addEventListener('mouseup', applyHL);
+  document.addEventListener('touchend', applyHL);
+  function applyHL() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+    if (!range || range.collapsed) return;
+    if (document.getElementById('hlToolbar').contains(range.commonAncestorContainer)) return;
+    if (currentColor === 'erase') {
+      const c = range.commonAncestorContainer;
+      const container = c.nodeType === 1 ? c : c.parentElement;
+      Array.from(container.querySelectorAll('mark')).forEach(m => {
+        const p = m.parentNode;
+        while (m.firstChild) p.insertBefore(m.firstChild, m);
+        p.removeChild(m); p.normalize();
+      });
+      sel.removeAllRanges(); return;
+    }
+    try {
+      const mark = document.createElement('mark');
+      mark.className = 'hl-' + currentColor;
+      range.surroundContents(mark);
+    } catch(e) {
+      const frag = range.extractContents();
+      const mark = document.createElement('mark');
+      mark.className = 'hl-' + currentColor;
+      mark.appendChild(frag);
+      range.insertNode(mark);
+    }
+    sel.removeAllRanges();
+  }
+</script>
+</body>
+</html>
