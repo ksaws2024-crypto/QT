@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 무역의 날 정부포상 관리시스템 | KOIMA</title>
+<style>
+:root{
+  --navy:#1F3864; --navy2:#27388E; --cyan:#23B4E2; --gold:#C9A227;
+  --red:#E52A21; --green:#1E8E5A; --amber:#D97706;
+  --bg:#F4F6FA; --card:#FFFFFF; --line:#D9E0EC; --ink:#1B2233; --ink2:#5A6478;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:13px}
+
+/* ── Header ── */
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,#31479F 100%);color:#fff;padding:20px 28px 0}
+.h-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-title h1{font-size:21px;letter-spacing:-.5px}
+.h-title .sub{font-size:12.5px;opacity:.85;margin-top:4px}
+.badge-secret{display:inline-block;border:1.5px solid #FF8A80;color:#FFB3AC;font-weight:700;font-size:11px;padding:2px 9px;border-radius:3px;letter-spacing:2px;margin-bottom:8px}
+.h-dday{display:flex;gap:10px;flex-wrap:wrap}
+.dday-chip{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:8px 14px;text-align:center;min-width:108px}
+.dday-chip .lb{font-size:11px;opacity:.8}
+.dday-chip .dd{font-size:19px;font-weight:800;margin-top:1px}
+.dday-chip.urgent{background:rgba(229,42,33,.28);border-color:#FF8A80}
+.dday-chip.done{opacity:.55}
+nav{display:flex;gap:4px;margin-top:18px}
+nav button{background:transparent;border:none;color:rgba(255,255,255,.75);padding:10px 18px;font-size:14px;font-weight:600;border-radius:8px 8px 0 0}
+nav button.on{background:var(--bg);color:var(--navy)}
+nav button:not(.on):hover{background:rgba(255,255,255,.12);color:#fff}
+
+main{max-width:1240px;margin:0 auto;padding:22px 24px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(31,56,100,.06)}
+h2.sec{font-size:15px;color:var(--navy);margin-bottom:12px;padding-left:10px;border-left:4px solid var(--cyan)}
+.grid{display:grid;gap:14px}
+.mt{margin-top:16px}
+
+/* ── Timeline rail ── */
+.rail{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:34px 6px 6px}
+.rail::before{content:"";position:absolute;top:14px;left:6%;right:6%;height:3px;background:var(--line);border-radius:2px}
+.rail .fill{position:absolute;top:14px;left:6%;height:3px;background:linear-gradient(90deg,var(--cyan),var(--navy2));border-radius:2px;transition:width .4s}
+.step{position:relative;text-align:center;padding-top:34px}
+.step .dot{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--line);color:var(--ink2);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step.past .dot{background:var(--navy2);border-color:var(--navy2);color:#fff}
+.step.now .dot{background:#fff;border-color:var(--red);color:var(--red);box-shadow:0 0 0 5px rgba(229,42,33,.14)}
+.step .nm{font-weight:700;font-size:12.5px;color:var(--navy)}
+.step .dt{font-size:11.5px;color:var(--ink2)}
+.step .tag{display:inline-block;margin-top:3px;font-size:10.5px;padding:1px 8px;border-radius:10px;background:#EDF1F8;color:var(--ink2)}
+.step.now .tag{background:#FDE8E7;color:var(--red);font-weight:700}
+
+/* ── Stat cards ── */
+.stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat .n{font-size:26px;font-weight:800;color:var(--navy)}
+.stat .l{font-size:12px;color:var(--ink2);margin-top:2px}
+.stat.hl .n{color:var(--cyan)}
+.bar{height:7px;background:#EDF1F8;border-radius:4px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--navy2));border-radius:4px}
+
+/* ── Alerts ── */
+.alert{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:11px 14px;font-size:13px;margin-bottom:8px}
+.alert.red{background:#FDF0EF;border:1px solid #F5C6C2;color:#8E1F19}
+.alert.amber{background:#FEF6E7;border:1px solid #F1DDB0;color:#7A4E06}
+.alert.blue{background:#EEF6FC;border:1px solid #C3E2F3;color:#155D82}
+.alert b{font-weight:700}
+
+/* ── Candidate table ── */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar input[type=search]{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--line);border-radius:8px}
+.toolbar select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--navy)}
+.btn:hover{background:#F0F4FA}
+.btn.pri{background:var(--navy2);border-color:var(--navy2);color:#fff}
+.btn.pri:hover{background:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--navy);color:#fff;padding:9px 10px;font-size:12px;font-weight:700;text-align:center;white-space:nowrap}
+tbody td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+tbody tr:hover{background:#F5F8FC}
+tbody tr.open-row{background:#EFF4FB}
+td.lt{text-align:left}
+.tier{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px}
+.tier.a{background:#E4EAF6;color:var(--navy)}
+.tier.b{background:#FFF3D6;color:#8A6A0B}
+.tier.c{background:#E3F5EC;color:var(--green)}
+.st{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap}
+.st.s0{background:#EEF1F6;color:var(--ink2)}
+.st.s1{background:#E3F0FA;color:#1668A8}
+.st.s2{background:#FFF3D6;color:#8A6A0B}
+.st.s3{background:#E9E7F9;color:#4A3FA3}
+.st.s4{background:#E3F5EC;color:var(--green)}
+.st.sx{background:#FDE8E7;color:var(--red)}
+.prog-mini{display:flex;gap:3px;justify-content:center}
+.prog-mini i{width:15px;height:6px;border-radius:3px;background:#E3E8F1}
+.prog-mini i.on{background:var(--cyan)}
+
+/* ── Detail drawer ── */
+.detail{background:#F8FAFD;border-bottom:1px solid var(--line)}
+.detail-inner{padding:16px 18px;display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+@media(max-width:860px){.detail-inner{grid-template-columns:1fr}}
+.detail h4{font-size:13px;color:var(--navy);margin-bottom:8px}
+.stage-list{display:flex;flex-direction:column;gap:6px}
+.stage{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.stage label{flex:1;font-size:13px}
+.stage input[type=checkbox]{width:16px;height:16px;accent-color:var(--navy2)}
+.stage .when{font-size:11px;color:var(--ink2)}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.doc{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:6px 10px;font-size:12.5px}
+.doc input{accent-color:var(--green);width:15px;height:15px}
+.doc.ok{background:#F0FAF5;border-color:#BBE3CE}
+textarea.memo{width:100%;min-height:66px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;resize:vertical;margin-top:6px}
+.kv{font-size:12.5px;color:var(--ink2);margin-bottom:10px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kv b{color:var(--ink)}
+.review-set{display:flex;gap:6px;margin-top:8px}
+.review-set button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:4px 12px;font-size:12px}
+.review-set button.on-pass{background:#E3F5EC;border-color:var(--green);color:var(--green);font-weight:700}
+.review-set button.on-hold{background:#FFF3D6;border-color:var(--gold);color:#8A6A0B;font-weight:700}
+.review-set button.on-fail{background:#FDE8E7;border-color:var(--red);color:var(--red);font-weight:700}
+
+/* ── Schedule tab ── */
+.task{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px dashed var(--line)}
+.task input[type=checkbox]{width:16px;height:16px;accent-color:var(--navy2)}
+.task span{flex:1}
+.task.done span{text-decoration:line-through;color:var(--ink2)}
+.task .del{border:none;background:none;color:#B8C0CF;font-size:15px}
+.task .del:hover{color:var(--red)}
+.addtask{display:flex;gap:8px;margin-top:10px}
+.addtask input{flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:8px}
+
+/* ── Pool tab ── */
+.pool-note{font-size:12.5px;color:var(--ink2);margin-bottom:10px}
+.star{color:var(--gold);font-size:15px}
+tbody tr.marked{background:#FFFBEB}
+
+footer{max-width:1240px;margin:0 auto;padding:0 24px 40px;font-size:11.5px;color:var(--ink2)}
+@media print{header nav,.toolbar,.btn,footer .no-print{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-top">
+    <div class="h-title">
+      <span class="badge-secret">대 외 비</span>
+      <h1>2026년도 무역의 날 특수유공자 정부포상 관리시스템</h1>
+      <div class="sub">제63회 무역의 날 · 정책협력실 · 추천 13명 (회장단 5 · 임원사 3 · 회원사 5)</div>
+    </div>
+    <div class="h-dday" id="ddayChips"></div>
+  </div>
+  <nav id="nav">
+    <button data-tab="dash" class="on">대시보드</button>
+    <button data-tab="cand">후보자 관리</button>
+    <button data-tab="sched">일정·체크리스트</button>
+    <button data-tab="pool">'27년 후보풀</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 대시보드 -->
+  <section id="tab-dash">
+    <div class="card">
+      <h2 class="sec">추진 일정 현황</h2>
+      <div class="rail" id="rail"></div>
+    </div>
+    <div class="grid stats mt" id="statCards"></div>
+    <div class="grid mt" style="grid-template-columns:1.1fr .9fr">
+      <div class="card">
+        <h2 class="sec">긴급 알림</h2>
+        <div id="alerts"></div>
+      </div>
+      <div class="card">
+        <h2 class="sec">구분별 진행률</h2>
+        <div id="tierProg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 후보자 관리 -->
+  <section id="tab-cand" hidden>
+    <div class="card">
+      <h2 class="sec">추천 후보자 명단 (13명)</h2>
+      <div class="toolbar">
+        <input type="search" id="q" placeholder="성명·상호 검색">
+        <select id="fTier"><option value="">전체 구분</option><option>회장단</option><option>임원사</option><option>회원사</option></select>
+        <select id="fStage"><option value="">전체 단계</option><option value="0">접수 대기</option><option value="1">접수 완료</option><option value="2">심의 완료</option><option value="3">추천서 제출</option><option value="4">온라인 신청 완료</option></select>
+        <button class="btn" id="mailBtn">이메일 복사</button>
+        <button class="btn" id="syncBtn">☁ 시트 동기화</button>
+        <button class="btn" id="csvBtn">CSV 내보내기</button>
+        <button class="btn" id="saveBtn">JSON 백업</button>
+        <button class="btn" id="loadBtn">복원</button>
+        <input type="file" id="loadFile" accept=".json" hidden>
+      </div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>구분</th><th>순위</th><th>성명</th><th>상호</th><th>매출액<br>(억원)</th><th>수입규모</th><th>연락처</th><th>안내 현황</th><th>진행</th><th>현재 단계</th>
+        </tr></thead>
+        <tbody id="candBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 일정 -->
+  <section id="tab-sched" hidden>
+    <div class="card">
+      <h2 class="sec">전체 추진 일정</h2>
+      <table>
+        <thead><tr><th>구분</th><th>일정</th><th>내용</th><th>비고</th><th>D-Day</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+    <div class="grid mt" style="grid-template-columns:1fr 1fr" id="taskCards"></div>
+  </section>
+
+  <!-- '27 풀 -->
+  <section id="tab-pool" hidden>
+    <div class="card">
+      <h2 class="sec">'27년 추천 후보 기업 풀 — 회원사 매출 상위 100대</h2>
+      <p class="pool-note">※ 이종우·권병민 부회장은 회장단 2개년 분산 추천 계획에 따라 '27년 추천 예정. ★ 클릭으로 관심 후보 표시 (저장됨)</p>
+      <div class="toolbar">
+        <input type="search" id="qp" placeholder="업체명·대표자 검색">
+        <select id="fMark"><option value="">전체</option><option value="1">관심 후보만</option></select>
+      </div>
+      <div style="overflow-x:auto;max-height:560px;overflow-y:auto">
+      <table>
+        <thead><tr><th>★</th><th>순위</th><th>업체명</th><th>대표자</th><th>수입규모</th><th>매출액(억원)</th></tr></thead>
+        <tbody id="poolBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="syncModal" hidden style="position:fixed;inset:0;background:rgba(20,28,48,.45);z-index:50;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:12px;padding:22px 24px;width:min(480px,92vw);box-shadow:0 12px 40px rgba(0,0,0,.25)">
+    <h3 style="color:var(--navy);font-size:16px;margin-bottom:6px">☁ 구글시트 실시간 동기화</h3>
+    <p style="font-size:12px;color:var(--ink2);margin-bottom:14px">Apps Script 웹앱 URL을 등록하면 변경 즉시 시트에 저장되고, 파일을 열 때 최신 데이터를 불러옵니다. (설정 방법은 함께 제공된 안내 파일 참조)</p>
+    <label style="font-size:12px;font-weight:700;color:var(--navy)">웹앱 URL</label>
+    <input id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
+    <label style="font-size:12px;font-weight:700;color:var(--navy)">토큰 (스크립트의 TOKEN 값과 동일하게)</label>
+    <input id="syncToken" placeholder="예: koima2026!" style="width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px">
+    <label style="font-size:12px;font-weight:700;color:var(--navy)">담당자 이름 (수정자 기록용)</label>
+    <input id="syncUser" placeholder="예: 홍길동" style="width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;margin:4px 0 16px">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn" id="syncOff">연동 해제</button>
+      <button class="btn" id="syncClose">닫기</button>
+      <button class="btn pri" id="syncSave">저장 후 연결 테스트</button>
+    </div>
+  </div>
+</div>
+<div id="syncChip" hidden style="position:fixed;right:16px;bottom:16px;z-index:40;background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:12px;box-shadow:0 2px 10px rgba(31,56,100,.15)"></div>
+
+<footer>
+  본 시스템은 브라우저 로컬에만 데이터를 저장합니다(서버 전송 없음). 담당자 간 공유 시 「JSON 백업」 파일을 전달하고 「복원」으로 불러오세요. · 출처: 2026년도 무역의 날 특수유공자 정부포상 추진계획(정책협력실, 2026.7.10)
+</footer>
+
+<script>
+/* ───────── 데이터 ───────── */
+const SCHEDULE = [
+  {no:"①", date:"2026-07-15", label:"~ 7.15(수)", title:"회원사 포상 신청 접수 (정책협력실)", note:"접수 진행 중"},
+  {no:"②", date:"2026-07-20", label:"7.20(월)", title:"상훈포상심의위원회 개최", note:"서면 결의 진행"},
+  {no:"③", date:"2026-07-24", label:"~ 7.24(금)", title:"추천서 제출", note:"포상사무국 제출"},
+  {no:"④", date:"2026-08-05", label:"~ 8.5(수)", title:"피추천인 온라인 신청 (award.kita.net)", note:"시스템 마감 8.7 · 담당자 검토 필수"},
+  {no:"⑤", date:"2026-12-01", label:"12월 초", title:"정부(행정안전부) 심의 후 수상여부 확정 및 수상", note:"제63회 무역의 날"}
+];
+const STAGES = ["신청서 접수","심의위원회 통과","추천서 제출","온라인 신청 완료"];
+const DOCS = ["공적조서","공적요약서","개인정보 동의서","수출입실적 증명","사업자등록증","납세증명서"];
+
+const CANDIDATES = [
+ {id:"a1",tier:"회장단",rank:1,name:"김대영",co:"㈜보라티알",rev:1025,imp:"3천만불~5천만불",reason:"이탈리아 등 20여개국 식자재 직수입, 거래알선을 통한 안정적 공급",src:"사무국 추천",note:"'25년 추천(미선정)",tel:"010-6338-6222",email:"jhha@annhouse.co.kr",prog:"소실장님 확인"},
+ {id:"a2",tier:"회장단",rank:2,name:"석윤미",co:"수일통상㈜",rev:1866,imp:"1천만불~3천만불",reason:"미국·칠레 등 10개국 과실류 직수입, 수입선 다변화로 물가 안정 기여",src:"사무국 추천",note:"부회장 중 포상 미수여자 추천",tel:"010-7755-8967",email:"yoonmi.suk@sooilltd.com",prog:"확인"},
+ {id:"a3",tier:"회장단",rank:3,name:"최재완",co:"텔콤인터내쇼날(주)",rev:114,imp:"1백만불~1천만불",reason:"해외 우량 공급선 발굴 및 국내 수요기업 연계로 수입선 다변화·공급망 안정화",src:"최유섭 부회장 추천",note:"'20 최유섭 석탑산업훈장 수상 · 최유섭/최재완 공동대표",tel:"010-8931-9774",email:"jwchoi@telcom.kr",prog:"확인"},
+ {id:"a4",tier:"회장단",rank:4,name:"이정희",co:"㈜남평아이티",rev:91,imp:"1백만불~1천만불",reason:"커넥터·차단기 등 전기전자부품 20여개국 수입, 산업용 기기 제조사 공급",src:"신경택 부회장·본인 추천",note:"16~22대 이사 활동, 수상 의지 강함 · 국무총리표창('24 신경택 부회장)",tel:"010-8072-5210",email:"ceo5733@nampyung.co.kr",prog:"확인"},
+ {id:"a5",tier:"회장단",rank:5,name:"오윤민",co:"에스코정공㈜",rev:76,imp:"1백만불 미만",reason:"기어·베어링 등 수출용 원자재 수입 효율화로 동력전달장치 제조업 경쟁력 제고",src:"사무국 추천",note:"산업부장관표창('21) · 부회장 중 적격자 없어 추천",tel:"010-8910-2191",email:"yaiht@hanmail.net",prog:"확인"},
+ {id:"b1",tier:"임원사",rank:1,name:"김학상",co:"㈜드림오피스",rev:187,imp:"1백만불 미만",reason:"문구·사무용품 해외소싱 및 B2B 유통망 구축, 수입 유통 효율화 기여",src:"사무국 추천",note:"산업부장관표('18) · '24년 추천(미선정)",tel:"010-5275-2737",email:"soya11@nate.com",prog:"확인"},
+ {id:"b2",tier:"임원사",rank:2,name:"조철유",co:"㈜모아에프앤비",rev:182,imp:"1백만불 미만",reason:"해외 식품·음료 직수입 및 국내 유통망 공급으로 소비자 선택권 확대·식품 수급 안정",src:"회장님 추천",note:"",tel:"010-4769-0330",email:"chocy@hlfood.co.kr",prog:"확인"},
+ {id:"b3",tier:"임원사",rank:3,name:"예용수",co:"㈜오디티테크",rev:33,imp:"1백만불 미만",reason:"가전·통신기기 부품 수입 유통 및 AS부품 공급으로 소비자 후생 기여",src:"사무국 추천",note:"수입사절단·리더스포럼·녹양회 등 협회활동 적극 참여",tel:"010-3524-6529",email:"yeyongsoo@odttech.co.kr",prog:"사양할듯"},
+ {id:"c1",tier:"회원사",rank:1,name:"최광현",co:"(주)혜성프로비젼",rev:5086,imp:"1억불 초과",reason:"미국·호주 등 글로벌 메이저 공급사(JBS·카길 등) 육류 직수입·가공·유통으로 축산물 수급 안정",src:"회장님 추천",note:"",tel:"010-5125-0935",email:"ys0224@daesang.com",prog:"확인"},
+ {id:"c3",tier:"회원사",rank:2,name:"전정욱",co:"한석인터내셔날㈜",rev:798,imp:"3천만불~5천만불",reason:"정밀화학 원료·용제 수입, 국내 화학·전자재료 산업 공급 기여",src:"사무국 추천",note:"'75년 가입 50년 장기 회원사",tel:"010-9096-8195",email:"ryu@hansukin.com",prog:"",emailNote:"기업 이메일"},
+ {id:"c4",tier:"회원사",rank:3,name:"박상욱",co:"강신산업㈜",rev:440,imp:"1천만불~3천만불",reason:"합성고무·플라스틱 수지 등 산업 기초소재 수입, 국내 제조업 공급 기여",src:"사무국 추천",note:"'79년 가입 47년 장기 회원사 · ※ 협회 데이터에는 대표자명 '박창순'으로 등재 — 대표자 확인 필요",tel:"02-920-4000",email:"",prog:"",telNote:"대표번호"},
+ {id:"c5",tier:"회원사",rank:4,name:"김수진",co:"㈜마성엘에스",rev:383,imp:"1천만불~3천만불",reason:"완제·원료 의약품 수입 및 병원·약국 유통으로 의약품 수급 안정 기여",src:"사무국 추천",note:"'80년 가입 46년 장기 회원사",tel:"010-8977-9501",email:"masung@masung.co.kr",prog:"전화X 문자로만 안내",emailNote:"기업 이메일"},
+ {id:"c6",tier:"회원사",rank:5,name:"김건수",co:"성원교역㈜",rev:183,imp:"700만불~1천만불",reason:"반도체 검사장비·산업용 로봇 등 첨단 제조설비 수입, 하이테크 산업 공급 기여",src:"사무국 추천",note:"1968년 가입 · 협회 창립 발기인사, 2대에 걸쳐 58년",tel:"02-512-5432",email:"songwon@swt.co.kr",prog:"직원하고만 통화, 월요일 통화",telNote:"대표번호"}
+];
+
+const POOL = [
+[1,"(주)신한은행","정상혁","1만불~3만불",448269],[2,"주식회사 포스코인터내셔널","이계인","1억불 초과",273887],[3,"한국수출입은행","황기연","1만불 미만",154873],[4,"(주)지에스리테일","허서홍","",113780],[5,"롯데쇼핑(주)롯데마트사업본부","강희태","5,000만불~1억불",84133],[6,"삼성에스디에스(주)","이준희","1,000만불~3,000만불",54474],[7,"현대카드(주)","조창현","100만불~300만불",36414],[8,"삼성웰스토리(주)","송규종","3만불~5만불",29027],[9,"(주)파리크라상","허진수","3,000만불~5,000만불",19307],[10,"(주)대림","정인","1,000만불~3,000만불",18274],
+[11,"(주)빙그레","김호연","1억불 초과",12587],[12,"롯데지알에스 주식회사","이원택","30만불~50만불",9734],[13,"에이치엘홀딩스 주식회사","김광헌","5,000만불~1억불",9474],[14,"(주)하이랜드푸드","윤영미","1억불 초과",8784],[15,"(주)아성에이치엠피","장현성","1억불 초과",8613],[16,"(주)태웅로직스","조용준","10만불~30만불",7473],[17,"(주)디에이치엘코리아","한지헌","10만불~30만불",6922],[18,"사조동아원(주)","이창주","",6781],[19,"페더럴익스프레스코리아 유한회사","박원빈","50만불~100만불",6056],[20,"해태제과식품(주)","이상진","",5838],
+[21,"(주)휴온스","송수영","1,000만불~3,000만불",5290],[22,"(주)플랜텍","하태형","1만불~3만불",5192],[23,"(주)하나투어","송미선","1만불 미만",5138],[24,"안진회계법인","길기완","",5074],[25,"(주)제너시스비비큐","박지만","",5032],[26,"(주)앤하우스","김대영","5,000만불~1억불",4960],[27,"(주)세스코","전찬혁","50만불~100만불",4693],[28,"콜마비앤에이치(주)","이승화","1,000만불~3,000만불",4690],[29,"한영회계법인","박용근","",4645],[30,"(주)혜성프로비젼","최광현","1억불 초과",4205],
+[31,"비에이치아이(주)","조원래","1,000만불~3,000만불",3992],[32,"(주)신성이엔지","이지선","1,000만불~3,000만불",3766],[33,"이화다이아몬드공업(주)","김재희크리스틴","1,000만불~3,000만불",3751],[34,"(주)유니크","안재범","3,000만불~5,000만불",3713],[35,"동화약품(주)","유준하","700만불~1,000만불",3638],[36,"(주)팍트라인터내셔널","박형순","",3582],[37,"(주)세라젬","이경수","1,000만불~3,000만불",3544],[38,"아데카코리아(주)","박종석","5,000만불~1억불",3473],[39,"(주)원일특강","최극태","3,000만불~5,000만불",3463],[40,"(주)제우스","이종우","3,000만불~5,000만불",3157],
+[41,"삼진제약(주)","최지현","",3083],[42,"(주)아성","박영주","1억불 초과",2863],[43,"(주)아성다이소","김기호","",2863],[44,"지이헬스케어코리아(주)","김용덕","1억불 초과",2758],[45,"한국오츠카제약(주)","문성호","5,000만불~1억불",2676],[46,"한국애질런트테크놀로지스(주)","강현후","1억불 초과",2673],[47,"(주)한결엘에스","박서연","5,000만불~1억불",2552],[48,"고려용접봉 주식회사","민원식","3,000만불~5,000만불",2488],[49,"아마노코리아(주)","전명진","100만불~300만불",2434],[50,"(주)진성티이씨","윤준수","1,000만불~3,000만불",2357],
+[51,"고려특수선재(주)","정경호","1,000만불~3,000만불",2339],[52,"코나아이(주)","조정일","1,000만불~3,000만불",2279],[53,"대진반도체(주)","박태진","1억불 초과",2155],[54,"한국에스지에스(주)","이인섭","100만불~300만불",2136],[55,"(주)하이랜드이노베이션","서용욱/윤병일","5,000만불~1억불",2009],[56,"미쉐린코리아(주)","미셸메이후아주","1억불 초과",1984],[57,"(재)한국화학융합시험연구원","김현철","10만불~30만불",1979],[58,"수일통상(주)","석윤미","1,000만불~3,000만불",1847],[59,"코히런트코리아유한회사","박기락","5,000만불~1억불",1810],[60,"한국엔엠비(주)","마츠다다이스케","5,000만불~1억불",1716],
+[61,"키사이트테크놀로지스코리아 주식회사","이선우","5,000만불~1억불",1706],[62,"(주)대상다이브스","전형철","5,000만불~1억불",1688],[63,"(주)신세계엘앤비","마기환","3,000만불~5,000만불",1655],[64,"(주)케이티이","구본승","300만불~500만불",1627],[65,"(재)한국건설생활환경시험연구원","천영길","1만불 미만",1623],[66,"(주)휴메딕스","강민종","300만불~500만불",1619],[67,"(주)세아베스틸지주","김수호","",1608],[68,"한국미쓰이물산(주)","세키지마료이치","5,000만불~1억불",1600],[69,"(주)태양","현창수","10만불~30만불",1518],[70,"영신태양광","김병모","",1518],
+[71,"(주)승일","현창수","100만불~300만불",1444],[72,"(주)헥토파이낸셜","최종원","50만불~100만불",1442],[73,"(주)삼오제약","오성석","3,000만불~5,000만불",1394],[74,"(주)클라크머터리얼핸들링아시아","정재영","1,000만불~3,000만불",1385],[75,"(주)파카하니핀커넥터","이승훈","1,000만불~3,000만불",1353],[76,"(주)지산개발","윤영국","30만불~50만불",1298],[77,"일신하이폴리(주)","임동욱","300만불~500만불",1293],[78,"삼영잉크페인트제조(주)","이강년","700만불~1,000만불",1259],[79,"대한싸이로(주)","도석안","3,000만불~5,000만불",1250],[80,"케무어스코리아(주)","김상희","3,000만불~5,000만불",1234],
+[81,"(주)에스에이치에너지화학","정케빈규봉","100만불~300만불",1232],[82,"(주)와이디피","이동헌","700만불~1,000만불",1177],[83,"(주)대한세라믹스","이종근","1,000만불~3,000만불",1171],[84,"(재)에프아이티아이시험연구원","윤주경","1만불~3만불",1168],[85,"현진그린밀(주)","박경수","1,000만불~3,000만불",1127],[86,"(주)지맥스","정성우","100만불~300만불",1115],[87,"주식회사 나인미라클","안성철","1,000만불~3,000만불",1071],[88,"주식회사 부민축산","김성태","500만불~700만불",1026],[89,"덕산약품공업(주)","홍성택","300만불~500만불",996],[90,"삼아제약주식회사","허준","100만불~300만불",956],
+[91,"(주)유한크로락스","박종현","100만불~300만불",948],[92,"로데슈바르즈코리아(주)","김태훈","3,000만불~5,000만불",944],[93,"씨에스에프(주)","이동현","1,000만불~3,000만불",937],[94,"(주)푸드웰","최영길","500만불~700만불",904],[95,"(유한)한풍제약","조형권","",902],[96,"서울향료(주)","조성용","1만불~3만불",878],[97,"(주)엠에프지코리아","윤다예","",861],[98,"동진기업(주)","박노영","100만불~300만불",835],[99,"인천화학(주)","이창원","500만불~700만불",825],[100,"미성패밀리(주)","온재만","1,000만불~3,000만불",822]
+];
+
+const DEFAULT_TASKS = {
+ t1:{title:"① 신청 접수 (~7.15)",items:["미제출 후보사 개별 독촉 연락","공적조서 초안 검토(14건)","개인정보 동의서 수령 확인","수출입실적 증명 유효기간 확인"]},
+ t2:{title:"② 심의위원회 (7.20)",items:["서면 결의서 양식 발송","심의자료(후보자 요약표) 작성","위원 서명본 회수","심의 결과 회장 보고"]},
+ t3:{title:"③ 추천서 제출 (~7.24)",items:["협회장 명의 추천서 기안","추천서 날인 및 공문 발송","포상사무국 접수증 수령"]},
+ t4:{title:"④ 온라인 신청 (~8.5, 시스템 마감 8.7)",items:["award.kita.net 계정 안내문 발송","피추천인 입력내용 담당자 전수 검토","증빙 첨부파일 누락 확인","8.5 기준 미신청자 최종 독촉"]}
+};
+
+/* ───────── 저장소 ───────── */
+const KEY="koima_award_2026";
+let mem={};
+function loadState(){
+  try{const s=localStorage.getItem(KEY); if(s) return JSON.parse(s);}catch(e){}
+  return mem[KEY]?JSON.parse(mem[KEY]):null;
+}
+function saveState(){
+  const s=JSON.stringify(state);
+  try{localStorage.setItem(KEY,s);}catch(e){mem[KEY]=s;}
+  scheduleSync();
+}
+let state=loadState()||{cand:{},tasks:null,marks:{}};
+function migrate(){
+  if(!state.tasks){
+    state.tasks={};
+    Object.entries(DEFAULT_TASKS).forEach(([k,v])=>{state.tasks[k]=v.items.map(t=>({t,done:false}));});
+  }
+  CANDIDATES.forEach(c=>{
+    if(!state.cand[c.id]) state.cand[c.id]={stages:[false,false,false,false],review:"",docs:DOCS.map(()=>false),memo:""};
+    const s=state.cand[c.id];
+    if(s.tel===undefined){s.tel=c.tel||"";s.email=c.email||"";s.prog=c.prog||"";}
+  });
+  if(!state.marks) state.marks={};
+}
+migrate();
+
+/* ───────── 유틸 ───────── */
+const TODAY=new Date(); TODAY.setHours(0,0,0,0);
+function dday(dstr){const d=new Date(dstr+"T00:00:00");return Math.round((d-TODAY)/86400000);}
+function ddayTxt(n){return n>0?`D-${n}`:(n===0?"D-Day":`+${-n}일 경과`);}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function stageOf(c){
+  const st=state.cand[c.id];
+  if(st.review==="미통과") return {n:-1,label:"심의 미통과",cls:"sx"};
+  let n=0; st.stages.forEach((v,i)=>{if(v)n=i+1;});
+  const labels=["접수 대기","접수 완료","심의 완료","추천서 제출","온라인 신청 완료"];
+  return {n,label:labels[n],cls:"s"+n};
+}
+
+/* ───────── 헤더 D-day ───────── */
+function renderDday(){
+  const box=document.getElementById("ddayChips"); box.innerHTML="";
+  SCHEDULE.slice(0,4).forEach(s=>{
+    const n=dday(s.date);
+    const div=document.createElement("div");
+    div.className="dday-chip"+(n<0?" done":(n<=4?" urgent":""));
+    div.innerHTML=`<div class="lb">${s.no} ${esc(s.title.split(" (")[0].slice(0,10))}</div><div class="dd">${ddayTxt(n)}</div>`;
+    box.appendChild(div);
+  });
+}
+
+/* ───────── 대시보드 ───────── */
+function renderRail(){
+  const rail=document.getElementById("rail");
+  rail.innerHTML='<div class="fill"></div>';
+  let pastCount=0;
+  SCHEDULE.forEach((s,i)=>{
+    const n=dday(s.date);
+    const past=n<0, now=!past&&(i===SCHEDULE.findIndex(x=>dday(x.date)>=0));
+    if(past)pastCount=i+1;
+    const div=document.createElement("div");
+    div.className="step"+(past?" past":"")+(now?" now":"");
+    div.innerHTML=`<div class="dot">${s.no}</div><div class="nm">${esc(s.title.split(" (")[0])}</div><div class="dt">${esc(s.label)}</div><div class="tag">${past?"완료":ddayTxt(n)}</div>`;
+    rail.appendChild(div);
+  });
+  const fillPct=Math.min(88,(pastCount/(SCHEDULE.length-1))*88);
+  rail.querySelector(".fill").style.width=fillPct+"%";
+}
+function renderStats(){
+  const box=document.getElementById("statCards"); box.innerHTML="";
+  const N=CANDIDATES.length;
+  const counts=[0,0,0,0];
+  CANDIDATES.forEach(c=>{state.cand[c.id].stages.forEach((v,i)=>{if(v)counts[i]++;});});
+  const items=[
+    {n:N,l:"전체 후보자",hl:false},
+    {n:counts[0],l:"① 신청서 접수",p:counts[0]/N},
+    {n:counts[1],l:"② 심의 통과",p:counts[1]/N},
+    {n:counts[2],l:"③ 추천서 제출",p:counts[2]/N},
+    {n:counts[3],l:"④ 온라인 신청 완료",p:counts[3]/N,hl:true}
+  ];
+  items.forEach(it=>{
+    const d=document.createElement("div");
+    d.className="stat"+(it.hl?" hl":"");
+    d.innerHTML=`<div class="n">${it.n}<span style="font-size:14px;color:var(--ink2)"> / ${N}</span></div><div class="l">${it.l}</div>`+
+      (it.p!==undefined?`<div class="bar"><i style="width:${Math.round(it.p*100)}%"></i></div>`:"");
+    if(it.l==="전체 후보자") d.querySelector(".n").innerHTML=String(N);
+    box.appendChild(d);
+  });
+}
+function renderAlerts(){
+  const box=document.getElementById("alerts"); box.innerHTML="";
+  const push=(cls,html)=>{const d=document.createElement("div");d.className="alert "+cls;d.innerHTML=html;box.appendChild(d);};
+  const d1=dday(SCHEDULE[0].date);
+  const notRecv=CANDIDATES.filter(c=>!state.cand[c.id].stages[0]);
+  if(d1>=0&&notRecv.length) push("red",`<b>⚠ 신청 접수 마감 ${ddayTxt(d1)}</b> — 미접수 ${notRecv.length}명:<br>${notRecv.map(c=>`${esc(c.name)}${state.cand[c.id].tel?` <span style="font-weight:600">${esc(state.cand[c.id].tel)}</span>`:" (연락처 없음)"}`).join(" · ")}`);
+  const noTel=CANDIDATES.filter(c=>!state.cand[c.id].tel||!state.cand[c.id].email);
+  if(noTel.length) push("red",`<b>연락처 미비</b> — ${noTel.map(c=>esc(c.name)+"("+esc(c.co)+")").join(", ")} · 휴대폰 또는 이메일 확보 필요`);
+  const decline=CANDIDATES.filter(c=>(state.cand[c.id].prog||"").startsWith("사양"));
+  if(decline.length) push("amber",`<b>수상 사양 가능성</b> — ${decline.map(c=>esc(c.name)).join(", ")} · 사양 확정 시 대체 후보 검토 필요`);
+  push("amber",`<b>데이터 확인 필요</b> — 강신산업㈜: 협회 데이터 대표자명 '박창순' ↔ 추천 명단 '박상욱' 불일치`);
+  const d2=dday(SCHEDULE[1].date);
+  if(d2>=0&&d2<=9) push("amber",`<b>상훈포상심의위원회 ${ddayTxt(d2)}</b> — 서면 결의 자료 준비 및 위원 발송 필요`);
+  const d4=dday(SCHEDULE[3].date);
+  const notOnline=CANDIDATES.filter(c=>!state.cand[c.id].stages[3]);
+  if(d4>=0) push("blue",`온라인 신청(award.kita.net) 마감 <b>${ddayTxt(d4)}</b> (시스템 마감 8.7) — 미완료 ${notOnline.length}명 · <b>담당자 검토 필수</b>`);
+  const holds=CANDIDATES.filter(c=>state.cand[c.id].review==="보류");
+  if(holds.length) push("amber",`<b>심의 보류</b> — ${holds.map(c=>esc(c.name)).join(", ")}`);
+  if(!box.children.length) push("blue","현재 긴급 사항이 없습니다.");
+}
+function renderTierProg(){
+  const box=document.getElementById("tierProg"); box.innerHTML="";
+  ["회장단","임원사","회원사"].forEach(t=>{
+    const list=CANDIDATES.filter(c=>c.tier===t);
+    const done=list.reduce((a,c)=>a+state.cand[c.id].stages.filter(Boolean).length,0);
+    const total=list.length*4;
+    const pct=Math.round(done/total*100);
+    const d=document.createElement("div");
+    d.style.marginBottom="14px";
+    d.innerHTML=`<div style="display:flex;justify-content:space-between;font-size:13px"><b style="color:var(--navy)">${t} (${list.length}명)</b><span style="color:var(--ink2)">${pct}%</span></div><div class="bar"><i style="width:${pct}%"></i></div>`;
+    box.appendChild(d);
+  });
+}
+
+/* ───────── 후보자 ───────── */
+let openId=null;
+function progBadge(c){
+  const p=(state.cand[c.id].prog||"").trim();
+  if(!p) return '<span class="st s0">미확인</span>';
+  if(p.startsWith("사양")) return `<span class="st sx">${esc(p)}</span>`;
+  if(p==="확인"||p.endsWith("확인")) return `<span class="st s4">${esc(p)}</span>`;
+  return `<span class="st s2">${esc(p)}</span>`;
+}
+function renderCand(){
+  const q=(document.getElementById("q").value||"").trim();
+  const ft=document.getElementById("fTier").value;
+  const fs=document.getElementById("fStage").value;
+  const body=document.getElementById("candBody"); body.innerHTML="";
+  const tierCls={회장단:"a",임원사:"b",회원사:"c"};
+  CANDIDATES.forEach(c=>{
+    if(q&&!(c.name.includes(q)||c.co.includes(q))) return;
+    if(ft&&c.tier!==ft) return;
+    const sg=stageOf(c);
+    if(fs!==""&&String(Math.max(sg.n,0))!==fs) return;
+    const st=state.cand[c.id];
+    const telHtml=st.tel?`${esc(st.tel)}${c.telNote?`<br><span style="font-size:10.5px;color:var(--ink2)">${esc(c.telNote)}</span>`:""}`:'<span class="st sx">미확보</span>';
+    const tr=document.createElement("tr");
+    if(openId===c.id) tr.className="open-row";
+    tr.innerHTML=`
+      <td><span class="tier ${tierCls[c.tier]}">${c.tier}</span></td>
+      <td>${c.rank}</td>
+      <td><b>${esc(c.name)}</b></td>
+      <td class="lt">${esc(c.co)}</td>
+      <td style="text-align:right">${c.rev.toLocaleString()}</td>
+      <td>${esc(c.imp)}</td>
+      <td style="font-size:12px;white-space:nowrap">${telHtml}</td>
+      <td>${progBadge(c)}</td>
+      <td><div class="prog-mini">${st.stages.map(v=>`<i class="${v?"on":""}"></i>`).join("")}</div></td>
+      <td><span class="st ${sg.cls}">${sg.label}</span></td>`;
+    tr.style.cursor="pointer";
+    tr.onclick=()=>{openId=(openId===c.id?null:c.id);renderCand();};
+    body.appendChild(tr);
+    if(openId===c.id) body.appendChild(detailRow(c));
+  });
+}
+function detailRow(c){
+  const st=state.cand[c.id];
+  const tr=document.createElement("tr");
+  const td=document.createElement("td");
+  td.colSpan=10; td.className="detail";
+  const wrap=document.createElement("div"); wrap.className="detail-inner";
+  wrap.onclick=e=>e.stopPropagation();
+
+  const left=document.createElement("div");
+  left.innerHTML=`<div class="kv"><b>추천</b> — ${esc(c.src)}<br><b>추천 사유</b> — ${esc(c.reason)}<br><b>포상 이력/비고</b> — ${esc(c.note)||"—"}</div>`;
+  const ch=document.createElement("h4"); ch.textContent="연락처 · 안내 현황"; left.appendChild(ch);
+  const cg=document.createElement("div"); cg.style.cssText="display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:6px;margin-bottom:12px";
+  [["tel","휴대폰/전화"],["email","이메일"+(c.emailNote?` (${c.emailNote})`:"")],["prog","안내 현황"]].forEach(([f,ph])=>{
+    const inp=document.createElement("input");
+    inp.style.cssText="padding:7px 10px;border:1px solid var(--line);border-radius:7px;width:100%";
+    inp.placeholder=ph; inp.value=st[f]||"";
+    inp.onchange=()=>{st[f]=inp.value.trim(); saveState(); refresh();};
+    cg.appendChild(inp);
+  });
+  left.appendChild(cg);
+  const sh=document.createElement("h4"); sh.textContent="진행 단계"; left.appendChild(sh);
+  const sl=document.createElement("div"); sl.className="stage-list";
+  STAGES.forEach((name,i)=>{
+    const row=document.createElement("div"); row.className="stage";
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=st.stages[i];
+    cb.onchange=()=>{st.stages[i]=cb.checked; saveState(); refresh();};
+    const lb=document.createElement("label"); lb.textContent=`${i+1}. ${name}`;
+    row.appendChild(cb); row.appendChild(lb);
+    if(i===1){
+      const rs=document.createElement("div"); rs.className="review-set";
+      ["통과","보류","미통과"].forEach(v=>{
+        const b=document.createElement("button"); b.textContent=v;
+        if(st.review===v) b.className=v==="통과"?"on-pass":(v==="보류"?"on-hold":"on-fail");
+        b.onclick=()=>{st.review=(st.review===v?"":v); if(v==="통과"&&st.review) st.stages[1]=true; saveState(); refresh();};
+        rs.appendChild(b);
+      });
+      row.appendChild(rs);
+    }
+    sl.appendChild(row);
+  });
+  left.appendChild(sl);
+
+  const right=document.createElement("div");
+  right.innerHTML=`<h4>제출 서류 체크리스트</h4>`;
+  const dg=document.createElement("div"); dg.className="docs";
+  DOCS.forEach((name,i)=>{
+    const d=document.createElement("label"); d.className="doc"+(st.docs[i]?" ok":"");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=st.docs[i];
+    cb.onchange=()=>{st.docs[i]=cb.checked; saveState(); renderCand();};
+    d.appendChild(cb); d.appendChild(document.createTextNode(name));
+    dg.appendChild(d);
+  });
+  right.appendChild(dg);
+  const h=document.createElement("h4"); h.textContent="담당자 메모"; h.style.marginTop="12px";
+  right.appendChild(h);
+  const ta=document.createElement("textarea"); ta.className="memo"; ta.value=st.memo; ta.placeholder="연락 이력, 특이사항 등";
+  ta.onchange=()=>{st.memo=ta.value; saveState();};
+  right.appendChild(ta);
+
+  wrap.appendChild(left); wrap.appendChild(right);
+  td.appendChild(wrap); tr.appendChild(td);
+  return tr;
+}
+
+/* ───────── 일정 탭 ───────── */
+function renderSched(){
+  const body=document.getElementById("schedBody"); body.innerHTML="";
+  SCHEDULE.forEach(s=>{
+    const n=dday(s.date);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${s.no}</td><td>${esc(s.label)}</td><td class="lt">${esc(s.title)}</td><td class="lt" style="font-size:12px;color:var(--ink2)">${esc(s.note)}</td>
+      <td><span class="st ${n<0?"s4":(n<=4?"sx":"s1")}">${n<0?"완료":ddayTxt(n)}</span></td>`;
+    body.appendChild(tr);
+  });
+  const cards=document.getElementById("taskCards"); cards.innerHTML="";
+  Object.entries(DEFAULT_TASKS).forEach(([k,v])=>{
+    const card=document.createElement("div"); card.className="card";
+    card.innerHTML=`<h2 class="sec">${esc(v.title)}</h2>`;
+    const list=document.createElement("div");
+    state.tasks[k].forEach((task,i)=>{
+      const row=document.createElement("div"); row.className="task"+(task.done?" done":"");
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=task.done;
+      cb.onchange=()=>{task.done=cb.checked; saveState(); renderSched();};
+      const sp=document.createElement("span"); sp.textContent=task.t;
+      const del=document.createElement("button"); del.className="del"; del.textContent="✕";
+      del.onclick=()=>{state.tasks[k].splice(i,1); saveState(); renderSched();};
+      row.appendChild(cb); row.appendChild(sp); row.appendChild(del);
+      list.appendChild(row);
+    });
+    card.appendChild(list);
+    const add=document.createElement("div"); add.className="addtask";
+    const inp=document.createElement("input"); inp.placeholder="할 일 추가 후 Enter";
+    inp.onkeydown=e=>{if(e.key==="Enter"&&inp.value.trim()){state.tasks[k].push({t:inp.value.trim(),done:false}); saveState(); renderSched();}};
+    add.appendChild(inp); card.appendChild(add);
+    cards.appendChild(card);
+  });
+}
+
+/* ───────── '27 풀 ───────── */
+function renderPool(){
+  const q=(document.getElementById("qp").value||"").trim();
+  const onlyMark=document.getElementById("fMark").value==="1";
+  const body=document.getElementById("poolBody"); body.innerHTML="";
+  POOL.forEach(r=>{
+    const [no,co,ceo,imp,rev]=r;
+    if(q&&!(co.includes(q)||ceo.includes(q))) return;
+    const marked=!!state.marks[no];
+    if(onlyMark&&!marked) return;
+    const tr=document.createElement("tr");
+    if(marked) tr.className="marked";
+    tr.innerHTML=`<td><button class="star" style="border:none;background:none">${marked?"★":"☆"}</button></td>
+      <td>${no}</td><td class="lt">${esc(co)}</td><td>${esc(ceo)}</td><td>${esc(imp)||"—"}</td><td style="text-align:right">${rev.toLocaleString()}</td>`;
+    tr.querySelector("button").onclick=()=>{state.marks[no]=!marked; if(!state.marks[no])delete state.marks[no]; saveState(); renderPool();};
+    body.appendChild(tr);
+  });
+}
+
+/* ───────── 내보내기 / 백업 ───────── */
+document.getElementById("mailBtn").onclick=()=>{
+  const q=(document.getElementById("q").value||"").trim();
+  const ft=document.getElementById("fTier").value;
+  const list=CANDIDATES.filter(c=>(!q||c.name.includes(q)||c.co.includes(q))&&(!ft||c.tier===ft)&&state.cand[c.id].email);
+  const emails=list.map(c=>state.cand[c.id].email).join("; ");
+  const missing=CANDIDATES.filter(c=>(!q||c.name.includes(q)||c.co.includes(q))&&(!ft||c.tier===ft)&&!state.cand[c.id].email);
+  if(!emails){alert("복사할 이메일이 없습니다.");return;}
+  const done=()=>alert(`이메일 ${list.length}건 복사 완료 (타스온/아웃룩 붙여넣기 가능)`+(missing.length?`\n※ 이메일 없음: ${missing.map(c=>c.name).join(", ")}`:""));
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(emails).then(done).catch(()=>{prompt("아래 내용을 복사하세요:",emails);});}
+  else prompt("아래 내용을 복사하세요:",emails);
+};
+document.getElementById("csvBtn").onclick=()=>{
+  let rows=[["구분","순위","성명","상호","휴대폰","이메일","안내현황","매출액(억원)","수입규모","추천","현재단계","심의결과","서류("+DOCS.join("/")+")","메모"]];
+  CANDIDATES.forEach(c=>{
+    const st=state.cand[c.id], sg=stageOf(c);
+    rows.push([c.tier,c.rank,c.name,c.co,st.tel,st.email,st.prog,c.rev,c.imp,c.src,sg.label,st.review||"",st.docs.map(v=>v?"O":"X").join("/"),st.memo.replace(/\n/g," ")]);
+  });
+  const csv="\uFEFF"+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\r\n");
+  dl(new Blob([csv],{type:"text/csv"}),"포상후보자_진행현황_"+ymd()+".csv");
+};
+document.getElementById("saveBtn").onclick=()=>{
+  dl(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),"포상관리_백업_"+ymd()+".json");
+};
+document.getElementById("loadBtn").onclick=()=>document.getElementById("loadFile").click();
+document.getElementById("loadFile").onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{try{state=JSON.parse(rd.result); CANDIDATES.forEach(c=>{if(!state.cand[c.id])state.cand[c.id]={stages:[false,false,false,false],review:"",docs:DOCS.map(()=>false),memo:""};}); saveState(); refresh(); alert("복원 완료");}catch(err){alert("파일을 읽을 수 없습니다.");}};
+  rd.readAsText(f);
+};
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+function ymd(){const d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");}
+
+/* ───────── 구글시트 동기화 ───────── */
+const SKEY="koima_award_sync";
+let sync={url:"",token:"",user:""};
+try{const s=localStorage.getItem(SKEY); if(s)sync=JSON.parse(s);}catch(e){}
+let syncTimer=null, pushing=false, pendingPush=false;
+
+function syncUI(msg,color){
+  const chip=document.getElementById("syncChip");
+  if(!sync.url){chip.hidden=true;return;}
+  chip.hidden=false;
+  chip.innerHTML=`<span style="color:${color||"var(--ink2)"}">${msg}</span>`;
+}
+function scheduleSync(){
+  if(!sync.url) return;
+  clearTimeout(syncTimer);
+  syncUI("● 변경 감지 — 저장 대기","var(--amber)");
+  syncTimer=setTimeout(pushSync,1500);
+}
+function buildRows(){
+  return CANDIDATES.map(c=>{
+    const st=state.cand[c.id], sg=stageOf(c);
+    return [c.tier,c.rank,c.name,c.co,st.tel,st.email,st.prog,c.rev,c.imp,c.src,
+      st.stages[0]?"O":"X",st.review||(st.stages[1]?"통과":""),st.stages[2]?"O":"X",st.stages[3]?"O":"X",
+      sg.label,st.docs.map((v,i)=>v?DOCS[i]:null).filter(Boolean).join(", "),st.memo];
+  });
+}
+async function pushSync(){
+  if(!sync.url) return;
+  if(pushing){pendingPush=true;return;}
+  pushing=true;
+  try{
+    state.updatedAt=Date.now(); state.updatedBy=sync.user||"";
+    const body=JSON.stringify({token:sync.token,user:sync.user,state,
+      header:["구분","순위","성명","상호","휴대폰","이메일","안내현황","매출액(억원)","수입규모","추천","①접수","②심의","③추천서","④온라인","현재단계","제출서류","메모"],
+      rows:buildRows()});
+    const r=await fetch(sync.url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body,redirect:"follow"});
+    const d=await r.json();
+    if(d.error) throw new Error(d.error);
+    try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
+    syncUI("☁ 시트 저장됨 · "+new Date().toLocaleTimeString("ko-KR"),"var(--green)");
+  }catch(e){
+    syncUI("⚠ 시트 저장 실패 — 로컬에는 저장됨","var(--red)");
+  }
+  pushing=false;
+  if(pendingPush){pendingPush=false;scheduleSync();}
+}
+async function pullSync(silent){
+  if(!sync.url) return;
+  syncUI("☁ 시트에서 불러오는 중…");
+  try{
+    const r=await fetch(sync.url+"?token="+encodeURIComponent(sync.token),{redirect:"follow"});
+    const d=await r.json();
+    if(d.error) throw new Error(d.error);
+    if(d.state&&(d.state.updatedAt||0)>(state.updatedAt||0)){
+      state=d.state; migrate();
+      try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
+      refresh();
+      syncUI(`☁ 시트 최신본 불러옴${d.state.updatedBy?" (최종수정: "+esc(d.state.updatedBy)+")":""}`,"var(--green)");
+    }else{
+      syncUI("☁ 연동됨 · 이 기기가 최신","var(--green)");
+    }
+    return true;
+  }catch(e){
+    syncUI("⚠ 시트 연결 실패 — URL/토큰 확인","var(--red)");
+    if(!silent) alert("연결 실패: URL, 토큰, 웹앱 배포 설정(액세스: 모든 사용자)을 확인하세요.");
+    return false;
+  }
+}
+document.getElementById("syncBtn").onclick=()=>{
+  document.getElementById("syncUrl").value=sync.url;
+  document.getElementById("syncToken").value=sync.token;
+  document.getElementById("syncUser").value=sync.user;
+  document.getElementById("syncModal").hidden=false;
+};
+document.getElementById("syncClose").onclick=()=>document.getElementById("syncModal").hidden=true;
+document.getElementById("syncOff").onclick=()=>{
+  sync={url:"",token:"",user:""};
+  try{localStorage.setItem(SKEY,JSON.stringify(sync));}catch(e){}
+  document.getElementById("syncModal").hidden=true;
+  syncUI("");
+};
+document.getElementById("syncSave").onclick=async()=>{
+  sync.url=document.getElementById("syncUrl").value.trim();
+  sync.token=document.getElementById("syncToken").value.trim();
+  sync.user=document.getElementById("syncUser").value.trim();
+  try{localStorage.setItem(SKEY,JSON.stringify(sync));}catch(e){}
+  document.getElementById("syncModal").hidden=true;
+  if(sync.url){const ok=await pullSync(true); if(ok) pushSync(); else document.getElementById("syncModal").hidden=false;}
+};
+
+/* ───────── 탭 & 초기화 ───────── */
+document.getElementById("nav").addEventListener("click",e=>{
+  if(e.target.tagName!=="BUTTON")return;
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b===e.target));
+  ["dash","cand","sched","pool"].forEach(t=>{document.getElementById("tab-"+t).hidden=(e.target.dataset.tab!==t);});
+});
+["q","fTier","fStage"].forEach(id=>document.getElementById(id).addEventListener("input",renderCand));
+["qp","fMark"].forEach(id=>document.getElementById(id).addEventListener("input",renderPool));
+
+function refresh(){renderDday();renderRail();renderStats();renderAlerts();renderTierProg();renderCand();renderSched();renderPool();}
+refresh();
+if(sync.url) pullSync(true);
+</script>
+</body>
+</html>
